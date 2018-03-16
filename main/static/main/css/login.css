@@ -1,0 +1,55 @@
+
+
+#login-div
+{
+	padding: 2%;
+	margin-left: 38%;
+	margin-top: 10%;
+	width: 25%;
+	height: 300px;
+	box-shadow: 0 0 3px rgba(0,0,0,0.5);	
+}
+
+#username
+{
+	margin-top: 1%;
+	margin-left: 10%;
+	width: 80%;
+	height: 40px;
+	border:none;
+	font-size: 14pt;
+
+}
+
+#password
+{
+	margin-top: 1%;
+	margin-left: 10%;
+	width: 80%;
+	height: 40px;
+	border:none;
+	font-size: 14pt;
+}
+
+#login-header
+{
+	
+
+	font-size: 20pt;
+	text-align: center;
+
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
+#login-button
+{
+	margin-top: 5%;
+	margin-left: 10%;
+	width: 80%;
+	height: 40px;
+	font-size: 14pt;
+
+}

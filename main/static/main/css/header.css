@@ -1,0 +1,19 @@
+.header
+{
+
+	display: inline-block;
+	height: 50px;
+	width: 100%;
+	background-color: #45d3d8;
+
+}
+header
+{
+
+}
+
+.header-ref
+{
+	text-decoration: none;
+	color:white;
+}

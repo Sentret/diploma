@@ -1,0 +1,72 @@
+{% extends "main/base.html" %} 
+
+
+{% load staticfiles %} 
+
+{% block content %}
+<input type='text' id='event-title-field' placeholder="Введите название">
+   
+   <div id='map-div' > 
+   
+   </div>
+   
+   <textarea id='event-description-field' placeholder="Введите описание здесь"></textarea>
+   {% csrf_token %}
+   <button id='publish-button' onclick="publishOnClick(event)">
+   Опубликовать
+   </button>
+
+{% endblock content %}
+
+
+{%block scripts %}
+<script>
+	data = {}
+	var marker = null
+
+	function publishOnClick(event)
+	{
+		var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{% url "event_publish" %}', true);
+        xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+        
+        data.description = document.getElementById('event-description-field').value
+        data.title = document.getElementById('event-title-field').value
+
+        xhr.send(JSON.stringify(data))
+	}
+
+
+  function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map-div'), {
+          zoom: 4,
+          center: uluru
+        });
+       
+        map.addListener('click', function(event) {
+
+        if(marker != null)
+        {
+        	marker.setMap(null);
+    	}
+
+        marker = new google.maps.Marker({
+    		position: event.latLng,
+    		map: map,});
+		
+
+		marker.addListener('click',function(event)
+		{
+			marker.setMap(null);
+		});
+		data.lat = event.latLng.lat();
+		data.lng = event.latLng.lng();
+        });
+
+      }
+
+
+ 
+</script>   
+{%endblock scripts %}

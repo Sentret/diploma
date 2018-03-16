@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+    </title>
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/body.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/login.css' %}" />
+<!--     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap">
+    </script> -->
+
+    {% endblock styles %}
+</head>
+
+<body>
+{% block header %}
+    <header>
+        <div class='header'>
+           <a class='header-ref' href="/login">Войти</a>
+        </div>
+    </header>
+
+    {% endblock header %}
+    <div class='main-container'>
+    {%block content%}
+
+     {%endblock content%}
+    </div>
+
+    {%block scripts %}
+
+    {%endblock scripts %}
+</body>
+
+</html>
