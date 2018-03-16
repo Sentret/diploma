@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib import auth
 from django.shortcuts import redirect
+from django.views import View
 
 from .models import Event
 from .models import Location
@@ -35,13 +36,18 @@ def main_page_view(request):
     return render(request,"main/main_page.html")
 
 
-@login_required
-def event_publish(request):
-    event = json.loads(request.body)
-    location = Location.objects.create(lat=event['lat'], lng=event['lng'])
-    event = Event.objects.create(location=location, creater=request.user, description=event['description'],title=event['title'])
-    return HttpResponse(status=200)
+class EventPublish(View):
+    def get(self, request):
+        return render(request,"main/event_form.html")
+
+    def post(self, request):
+        event = json.loads(request.body)
+        location = Location.objects.create(lat=event['lat'], lng=event['lng'])
+        event = Event.objects.create(location=location, creater=request.user, description=event['description'],title=event['title'])
+        return HttpResponse(status=200)
 
 
-def create_event(request):
-    return render(request,"main/event_form.html")
+
+
+
+    

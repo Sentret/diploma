@@ -20,6 +20,6 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.main_page_view),
-    path('event_publish', views.event_publish, name='event_publish'),
+    path('event', views.EventPublish.as_view(), name='event_publish'),
     path('login', views.login, name='login'),
 ]
