@@ -13,3 +13,33 @@ html
 	width: 100%;
 
 }
+
+.main-container
+{
+	margin-left: 3%;
+	margin-right: 3%;
+	margin-top: 20px;
+	width: 94%;
+	height: 2000px;
+
+}
+
+.content-container
+{
+	
+	width: 85%;
+	float: left;
+	height: 100%;
+	background-color: grey;
+
+}
+
+.right-side-bar
+{	
+	right: 3%;
+	float: right;
+	position: fixed;
+	background-color: red;
+	height: 300px;
+	width: 14%;
+}

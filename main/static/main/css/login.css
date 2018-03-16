@@ -53,16 +53,12 @@ input:-webkit-autofill {
 	height: 40px;
 	font-size: 14pt;
 	position: relative;
-  vertical-align: top;
-  
-  padding: 0;
-
-  color: black;
-  text-align: center;
-  background-color: white;
-  border: 0;
-border-radius: 10px;
-  cursor: pointer;
-
-
+	vertical-align: top;
+	padding: 0;
+	color: black;
+	text-align: center;
+	background-color: white;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
 }

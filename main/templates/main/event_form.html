@@ -4,6 +4,7 @@
 {% load staticfiles %} 
 
 {% block content %}
+<div id='event-form'>
 <input type='text' id='event-title-field' placeholder="Введите название">
    
    <div id='map-div' > 
@@ -13,8 +14,10 @@
    <textarea id='event-description-field' placeholder="Введите описание здесь"></textarea>
    {% csrf_token %}
    <button id='publish-button' onclick="publishOnClick(event)">
-   Опубликовать
+   	Опубликовать
    </button>
+</div>
+
 
 {% endblock content %}
 
@@ -29,7 +32,7 @@
 		var xhr = new XMLHttpRequest();
         xhr.open('POST', '{% url "event_publish" %}', true);
         xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
-        
+
         data.description = document.getElementById('event-description-field').value
         data.title = document.getElementById('event-title-field').value
 
