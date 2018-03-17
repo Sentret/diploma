@@ -15,7 +15,9 @@ class Event(models.Model):
 	description = models.TextField()
 	preview = models.ImageField(default='',upload_to='previews')
 
+
 	def __str__(self):
 		return self.title
+
 
 

@@ -6,17 +6,17 @@
 {% block content %}
 
    <div class='content-grid' > 
-    <div class='content-grid-cell'>
-        <div class='preview'>
+       {% for event in events%}
+    <div class='content-grid-cell' >
+
+        <img class='preview' src="{{ event.preview.url}}"/>
             
-        </div>
-        <span>Название</span><br>
-        <span>Дата</span>
+       
+	        <span>{{event.title}}</span><br>
+
+
     </div>
-    <div class='content-grid-cell'></div>
-    <div class='content-grid-cell'></div>
-    <div class='content-grid-cell'></div>
-    <div class='content-grid-cell'></div>
+         {% endfor%}
    </div>
    <div class='right-side-bar'>Категории</div>
 

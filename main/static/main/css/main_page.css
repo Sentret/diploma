@@ -2,6 +2,7 @@
 body
 {
 	margin: 0;
+	height: 100%;
 	width: 100%;
 
 	
@@ -37,7 +38,7 @@ html
   box-shadow: 0 0 3px rgba(0,0,0,0.5);	
   font-size: 30px;
   text-align: center;
-  height:160px;
+  height:230px;
   margin-right: 5%;
  	margin-bottom: 5%;
 
@@ -56,8 +57,9 @@ html
 .preview
 {
 	width: 100%;
-	background-color: black;
+	background-color: grey;
 	height: 70%;
+	object-fit: cover;
 }
 
 span

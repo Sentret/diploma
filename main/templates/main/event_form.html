@@ -1,97 +1,69 @@
-{% extends "main/base.html" %} 
-
-
-{% load staticfiles %} 
-
-{% block content %}
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
-   {% csrf_token %}
-   <input type='text' id='event-title-field' name='title' placeholder="Введите название">
-   <img id="preview" alt=""/>
-   <label for='imgInput' id='label-for-file-input'>Загрузить превью*</label>
-   <input type='file' id="imgInput" name='preview' onchange='imageUploaded(event)' />
-   <textarea id='event-description-field' placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
-   <div id='map-div' > 
-   </div>
-   <input type="hidden" name="lat">
-   <input type="hidden" name="lng">
-   <button id='publish-button' type='submit'>
-   	Опубликовать
-   </button>
+    {% csrf_token %}
+    <input type='text' id='event-title-field' name='title' placeholder="Введите название">
+    <img id="preview" alt="" />
+    <label for='imgInput' id='label-for-file-input'>Загрузить превью*</label>
+    <input type='file' id="imgInput" name='preview' onchange='imageUploaded(event)' />
+    <textarea id='event-description-field' placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
+    <div id='map-div'>
+    </div>
+    <input type="hidden" name="lat">
+    <input type="hidden" name="lng">
+    <button id='publish-button' type='submit'>
+        Опубликовать
+    </button>
 </form>
-
-
-{% endblock content %}
-
-
-{%block scripts %}
+{% endblock content %} {%block scripts %}
 <script>
-	data = {}
-	var marker = null
+data = {}
+var marker = null
 
 
-  function imageUploaded(event){
+function imageUploaded(event) {
     var img = document.getElementById("preview")
     var file = document.getElementById('imgInput').files[0]
-    var reader  = new FileReader();
-     reader.onloadend = function () {
-    img.src = reader.result;
-  }
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        img.src = reader.result;
+    }
 
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    img.src = "";
-  }
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        img.src = "";
+    }
 
-  }
+}
 
+function initMap() {
+    var uluru = { lat: -25.363, lng: 131.044 };
+    var map = new google.maps.Map(document.getElementById('map-div'), {
+        zoom: 4,
+        center: uluru
+    });
 
-	function publishOnClick(event)
-	{
-		var xhr = new XMLHttpRequest();
-        xhr.open('POST', '{% url "event_publish" %}', true);
-        xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+    map.addListener('click', function(event) {
 
-        data.description = document.getElementById('event-description-field').value
-        data.title = document.getElementById('event-title-field').value
-
-        xhr.send(JSON.stringify(data))
-	}
-
-
-  function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map-div'), {
-          zoom: 4,
-          center: uluru
-        });
-       
-        map.addListener('click', function(event) {
-
-        if(marker != null)
-        {
-        	marker.setMap(null);
-    	}
+        if (marker != null) {
+            marker.setMap(null);
+        }
 
         marker = new google.maps.Marker({
-    		position: event.latLng,
-    		map: map,});
-		
-
-		marker.addListener('click',function(event)
-		{
-			marker.setMap(null);
-		});
-    var lat = document.getElementsByName('lat')[0]
-    var lng = document.getElementsByName('lng')[0]
-	  lat.value = event.latLng.lat();
-		lng.value = event.latLng.lng();
+            position: event.latLng,
+            map: map,
         });
 
-      }
 
+        marker.addListener('click', function(event) {
+            marker.setMap(null);
+        });
+        var lat = document.getElementsByName('lat')[0]
+        var lng = document.getElementsByName('lng')[0]
+        lat.value = event.latLng.lat();
+        lng.value = event.latLng.lng();
+    });
 
- 
-</script>   
+}
+</script>
 {%endblock scripts %}

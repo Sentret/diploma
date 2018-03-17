@@ -1,7 +1,7 @@
 import json
 
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.contrib import auth
 from django.shortcuts import redirect
@@ -31,13 +31,22 @@ def registration(request):
     pass
 
 
+
 def main_page_view(request):
-    return render(request,"main/main_page.html")
+    events = Event.objects.all()
+    return render(request,"main/main_page.html",{'events':events})
 
 
-class EventPublish(View):
+def event_info(request, id):
+    pass;
+
+
+
+class EventPublish(LoginRequiredMixin, View):
+
     def get(self, request):
         return render(request,"main/event_form.html")
+
 
     def post(self, request):
         event = request.POST
