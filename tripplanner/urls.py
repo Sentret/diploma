@@ -23,7 +23,9 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.main_page_view),
-    path('event', views.EventPublish.as_view(), name='event_publish'),
+    path('eventpublish', views.EventPublish.as_view(), name='event_publish'),
     path('login', views.login, name='login'),
+    path('eventinfo/<id>', views.event_info, name='event_info')
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

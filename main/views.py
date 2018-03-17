@@ -1,6 +1,8 @@
 import json
+import datetime
 
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.contrib import auth
@@ -38,7 +40,9 @@ def main_page_view(request):
 
 
 def event_info(request, id):
-    pass;
+    event = get_object_or_404(Event,pk=id)
+    return render(request, 'main/event_info.html',{'event':event})
+
 
 
 
@@ -58,10 +62,16 @@ class EventPublish(LoginRequiredMixin, View):
             lat = 0
             lng = 0
 
+        date = event['date']
+        date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+
         preview = request.FILES.get('preview')
         location = Location.objects.create(lat=lat, lng=lng)
-        event = Event.objects.create(location=location, creater=request.user, description=event['description'],title=event['title'],preview=preview)
-        return HttpResponse(status=200)
+        event = Event.objects.create(location=location, creater=request.user, description=event['description'],
+                                        title=event['title'],preview=preview,date=date)
+        
+        events = Event.objects.all()
+        return render(request,"main/main_page.html",{'events':events})
 
    
 

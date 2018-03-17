@@ -1,25 +1,16 @@
-{% extends "main/base.html" %} 
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<div class='content-grid'>
+    {% for event in events%}
+    <a href={% url 'event_info' event.id %}>
+    <div class='content-grid-cell'>
+        <img class='preview' src="{{ event.preview.url}}" />
+        <span class='date-span'>{{event.date}}</span>
+        <span class='title-span'>{{event.title}}</span>
 
-
-{% load staticfiles %} 
-
-{% block content %}
-
-   <div class='content-grid' > 
-       {% for event in events%}
-    <div class='content-grid-cell' >
-
-        <img class='preview' src="{{ event.preview.url}}"/>
-            
-       
-	        <span>{{event.title}}</span><br>
-
-
+        <br>
     </div>
-         {% endfor%}
-   </div>
-   <div class='right-side-bar'>Категории</div>
-
-  
-
+    </a>
+    {% endfor%}
+</div>
+<div class='right-side-bar'>Категории</div>
 {% endblock content %}

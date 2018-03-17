@@ -1,14 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Serif');
 
 body
 {
 	margin: 0;
 	height: 100%;
 	width: 100%;
+	font-family: 'IBM Plex Sans', sans-serif;
+}
 
-	
+a
+{
+	text-decoration: none;
+	color:black;
 }
-}
-html
+
+html 
 {
 	height: 100%;
 	width: 100%;
@@ -23,15 +30,15 @@ html
 
 }
 
+/*Стили для грида с контентом*/
 .content-grid
-{	display: grid;
+{	
+	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 	width: 85%;
 	float: left;
-
-
-
 }
+
 .content-grid-cell
 {
 
@@ -45,6 +52,29 @@ html
 
 }
 
+.date-span
+{
+	display: block;
+	font-size: 10pt;
+	color: grey;
+}
+
+.title-span
+{
+	display: block;
+	font-size: 12pt;
+}
+
+.preview
+{
+	width: 100%;
+	background-color: grey;
+	height: 70%;
+	object-fit: cover;
+}
+
+
+/*стили для правого сайд бара*/
 .right-side-bar
 {	
 	right: 3%;
@@ -54,15 +84,5 @@ html
 	width: 14%;
 	box-shadow: 0 0 3px rgba(0,0,0,0.5);		
 }
-.preview
-{
-	width: 100%;
-	background-color: grey;
-	height: 70%;
-	object-fit: cover;
-}
 
-span
-{
-	font-size: 12pt;
-}
+
