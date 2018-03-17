@@ -1,30 +1,30 @@
 #map-div
 {
 	margin-top:3%;
-	margin-left: 15%;
-	width: 70%;
-	height: 30%;
+
+	width: 100%;
+	height: 40%;
 	background-color: grey;
 }
 
 #event-description-field
 {
+
 	margin-top: 1%;
+
 	width: 60%;
-	height: 15%;
-	margin-left: 20%;
+	height: 20%;
+	margin-left: 20%; 
 	overflow:hidden;
 	resize: none;
 	border:none;
-	display: inline-block;
+	display: inline;
 }
 
 #event-title-field
 {
-	width: 70%;
+	width: 100%;
 	height: 30px;
-	margin-left: 15%;
-	margin-top: 1%;
 	text-align: left;
 	overflow:hidden;	
 	font-size: 15pt;
@@ -35,15 +35,62 @@
 #publish-button
 {
 	margin-top: 1%;
-	margin-left: 15%;
+	display:block;
+	width: 120px;
+	height: 40px;
+	font-size: 12pt;
+	vertical-align: bottom;
+	padding: 0;
+	color: black;
+	text-align: center;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
 
 }
 
 #event-form
 {
-	height: 100%;
-	width: 80%;
-	margin-left: 10%;
+	height: 1000px;
+	width: 60%;
+	margin-left: 15%;
+	padding: 5%;
+	padding-top: 4%;
 	box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 
+#imgInput
+{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#label-for-file-input
+
+{	
+	margin-top: 10px;
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 40px;
+	height: 40px;
+	width: 200px;
+	border-radius: 4px;	
+	background-color: #4CAF50;
+	color: white;
+	font-size: 12pt;
+}
+
+#preview
+{
+	margin-top: 10px;
+	width: 350px;
+	height: 160px;
+	background-color: grey;
+}

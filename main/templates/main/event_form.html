@@ -4,19 +4,21 @@
 {% load staticfiles %} 
 
 {% block content %}
-<div id='event-form'>
-<input type='text' id='event-title-field' placeholder="Введите название">
-   
-   <div id='map-div' > 
-   
-   </div>
-   
-   <textarea id='event-description-field' placeholder="Введите описание здесь"></textarea>
+<form id='event-form' method="post" action="" enctype="multipart/form-data">
    {% csrf_token %}
-   <button id='publish-button' onclick="publishOnClick(event)">
+   <input type='text' id='event-title-field' name='title' placeholder="Введите название">
+   <img id="preview" alt=""/>
+   <label for='imgInput' id='label-for-file-input'>Загрузить превью*</label>
+   <input type='file' id="imgInput" name='preview' onchange='imageUploaded(event)' />
+   <textarea id='event-description-field' placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
+   <div id='map-div' > 
+   </div>
+   <input type="hidden" name="lat">
+   <input type="hidden" name="lng">
+   <button id='publish-button' type='submit'>
    	Опубликовать
    </button>
-</div>
+</form>
 
 
 {% endblock content %}
@@ -26,6 +28,24 @@
 <script>
 	data = {}
 	var marker = null
+
+
+  function imageUploaded(event){
+    var img = document.getElementById("preview")
+    var file = document.getElementById('imgInput').files[0]
+    var reader  = new FileReader();
+     reader.onloadend = function () {
+    img.src = reader.result;
+  }
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    img.src = "";
+  }
+
+  }
+
 
 	function publishOnClick(event)
 	{
@@ -63,8 +83,10 @@
 		{
 			marker.setMap(null);
 		});
-		data.lat = event.latLng.lat();
-		data.lng = event.latLng.lng();
+    var lat = document.getElementsByName('lat')[0]
+    var lng = document.getElementsByName('lng')[0]
+	  lat.value = event.latLng.lat();
+		lng.value = event.latLng.lng();
         });
 
       }

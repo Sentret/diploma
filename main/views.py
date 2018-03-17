@@ -22,8 +22,7 @@ def login(request):
             auth.login(request, user)
             return redirect('/')
         else:
-            return HttpResponse("Неверный логин или пароль")
-                        
+            return HttpResponse("Неверный логин или пароль")                        
     else:       
         return render(request,'main/login_form.html')
 
@@ -41,13 +40,21 @@ class EventPublish(View):
         return render(request,"main/event_form.html")
 
     def post(self, request):
-        event = json.loads(request.body)
-        location = Location.objects.create(lat=event['lat'], lng=event['lng'])
-        event = Event.objects.create(location=location, creater=request.user, description=event['description'],title=event['title'])
+        event = request.POST
+
+        try:
+            lat = float(event['lat'])
+            lng = float(event['lng'])
+        except:
+            lat = 0
+            lng = 0
+
+        preview = request.FILES.get('preview')
+        location = Location.objects.create(lat=lat, lng=lng)
+        event = Event.objects.create(location=location, creater=request.user, description=event['description'],title=event['title'],preview=preview)
         return HttpResponse(status=200)
 
-
-
+   
 
 
     
