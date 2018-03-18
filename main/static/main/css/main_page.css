@@ -24,9 +24,9 @@ html
 
 .main-container
 {
-	margin-left: 3%;
-	margin-right: 3%;
-	margin-top: 20px;
+	margin-left: 2%;
+	margin-right: 2%;
+	margin-top: 2%;
 
 }
 
@@ -81,7 +81,7 @@ html
 /*стили для правого сайд бара*/
 .right-side-bar
 {	
-	right: 3%;
+	right: 2%;
 	float: right;
 	position: fixed;
 	height: 300px;
