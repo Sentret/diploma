@@ -1,0 +1,52 @@
+.event-description-div
+{
+	float: left;
+	font-family: 'IBM Plex Serif', serif;
+	font-size:11pt;
+	margin-top: 1%;
+	width: 70%;
+	height: 200px;
+	display: inline;
+	overflow:hidden;
+	display: inline;
+}
+
+.date-description-div
+{
+	float: right;
+	font-size:11pt;
+	margin-top: 1%;
+	width: 30%;
+	height: 100px;
+	display: inline;
+	overflow:hidden;
+	display: block;
+}
+
+.place-description-div
+{
+	float: right;
+	font-size:11pt;
+	width: 30%;
+	height: 100px;
+	display: block;
+	overflow:hidden;
+}
+
+#subscribe-button
+{
+	margin-top: 1%;
+	display:block;
+	width: 120px;
+	height: 40px;
+	font-size: 12pt;
+	vertical-align: bottom;
+	padding: 0;
+	color: black;
+	text-align: center;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+}

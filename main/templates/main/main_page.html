@@ -1,7 +1,7 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <div class='content-grid'>
     {% for event in events%}
-    <a href={% url 'event_info' event.id %}>
+    <a href={% url 'event_page' event.id %}>
     <div class='content-grid-cell'>
         <img class='preview' src="{{ event.preview.url}}" />
         <span class='date-span'>{{event.date}}</span>

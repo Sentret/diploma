@@ -1,0 +1,56 @@
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<div id='event-form'>
+    <span id='event-title-field'>{{event.title}} </span>
+    <img id="preview" src={{ event.preview.url}} />
+    <div class='event-description-div'> <strong>Описание:</strong>
+        <br> {{event.description}}</div>
+    <div class='date-description-div'> <strong>Дата и время:</strong>
+        <br>{{event.date}} </div>
+    <div class='place-description-div'> <strong> Место проведения:</strong>
+        <br> asdasd
+    </div>
+    {% csrf_token %}
+    <button id='subscribe-button' type='submit' onclick="subscribeOnClick(event)">
+        Подписаться
+    </button>
+</div>
+{% endblock content %} {%block scripts %}
+<script>
+
+var sub = false;
+{%if subscribed %}
+sub =true;
+{% endif%}
+
+var button = document.getElementById('subscribe-button');
+
+if (sub)
+{
+	button.innerText = 'Отписаться'
+}
+else
+{
+	button.innerText = 'Подписаться'
+}
+
+function subscribeOnClick(event) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "event_subscribe"  %}', true);
+    xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+
+    data = {}
+    data.event = {{ event.id }}
+    data.subscribed = sub
+    xhr.send(JSON.stringify(data))
+    
+    sub = sub ^ 1;
+    
+  if (sub) { 
+  	button.innerText = 'Отписаться' 
+  } 
+  	else {
+  	 button.innerText = 'Подписаться' 
+  	}
+}
+</script>
+{% endblock scripts %}

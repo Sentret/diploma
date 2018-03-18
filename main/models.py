@@ -25,3 +25,9 @@ class Event(models.Model):
 class EventSubscription(models.Model):
 	subscriber = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 	event = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True)
+
+	class Meta:
+		unique_together = ('subscriber','event')
+
+
+

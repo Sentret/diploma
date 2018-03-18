@@ -47,10 +47,14 @@ html
   text-align: center;
   height:230px;
   margin-right: 5%;
- 	margin-bottom: 5%;
-
-
+  margin-bottom: 5%;
 }
+
+.content-grid-cell:hover
+{
+	box-shadow: 0 0 3px rgba(0,0,0,3);	
+}
+
 
 .date-span
 {

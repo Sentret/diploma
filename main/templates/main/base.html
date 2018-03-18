@@ -8,42 +8,41 @@
     {% block styles %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
-    
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/login.css' %}" />
-<!--     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap">
-    </script> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_page.css' %}" />
 
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap">
+    </script>
     {% endblock styles %}
 </head>
+
 <body>
-{% block header %}
+    {% block header %}
     <header>
         <div class='header'>
-        <a class='header-ref' href="/"><div class='header-div-left'>TripPlanner</div></a>
-        {%if not user.is_authenticated%}
-           <a class='header-ref' href="/login">
-           <div class='header-div-right'>Войти</div>
-           </a>
-        {% else%}
-         <a class='header-ref' href="{% url 'event_publish' %}">
-           <div class='header-div-right'>Создать событие</div>
-           </a>
-        {%endif%}
-
+            <a class='header-ref' href="/">
+                <div class='header-div-left'>TripPlanner</div>
+            </a>
+            {%if not user.is_authenticated%}
+            <a class='header-ref' href="/login">
+                <div class='header-div-right'>Войти</div>
+            </a>
+            {% else%}
+            <a class='header-ref' href="{% url 'account' %}">
+                <div class='header-div-right'>Личный кабинет</div>
+            </a>
+            <a class='header-ref' href="{% url 'event_publish' %}">
+                <div class='header-div-right'>Создать событие</div>
+            </a>
+            {%endif%}
         </div>
     </header>
-
     {% endblock header %}
     <div class='main-container'>
-    {%block content%}
-
-     {%endblock content%}
+        {%block content%} {%endblock content%}
     </div>
-
-    {%block scripts %}
-
-    {%endblock scripts %}
+    {%block scripts %} {%endblock scripts %}
 </body>
 
 </html>

@@ -8,9 +8,11 @@ from django.http import HttpResponse
 from django.contrib import auth
 from django.shortcuts import redirect
 from django.views import View
+from django.db import IntegrityError
 
 from .models import Event
 from .models import Location
+from .models import EventSubscription
 
 
 def login(request):
@@ -39,11 +41,16 @@ def main_page_view(request):
     return render(request,"main/main_page.html",{'events':events})
 
 
-def event_info(request, id):
+def event_page(request, id):
     event = get_object_or_404(Event,pk=id)
-    return render(request, 'main/event_info.html',{'event':event})
+    subscription = EventSubscription.objects.all().filter(subscriber=request.user, event=event)
 
+    # статус подписка на событие
+    subscribed = False
+    if(subscription.count() == 1):
+        subscribed = True
 
+    return render(request, 'main/event_page.html',{'event':event, 'subscribed':subscribed})
 
 
 class EventPublish(LoginRequiredMixin, View):
@@ -74,6 +81,28 @@ class EventPublish(LoginRequiredMixin, View):
         return render(request,"main/main_page.html",{'events':events})
 
    
+class EventSubscriptionView(LoginRequiredMixin, View):
+    # подписка и отписка от события
+    def post(self,request):
+        data = json.loads(request.body)
+        event = get_object_or_404(Event, pk=data['event'])
+
+        # подписка
+        if (not data['subscribed']):
+            subscription = EventSubscription.objects.create(subscriber=request.user, event=event )
+           
+        #отписка    
+        else:
+            subscription = EventSubscription.objects.all().filter(subscriber=request.user, event=event )
+            subscription.delete()
+
+        return HttpResponse(status=200)
 
 
-    
+
+
+
+
+
+
+
