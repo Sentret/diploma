@@ -1,39 +1,6 @@
 {% extends "main/base.html" %} {% load staticfiles %} 
 {% block content %}
-<div class='left-side-menu'>
-    <a href="subscriptions">
-        <div class='left-side-menu-element'>
-            Подписки
-        </div>
-    </a>
-    <a href="events">
-        <div class='left-side-menu-element'>
-            Мои события
-        </div>
-    </a>
-    <a href="">
-        <div class='left-side-menu-element'>
-            Мои поездки
-        </div>
-    </a>
-    <a href="">
-        <div class='left-side-menu-element'>
-            Сообщения
-        </div>
-    </a>
-</div>
+{% include "account/account_menu.html" %}
 
-<div class='content-grid'>
-{% for subscription in subscriptions %}
-    <a href='{% url 'event_page' subscription.event.id %}'>
-    <div class='content-grid-cell'>
-        <img class='preview' src="{{ subscription.event.preview.url}}" />
-        <span class='date-span'>{{subscription.event.date}}</span>
-        <span class='title-span'>{{subscription.event.title}}</span>
-        <br>
-    </div>
-    </a>
-{% endfor %}
-
-</div>
+{% include "main/event_grid.html" %}
 {% endblock content %}

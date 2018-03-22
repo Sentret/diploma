@@ -35,7 +35,6 @@ def registration(request):
     pass
 
 
-
 def main_page_view(request):
     events = Event.objects.all()
     return render(request,"main/main_page.html",{'events':events})
@@ -43,12 +42,8 @@ def main_page_view(request):
 
 def event_page(request, id):
     event = get_object_or_404(Event,pk=id)
-    subscription = EventSubscription.objects.all().filter(subscriber=request.user, event=event)
 
-    # статус подписка на событие
-    subscribed = False
-    if(subscription.count() == 1):
-        subscribed = True
+    subscribed = event.is_user_subscribed(request.user)
 
     return render(request, 'main/event_page.html',{'event':event, 'subscribed':subscribed})
 
@@ -89,13 +84,11 @@ class EventSubscriptionView(LoginRequiredMixin, View):
 
         # подписка
         if (not data['subscribed']):
-            subscription = EventSubscription.objects.create(subscriber=request.user, event=event )
-           
+            event.subscribe(request.user)
         #отписка    
         else:
-            subscription = EventSubscription.objects.all().filter(subscriber=request.user, event=event )
-            subscription.delete()
-
+            event.unsubscribe(request.user)
+            
         return HttpResponse(status=200)
 
 

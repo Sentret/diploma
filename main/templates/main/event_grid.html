@@ -1,0 +1,14 @@
+<div class='content-grid'>
+    {% for event in events%}
+    <a href={% url 'event_page' event.id %}>
+    <div class='content-grid-cell'>
+        <img class='preview' src="{{ event.preview.url}}" />
+        <span class='date-span'>{{event.date}}</span>
+        <span class='title-span'>{{event.title}}</span>
+
+        <br>
+    </div>
+    </a>
+    {% endfor%}
+</div>
+<div class='right-side-bar'>Категории</div>
