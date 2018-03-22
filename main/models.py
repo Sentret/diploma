@@ -25,9 +25,12 @@ class Event(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=False)
     description = models.TextField()
     preview = models.ImageField(default='',upload_to='previews')
-    date = models.DateField(default=datetime.date.today)
+    date = models.DateTimeField(default=datetime.date.today)
     event_manager = EventManager()
     objects = models.Manager()
+
+
+
 
     def subscribe(self, user):
         subscription = EventSubscription.objects.create(subscriber=user, event=self)

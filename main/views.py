@@ -42,10 +42,8 @@ def main_page_view(request):
 
 def event_page(request, id):
     event = get_object_or_404(Event,pk=id)
-
     subscribed = event.is_user_subscribed(request.user)
-
-    return render(request, 'main/event_page.html',{'event':event, 'subscribed':subscribed})
+    return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed})
 
 
 class EventPublish(LoginRequiredMixin, View):
@@ -64,11 +62,12 @@ class EventPublish(LoginRequiredMixin, View):
             lat = 0
             lng = 0
 
+  
         date = event['date']
-        date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
-
+        date = date.replace('T',' ')
+        date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
         preview = request.FILES.get('preview')
-        location = Location.objects.create(lat=lat, lng=lng)
+        location = Location.objects.create(lat=lat, lng=lng,address=event['address'])
         event = Event.objects.create(location=location, creater=request.user, description=event['description'],
                                         title=event['title'],preview=preview,date=date)
         

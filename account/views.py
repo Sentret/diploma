@@ -11,6 +11,6 @@ def subscriptions(request):
 
 def created_by_user_events(request):
 	events = Event.objects.filter(creater=request.user)
-	return render(request, "account/events.html", {"events":events})
+	return render(request, "account/account.html", {"events":events})
 
 

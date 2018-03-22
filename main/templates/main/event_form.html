@@ -2,7 +2,7 @@
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
-    <input type="date" name="date" id="date" required>
+    <input type="datetime-local"" name="date" id="date" required>
     <label id='date-label'>Выберите дату: </label>
     <img id="preview" alt="" />
     <label for='imgInput' id='label-for-file-input'>Загрузить изображение</label>
@@ -12,12 +12,15 @@
     </div>
     <input type="hidden" name="lat">
     <input type="hidden" name="lng">
+    <input type="hidden" name="address">
     <button id='publish-button' type='submit'>
         Опубликовать
     </button>
 </form>
 {% endblock content %} {%block scripts %}
+
 <script>
+
 data = {}
 var marker = null
 
@@ -38,7 +41,7 @@ function imageUploaded(event) {
 
 }
 
-function initMap() {
+window.initMap = function() {
     var uluru = { lat: -25.363, lng: 131.044 };
     var map = new google.maps.Map(document.getElementById('map-div'), {
         zoom: 4,
@@ -51,6 +54,23 @@ function initMap() {
             marker.setMap(null);
         }
 
+
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({ 'latLng': event.latLng }, function (results, status) {
+        if (status !== google.maps.GeocoderStatus.OK) {
+            alert(status);
+        }
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            
+         document.getElementsByName('address')[0].value = (results[0].formatted_address);
+         console.log(results[0].formatted_address)
+
+        }
+    });
+
+
+        
         marker = new google.maps.Marker({
             position: event.latLng,
             map: map,
@@ -60,6 +80,8 @@ function initMap() {
         marker.addListener('click', function(event) {
             marker.setMap(null);
         });
+
+
         var lat = document.getElementsByName('lat')[0]
         var lng = document.getElementsByName('lng')[0]
         lat.value = event.latLng.lat();
@@ -68,4 +90,6 @@ function initMap() {
 
 }
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+    </script>
 {%endblock scripts %}
