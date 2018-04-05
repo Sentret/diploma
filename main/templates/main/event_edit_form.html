@@ -22,13 +22,13 @@
 <script>
 
 var default_datetime = '{{ event.date.year }}'+'-'+ '0'+'{{ event.date.month }}' + '-'+'0'+'{{ event.date.day }}'+'T'+'0'+'{{ event.date.hour }}'+':'+'0'+'{{ event.date.minute }}';
-var default_position = { lat: {{event.location.lat}}, lng: {{event.location.lat}} };
+var default_position = { lat: {{location.lat}}, lng: {{location.lng}} };
 
 document.getElementById('date').value = default_datetime;
 
 document.getElementsByName('address')[0].value = '{{ event.location.address }}'
-document.getElementsByName('lat')[0].value = {{event.location.lat}}
-document.getElementsByName('lng')[0].value= {{event.location.lat}}
+document.getElementsByName('lat')[0].value = {{location.lat}}
+document.getElementsByName('lng')[0].value= {{location.lng}}
 
 data = {}
 var marker = null

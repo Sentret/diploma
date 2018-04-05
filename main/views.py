@@ -43,7 +43,8 @@ def main_page_view(request):
 def event_page(request, id):
     event = get_object_or_404(Event,pk=id)
     subscribed = event.is_user_subscribed(request.user)
-    return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed})
+    location = Location.objects.filter(event=event)[0]
+    return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location})
 
 
 def event_delete(request,id):
@@ -56,7 +57,8 @@ def event_delete(request,id):
 class EventEdit(LoginRequiredMixin, View):
     def get(self, request, id):
         event = get_object_or_404(Event, pk=id)
-        return render(request,"main/event_edit_form.html", {'event':event})
+        location = Location.objects.filter(event=event)[0]
+        return render(request,"main/event_edit_form.html", {'event':event,'location':location})
 
 
     def post(self, request, id):
@@ -82,10 +84,10 @@ class EventEdit(LoginRequiredMixin, View):
             print(preview)
             event.preview = preview
 
-        location = Location.objects.create(lat=lat, lng=lng, address=data['address'])
+        location = Location.objects.filter(event=event)
+        location.delete()
+        location = Location.objects.create(lat=lat, lng=lng, address=data['address'], event=event)
 
-        event.location.delete()
-        event.location = location
         event.description = data['description']
         event.title=data['title']
         event.date = date
@@ -103,7 +105,7 @@ class EventPublish(LoginRequiredMixin, View):
 
 
     def post(self, request):
-        event = request.POST
+        data = request.POST
 
         try:
             lat = float(event['lat'])
@@ -112,15 +114,17 @@ class EventPublish(LoginRequiredMixin, View):
             lat = 0
             lng = 0
 
+        print(data['address'])
   
-        date = event['date']
+        date = data['date']
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
         preview = request.FILES.get('preview')
-        location = Location.objects.create(lat=lat, lng=lng,address=event['address'])
-        event = Event.objects.create(location=location, creater=request.user, description=event['description'],
-                                        title=event['title'],preview=preview,date=date)
         
+        event = Event.objects.create(creater=request.user, description=data['description'],
+                                        title=data['title'],preview=preview,date=date)
+
+        location = Location.objects.create(lat=lat, lng=lng,address=data['address'], event=event)
         events = Event.objects.all()
         return render(request,"main/main_page.html",{'events':events})
 

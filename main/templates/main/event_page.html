@@ -7,7 +7,7 @@
     <div class='date-description-div'> <strong>Дата и время:</strong>
         <br>{{event.date}} </div>
     <div class='place-description-div'> <strong> Место проведения:</strong>
-        <br> {{event.location.address}}
+        <br> {{location.address}}
     </div>
     {% csrf_token %}
     <button id='subscribe-button' type='submit' onclick="subscribeOnClick(event)">
