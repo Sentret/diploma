@@ -1,0 +1,108 @@
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<form id='event-form' method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type='text' id='event-title-field' required name='title' placeholder="Введите название" value={{event.title}}>
+    <input type="datetime-local"" name="date" id="date" >
+    <label id='date-label'>Выберите дату: </label>
+    <img id="preview" alt="" src={{event.preview.url}} />
+    <label for='imgInput' id='label-for-file-input'>Загрузить изображение</label>
+    <input type='file' id="imgInput" name='preview' onchange='imageUploaded(event)' />
+    <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'>{{event.description}}</textarea>
+    <div id='map-div'>
+    </div>
+    <input type="hidden" name="lat">
+    <input type="hidden" name="lng">
+    <input type="hidden" name="address">
+    <button id='publish-button' type='submit'>
+        Опубликовать
+    </button>
+</form>
+{% endblock content %} {%block scripts %}
+
+<script>
+
+var default_datetime = '{{ event.date.year }}'+'-'+ '0'+'{{ event.date.month }}' + '-'+'0'+'{{ event.date.day }}'+'T'+'0'+'{{ event.date.hour }}'+':'+'0'+'{{ event.date.minute }}';
+var default_position = { lat: {{event.location.lat}}, lng: {{event.location.lat}} };
+
+document.getElementById('date').value = default_datetime;
+
+document.getElementsByName('address')[0].value = '{{ event.location.address }}'
+document.getElementsByName('lat')[0].value = {{event.location.lat}}
+document.getElementsByName('lng')[0].value= {{event.location.lat}}
+
+data = {}
+var marker = null
+
+    window.initMap = function() {
+ 
+    var map = new google.maps.Map(document.getElementById('map-div'), {
+        zoom: 12,
+        center: default_position
+    });
+
+    marker = new google.maps.Marker({
+            position: default_position ,
+            map: map,
+        });
+
+
+    map.addListener('click', function(event) {
+
+        if (marker != null) {
+            marker.setMap(null);
+        }
+
+
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({ 'latLng': event.latLng }, function (results, status) {
+        if (status !== google.maps.GeocoderStatus.OK) {
+            alert(status);
+        }
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            
+         document.getElementsByName('address')[0].value = (results[0].formatted_address);
+
+        }
+    });
+
+
+        
+        marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+        });
+
+
+        marker.addListener('click', function(event) {
+            marker.setMap(null);
+        });
+
+
+        var lat = document.getElementsByName('lat')[0]
+        var lng = document.getElementsByName('lng')[0]
+        lat.value = event.latLng.lat();
+        lng.value = event.latLng.lng();
+    });
+
+}
+function imageUploaded(event) {
+    var img = document.getElementById("preview")
+    var file = document.getElementById('imgInput').files[0]
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        img.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        img.src = "";
+    }
+
+}
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+    </script>
+{%endblock scripts %}

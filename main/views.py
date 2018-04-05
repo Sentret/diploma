@@ -46,6 +46,56 @@ def event_page(request, id):
     return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed})
 
 
+def event_delete(request,id):
+    event = get_object_or_404(Event,pk=id)
+    event.delete()
+    events = Event.objects.all()
+    return redirect('main-page')
+
+
+class EventEdit(LoginRequiredMixin, View):
+    def get(self, request, id):
+        event = get_object_or_404(Event, pk=id)
+        return render(request,"main/event_edit_form.html", {'event':event})
+
+
+    def post(self, request, id):
+        data = request.POST
+        event = get_object_or_404(Event, pk=id)
+
+        try:
+            lat = float(data['lat'])
+            lng = float(data['lng'])
+        except:
+            lat = 0
+            lng = 0
+
+  
+        date = data['date']
+        date = date.replace('T',' ')
+        date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
+        
+        
+        preview = request.FILES.get('preview')
+       
+        if(preview is not None):
+            print(preview)
+            event.preview = preview
+
+        location = Location.objects.create(lat=lat, lng=lng, address=data['address'])
+
+        event.location.delete()
+        event.location = location
+        event.description = data['description']
+        event.title=data['title']
+        event.date = date
+
+        event.save()
+        events = Event.objects.all()
+        return render(request,"main/main_page.html",{'events':events})    
+
+
+
 class EventPublish(LoginRequiredMixin, View):
 
     def get(self, request):

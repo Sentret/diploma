@@ -1,14 +1,21 @@
 <div class='content-grid'>
     {% for event in events%}
-    <a href={% url 'event_page' event.id %}>
+    
     <div class='content-grid-cell'>
+     <a href={% url 'event_page' event.id %}>
         <img class='preview' src="{{ event.preview.url}}" />
         <span class='date-span'>{{event.date}}</span>
+       
         <span class='title-span'>{{event.title}}</span>
+        </a>
+        {%  ifequal event.creater user %}
+        <a href={% url 'event_edit' event.id %}>редактировать</a>
+        <a href={% url 'event_delete' event.id %}>удалить</a>
+    {%endifequal %}
 
         <br>
     </div>
-    </a>
+    
+
     {% endfor%}
 </div>
-<div class='right-side-bar'>Категории</div>

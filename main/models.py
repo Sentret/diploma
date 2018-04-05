@@ -43,10 +43,9 @@ class Event(models.Model):
 
     def is_user_subscribed(self, user):
         subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
-
         # статус 
         subscribed = False
-        if(subscription.count() == 1):
+        if(subscription.count()==1):
             subscribed = True
 
         return subscribed
