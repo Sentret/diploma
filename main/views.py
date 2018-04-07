@@ -10,12 +10,13 @@ from django.shortcuts import redirect
 from django.views import View
 from django.db import IntegrityError
 
-
 from .models import Location
 from .models import EventSubscription
 from .models import BaseEvent
 from .models import Event
 from .models import Trip
+from .models import Comment
+from .forms  import CommentForm
 
 def login(request):
     if request.method == 'POST':
@@ -46,13 +47,15 @@ def event_page(request, id):
     event = get_object_or_404(BaseEvent,pk=id)
     subscribed = event.is_user_subscribed(request.user)
     location = Location.objects.filter(event=event)[0]
+    comments = Comment.objects.filter(event=event)
+    form = CommentForm()
 
     if(hasattr(event,'event')):
-        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location})
+        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments, 'form':form})
 
     else:
         locations = Location.objects.filter(event=event)
-        return render(request, 'main/trip/trip_page.html', {'trip':event, 'subscribed':subscribed,'locations':locations})
+        return render(request, 'main/trip/trip_page.html', {'trip':event, 'subscribed':subscribed,'locations':locations, 'comments':comments})
 
 
 def event_delete(request,id):

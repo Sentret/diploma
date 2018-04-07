@@ -22,8 +22,6 @@ class BaseEvent(models.Model):
     objects = models.Manager()
 
 
-    
-
     def subscribe(self, user):
         subscription = EventSubscription.objects.create(subscriber=user, event=self)
 
@@ -69,4 +67,8 @@ class EventSubscription(models.Model):
         unique_together = ('subscriber','event')
 
 
-
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
+    content = models.TextField()
+    date = models.DateTimeField(default=datetime.date.today) 

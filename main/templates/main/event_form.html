@@ -16,6 +16,7 @@
     <button id='publish-button' type='submit'>
         Опубликовать
     </button>
+    
 </form>
 {% endblock content %} {%block scripts %}
 
@@ -62,7 +63,7 @@ window.initMap = function() {
         }
 
         if (status == google.maps.GeocoderStatus.OK) {
-            
+         console.log(results)
          document.getElementsByName('address')[0].value = (results[0].formatted_address);
          console.log(results[0].formatted_address)
 
