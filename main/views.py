@@ -10,10 +10,12 @@ from django.shortcuts import redirect
 from django.views import View
 from django.db import IntegrityError
 
-from .models import Event
+
 from .models import Location
 from .models import EventSubscription
-
+from .models import BaseEvent
+from .models import Event
+from .models import Trip
 
 def login(request):
     if request.method == 'POST':
@@ -36,21 +38,26 @@ def registration(request):
 
 
 def main_page_view(request):
-    events = Event.objects.all()
+    events = BaseEvent.objects.all()
     return render(request,"main/main_page.html",{'events':events})
 
 
 def event_page(request, id):
-    event = get_object_or_404(Event,pk=id)
+    event = get_object_or_404(BaseEvent,pk=id)
     subscribed = event.is_user_subscribed(request.user)
     location = Location.objects.filter(event=event)[0]
-    return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location})
+
+    if(hasattr(event,'event')):
+        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location})
+
+    else:
+        locations = Location.objects.filter(event=event)
+        return render(request, 'main/trip/trip_page.html', {'trip':event, 'subscribed':subscribed,'locations':locations})
 
 
 def event_delete(request,id):
-    event = get_object_or_404(Event,pk=id)
-    event.delete()
-    events = Event.objects.all()
+    event = get_object_or_404(BaseEvent,pk=id)
+    event.delete()    
     return redirect('main-page')
 
 
@@ -81,7 +88,6 @@ class EventEdit(LoginRequiredMixin, View):
         preview = request.FILES.get('preview')
        
         if(preview is not None):
-            print(preview)
             event.preview = preview
 
         location = Location.objects.filter(event=event)
@@ -114,7 +120,7 @@ class EventPublish(LoginRequiredMixin, View):
             lat = 0
             lng = 0
 
-        print(data['address'])
+
   
         date = data['date']
         date = date.replace('T',' ')
@@ -133,11 +139,12 @@ class EventSubscriptionView(LoginRequiredMixin, View):
     # подписка и отписка от события
     def post(self,request):
         data = json.loads(request.body)
-        event = get_object_or_404(Event, pk=data['event'])
+        event = get_object_or_404(BaseEvent, pk=data['event'])
 
         # подписка
         if (not data['subscribed']):
             event.subscribe(request.user)
+
         #отписка    
         else:
             event.unsubscribe(request.user)
@@ -146,9 +153,38 @@ class EventSubscriptionView(LoginRequiredMixin, View):
 
 
 
+# Trips views
 
+class TripPublish(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'main/trip/trip_form.html')
 
+    def post(self, request):
+        data = request.POST
 
+        try:
+            lat = float(event['lat'])
+            lng = float(event['lng'])
+        except:
+            lat = 0
+            lng = 0
 
+          
+        date = data['date']
+        date = date.replace('T',' ')
+        date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
+        preview = request.FILES.get('preview')
+        
+        event = Trip.objects.create(creater=request.user, description=data['description'],
+                                        title=data['title'],preview=preview,date=date)
+        
+
+        locations =  json.loads(data['locations'])
+
+        for loc in locations:
+            location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],address=loc['address'], event=event)
+       
+        events = BaseEvent.objects.all()
+        return render(request,"main/main_page.html",{'events':events})
 
 

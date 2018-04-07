@@ -1,0 +1,59 @@
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<div id='event-form'>
+    <span id='event-title-field'>{{trip.title}} </span>
+    <img id="preview" src={{ trip.preview.url}} />
+    <div class='event-description-div'> <strong>Описание:</strong>
+        <br> {{trip.description}}</div>
+    <div class='date-description-div'> <strong>Дата и время:</strong>
+        <br>{{trip.date}} </div>
+    <br>
+    <div id='grid'>
+        <div id='trip-div'></div>
+        <div id='locations-div'>
+            {% for location in locations %}
+            <div class='location-element'>
+                {{ location.address}}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% csrf_token %}
+    <button id='subscribe-button' type='submit' onclick="subscribeOnClick(event)">
+        Подписаться
+    </button>
+</div>
+{% endblock content %} {%block scripts %}
+<script>
+var sub = false; 
+{% if subscribed %}
+sub = true; 
+{% endif %}
+
+var button = document.getElementById('subscribe-button');
+
+if (sub) {
+    button.innerText = 'Отписаться'
+} else {
+    button.innerText = 'Подписаться'
+}
+
+function subscribeOnClick(event) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "event_subscribe"  %}', true);
+    xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+
+    data = {}
+    data.event = {{ trip.id }}
+    data.subscribed = sub
+    xhr.send(JSON.stringify(data))
+
+    sub = sub ^ 1;
+
+    if (sub) {
+        button.innerText = 'Отписаться'
+    } else {
+        button.innerText = 'Подписаться'
+    }
+}
+</script>
+{% endblock scripts %}

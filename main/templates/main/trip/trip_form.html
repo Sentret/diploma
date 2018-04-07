@@ -1,0 +1,110 @@
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<form id='event-form' method="post" action="" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
+    <input type="datetime-local"" name="date" id="date" required>
+    <label id='date-label'>Выберите дату: </label>
+    <img id="preview" alt="" />
+    <label for='imgInput' id='label-for-file-input'>Загрузить изображение</label>
+    <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
+    <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
+    <div id='grid'>
+        <div id='trip-div'></div>
+        <div id='locations-div'></div>
+    </div>
+    <button id='publish-button' type='submit'>
+        Опубликовать
+    </button>
+    <input id='data' type="hidden" name='locations'>
+</form>
+{% endblock content %} {%block scripts %}
+
+<script>
+
+
+
+ 
+
+function imageUploaded(event) {
+    var img = document.getElementById("preview")
+    var file = document.getElementById('imgInput').files[0]
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        img.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        img.src = "";
+    }
+
+}
+
+
+function updateLocations(){
+    var locations = document.getElementById('locations-div')
+
+    locations.innerHTML = ''
+    for( address of markers.values()){
+        locations.innerHTML += '<div class="location-element">' + address + '</div>' 
+    }
+
+
+    data = []   
+    for( var[coordinates, adress] of markers )
+    {
+        data.push({position:[coordinates.position.lat(),coordinates.position.lng()], address:address})
+       
+    }
+    document.getElementById('data').value = JSON.stringify(data)       
+}
+
+var markers = new Map();
+
+window.initMap = function() {
+    var uluru = { lat: -25.363, lng: 131.044 };
+    var map = new google.maps.Map(document.getElementById('trip-div'), {
+        zoom: 4,
+        center: uluru
+    });
+
+    var index_of_location = 0;
+
+    map.addListener('click', function(event) {
+
+        var marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+        });
+
+
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({ 'latLng': event.latLng }, function (results, status) {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+
+            if (status == google.maps.GeocoderStatus.OK) {
+
+            
+            markers.set(marker, results[0].formatted_address)
+updateLocations()
+            }
+        });
+        
+    console.log(markers);
+    marker.addListener('click', function(event) {
+            marker.setMap(null);
+            markers.delete(marker)
+            updateLocations()
+        });
+
+             
+    });
+
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru ">
+</script>
+{%endblock scripts %}

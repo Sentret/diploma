@@ -22,6 +22,8 @@ class BaseEvent(models.Model):
     objects = models.Manager()
 
 
+    
+
     def subscribe(self, user):
         subscription = EventSubscription.objects.create(subscriber=user, event=self)
 
@@ -45,6 +47,7 @@ class BaseEvent(models.Model):
 
 class Event(BaseEvent):
     pass
+    
 
 
 class Trip(BaseEvent):
@@ -64,7 +67,6 @@ class EventSubscription(models.Model):
 
     class Meta:
         unique_together = ('subscriber','event')
-
 
 
 

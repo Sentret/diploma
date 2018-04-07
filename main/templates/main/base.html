@@ -11,9 +11,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/login.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_page.css' %}" />
+   
     <link rel="stylesheet" type="text/css" href="{% static './account/css/account_menu.css' %}" />
 
-    
+     <link rel="stylesheet" type="text/css" href="{% static 'main/css/trip_form.css' %}" />
     {% endblock styles %}
 </head>
 
@@ -34,6 +35,9 @@
             </a>
             <a class='header-ref' href="{% url 'event_publish' %}">
                 <div class='header-div-right'>Создать событие</div>
+            </a>
+            <a class='header-ref' href="{% url 'trip_publish' %}">
+                <div class='header-div-right'>Создать поездку</div>
             </a>
             {%endif%}
         </div>
