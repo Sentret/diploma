@@ -8,6 +8,11 @@
     <label for='imgInput' id='label-for-file-input'>Загрузить изображение</label>
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
     <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
+
+    <button id='route-button' type='button' >
+        Проложить маршрут   
+    </button>
+
     <div id='grid'>
         <div id='trip-div'></div>
         <div id='locations-div'></div>
@@ -21,8 +26,52 @@
 
 <script>
 
+document.getElementById("route-button").addEventListener("click", routeOnClick);
 
 
+var data = []
+
+
+
+function routeOnClick(event)
+{
+    buildRoute()
+}
+
+function buildRoute()
+{
+   var start = new google.maps.LatLng(data[0]['position'][0],data[0]['position'][1]);
+   var end = new google.maps.LatLng(data[data.length-1]['position'][0],data[data.length-1]['position'][1]);
+
+   var wayps = []
+
+   for (var i = 0; i < data.length; i++) {
+       wayps.push({
+              location: new google.maps.LatLng(data[i]['position'][0],data[i]['position'][1]),
+              stopover: true
+            })
+   }
+
+
+    var request = {
+        origin: start,
+        destination: end,
+        travelMode: google.maps.TravelMode.WALKING,
+        waypoints:wayps
+
+    };
+
+     directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                       
+                    }
+                    else
+                    {
+                        console.log(response)
+                    }
+                });
+}
  
 
 function imageUploaded(event) {
@@ -42,10 +91,15 @@ function imageUploaded(event) {
 }
 
 
-function updateLocations(){
-    var locations = document.getElementById('locations-div')
 
+var directionsDisplay ;
+var directionsService;
+
+function updateLocations(){
+
+    var locations = document.getElementById('locations-div')
     locations.innerHTML = ''
+
     for( address of markers.values()){
         locations.innerHTML += '<div class="location-element">' + address + '</div>' 
     }
@@ -57,25 +111,32 @@ function updateLocations(){
         data.push({position:[coordinates.position.lat(),coordinates.position.lng()], address:address})
        
     }
-    document.getElementById('data').value = JSON.stringify(data)       
+    document.getElementById('data').value = JSON.stringify(data)  
+    
+
 }
 
 var markers = new Map();
 
 window.initMap = function() {
-    var uluru = { lat: -25.363, lng: 131.044 };
+    var uluru = { lat: 37.334818, lng: -121.884886};
+
     var map = new google.maps.Map(document.getElementById('trip-div'), {
         zoom: 4,
         center: uluru
     });
 
     var index_of_location = 0;
+    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+    directionsService = new google.maps.DirectionsService();
+
+    directionsDisplay.setMap(map)
 
     map.addListener('click', function(event) {
 
         var marker = new google.maps.Marker({
             position: event.latLng,
-            map: map,
+             map: map,
         });
 
 
@@ -89,16 +150,17 @@ window.initMap = function() {
 
             
             markers.set(marker, results[0].formatted_address)
-updateLocations()
+            updateLocations()
             }
         });
         
-    console.log(markers);
-    marker.addListener('click', function(event) {
-            marker.setMap(null);
-            markers.delete(marker)
-            updateLocations()
-        });
+
+        marker.addListener('click', function(event) {
+                marker.setMap(null);
+                markers.delete(marker)
+                updateLocations()
+                
+            });
 
              
     });

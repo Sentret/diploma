@@ -45,7 +45,7 @@ html
   box-shadow: 0 0 3px rgba(0,0,0,0.5);	
   font-size: 30px;
   text-align: center;
-  height:260px;
+  height:300px;
   margin-right: 5%;
   margin-bottom: 5%;
 }
@@ -100,11 +100,34 @@ html
 }
 
 
-.icon
-{
-	width: 20px;
-	height: 20px;
+.cell-button {
+
+    
+   	height: 20px;
+   	font-size: 10pt;
+   	display: inline-block;
+	width: 120px;
+	height: 26px;
+	font-size: 10pt;
+	vertical-align: bottom;
+	padding: 0;
+	color: black;
+	text-align: center;
+	border: 0;
+	border-radius: 7px;
+	cursor: pointer;
+	background-color: #366ded;
+	color: white;
+	margin-top: 10px;
+	margin-left: 10px;
+	float:left;
+
+
 }
 
 
-
+#remove
+{
+	width: 60px;
+	background-color: #dd0f1d;
+}
