@@ -72,3 +72,8 @@ class Comment(models.Model):
     event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
     content = models.TextField()
     date = models.DateTimeField(default=datetime.date.today) 
+
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    avatar = models.ImageField(default='',upload_to='avatars')

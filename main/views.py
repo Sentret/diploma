@@ -31,7 +31,7 @@ def login(request):
         else:
             return HttpResponse("Неверный логин или пароль")                        
     else:       
-        return render(request,'main/login_form.html')
+        return render(request,'main/auth/login_form.html')
 
 
 def registration(request):
