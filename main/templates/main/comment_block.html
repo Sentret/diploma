@@ -1,7 +1,178 @@
 <div class='comment-div'>
-<br>
-	<strong> Комментарии:</strong>
-	<form>
-	{{form.as_p}}
-	</form>
+    <style class="cp-pen-styles">
+    input,
+    textarea {
+        outline: none;
+        border: none;
+        display: block;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        font-size: 1rem;
+        color: #555f77;
+    }
+
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+        color: #ced2db;
+    }
+
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
+        color: #ced2db;
+    }
+
+    input:-moz-placeholder,
+    textarea:-moz-placeholder {
+        color: #ced2db;
+    }
+
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+        color: #ced2db;
+    }
+
+    p {
+        line-height: 1.3125rem;
+    }
+
+    .comments {
+        margin: 2.5rem auto 0;
+        max-width: 60.75rem;
+        padding: 0 1.25rem;
+    }
+
+    .comment-wrap {
+        margin-bottom: 1.25rem;
+        display: table;
+        width: 100%;
+        min-height: 5.3125rem;
+    }
+
+    .photo {
+        padding-top: 0.625rem;
+        display: table-cell;
+        width: 3.5rem;
+    }
+
+    .photo .avatar {
+        height: 3.25rem;
+        width: 3.25rem;
+        border-radius: 50%;
+        background-size: contain;
+    }
+
+    .comment-block {
+        padding: 1rem;
+        background-color: #fff;
+        display: table-cell;
+        vertical-align: top;
+        border-radius: 0.1875rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .comment-block textarea {
+        width: 100%;
+        resize: none;
+    }
+
+    .comment-text {
+        margin-bottom: 1.25rem;
+    }
+
+    .bottom-comment {
+        color: #acb4c2;
+        font-size: 0.875rem;
+    }
+
+    .comment-date {
+        float: left;
+    }
+
+    .comment-actions {
+        float: right;
+    }
+
+    .comment-actions li {
+        display: inline;
+        margin: -2px;
+        cursor: pointer;
+    }
+
+    .comment-actions li.complain {
+        padding-right: 0.75rem;
+        border-right: 1px solid #e1e5eb;
+    }
+
+
+    .comment-actions li.reply {
+        padding-left: 0.75rem;
+        padding-right: 0.125rem;
+    }
+
+    .comment-actions li:hover {
+        color: #0095ff;
+    }
+    </style>
+    </head>
+
+    <body>
+
+        <div class="comments">
+            <div class="comment-wrap">
+                <div class="photo">
+                    <div class="avatar" style="background-image: url({{ user.profile.avatar.url}})"></div>
+
+                    <div class="username">{{user.username}}</div>
+                </div>
+                <div class="comment-block">
+                    <form id="form" method="post" action="">
+                    {%csrf_token %}
+                        <textarea name="content" id="new_comment" cols="30" rows="3" placeholder="Добавить комментарий"></textarea>
+                        <div class="bottom-comment">
+
+                    <ul class="comment-actions">
+                        <li id="new_comment_li" class="reply" >Отправить</li>
+                        
+                    </ul>
+                    </div>
+                    </form>
+                    
+                </div>
+            </div>
+            {% for com in comments %}
+            	
+            
+
+            <div class="comment-wrap">
+                <div class="photo">
+                    <div class="avatar" style="background-image: url({{ com.user.profile.avatar.url}})"></div>
+                    <div class="username">{{com.user.username}}</div>
+                </div>
+                <div class="comment-block">
+                    <p class="comment-text">{{com.content}}</p>
+                    <div class="bottom-comment">
+                        <div class="comment-date"><!-- Aug 24, 2014 @ 2:35 PM --> {{com.date.hour}}</div>
+                        <ul class="comment-actions">
+                           <!-- 
+                            <li class="reply">Ответить</li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
 </div>
+<script type="text/javascript">
+
+function sendCommentOnClick(event){
+		console.log(document.getElementById("new_comment").value)
+		document.getElementById("form").submit()
+
+	}
+
+document.getElementById("new_comment_li").addEventListener("click", sendCommentOnClick);
+
+	
+</script>

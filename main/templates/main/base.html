@@ -29,7 +29,13 @@
             <a class='header-ref' href="/login">
                 <div class='header-div-right'>Войти</div>
             </a>
+            <a class='header-ref' href="/register">
+                <div class='header-div-right'>Регистрация</div>
+            </a>
             {% else%}
+             <a class='header-ref' href="/logout">
+                <div class='header-div-right'>Выйти</div>
+            </a>
             <a class='header-ref' href="{% url 'account' %}">
                 <div class='header-div-right'>Личный кабинет</div>
             </a>
@@ -39,6 +45,7 @@
             <a class='header-ref' href="{% url 'trip_publish' %}">
                 <div class='header-div-right'>Создать поездку</div>
             </a>
+            
             {%endif%}
         </div>
     </header>

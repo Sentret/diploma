@@ -3,10 +3,11 @@ import datetime
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib import auth
-from django.shortcuts import redirect
 from django.views import View
 from django.db import IntegrityError
 
@@ -16,7 +17,11 @@ from .models import BaseEvent
 from .models import Event
 from .models import Trip
 from .models import Comment
+from .models import Profile
 from .forms  import CommentForm
+from .forms  import RegistrationForm
+
+
 
 def login(request):
     if request.method == 'POST':
@@ -33,9 +38,30 @@ def login(request):
     else:       
         return render(request,'main/auth/login_form.html')
 
+@login_required
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
 
-def registration(request):
-    pass
+
+
+
+
+class RegistrationView(View):
+    def get(self, request):
+        return render(request,'main/auth/register_form.html')
+
+    def post(self, request):
+        form = RegistrationForm(request.POST,request.FILES)
+        if form.is_valid():
+            user = form.save()
+            Profile.objects.create(user=user)        
+            auth.login(request, user)
+            return redirect('main-page')
+        else:
+            print(form.errors)
+        return render(request,'main/auth/register_form.html',{'form':form})
+
 
 
 def main_page_view(request):
@@ -43,15 +69,21 @@ def main_page_view(request):
     return render(request,"main/main_page.html",{'events':events})
 
 
-def event_page(request, id):
+def  event_page(request, id):
     event = get_object_or_404(BaseEvent,pk=id)
     subscribed = event.is_user_subscribed(request.user)
     location = Location.objects.filter(event=event)[0]
-    comments = Comment.objects.filter(event=event)
-    form = CommentForm()
+    print(request.user.profile)
+
+    if request.method=='POST':
+        Comment.objects.create(user=request.user, event=event, content=request.POST['content'])
+        return redirect('event_page',id)
+
+    comments = Comment.objects.filter(event=event).order_by('-date')
+
 
     if(hasattr(event,'event')):
-        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments, 'form':form})
+        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments})
 
     else:
         locations = Location.objects.filter(event=event)

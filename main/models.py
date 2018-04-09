@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class EventManager(models.Manager):
     def get_subscriptions(self, subscriber):
         event_subscriptions = EventSubscription.objects.filter(subscriber=subscriber)
@@ -71,9 +70,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
     content = models.TextField()
-    date = models.DateTimeField(default=datetime.date.today) 
+    date = models.DateTimeField(default=datetime.date.today)
+    parrent = models.ForeignKey("Comment", on_delete=models.DO_NOTHING, null=True) 
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    avatar = models.ImageField(default='',upload_to='avatars')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    avatar = models.ImageField(default='/avatars/default-avatar.png',upload_to='avatars')

@@ -1,11 +1,12 @@
-{% extends "main/base.html" %} {% load staticfiles %} {% block header %} {% endblock header %} {% block content %}
+{% extends "main/base.html" %} {% load staticfiles %}  {% block content %}
 <div id='login-div'>
-    <form class="form-signin" method="POST">
-        {%csrf_token%}
-        <h3 id="login-header">Вход</h3>
-        <input type="username" name="username" id="username" class="form-control" placeholder="Имя пользователя" autofocus="">
-        <input type="password" name="password" id="password" class="form-control" placeholder="Пароль">
-        <button type='submit' id='login-button'>Войти</button>
-    </form>
+    <form class="form-signin" method="POST"  enctype="multipart/form-data">
+                {%csrf_token%}
+                <h3 id="login-header">Регистрация</h3>
+                <input type="username" name="username" id="username" class="form-control" placeholder="Имя пользователя" autofocus="">
+                <input type="password" name="password1" id="password" class="form-control" placeholder="Пароль">
+                <input type="password" name="password2" id="password" class="form-control" placeholder="Поддтверждение пароля">
+                <button type='submit' id='login-button'>Создать</button>
+            </form>
 </div>
 {% endblock content %}
