@@ -5,7 +5,7 @@
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{event.description}}</div>
     <div class='date-description-div'> <strong>Дата и время:</strong>
-        <br>{{event.date}} </div>
+        <br>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}} </div>
     <div class='place-description-div'> <strong> Место проведения:</strong>
         <br> {{location.address}}
     </div>
@@ -13,13 +13,14 @@
     <button id='subscribe-button' type='submit' onclick="subscribeOnClick(event)">
         Подписаться
     </button>
-
-    
 {% include "main/comment_block.html" %}
+    
+
 </div>
 
 
-{% endblock content %} {%block scripts %}
+{% endblock content %} 
+{%block scripts %}
 <script>
 
 var sub = false;

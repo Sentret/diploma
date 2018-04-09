@@ -70,7 +70,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
     content = models.TextField()
-    date = models.DateTimeField(default=datetime.date.today)
+    date = models.DateTimeField(auto_now=True)
     parrent = models.ForeignKey("Comment", on_delete=models.DO_NOTHING, null=True) 
 
 

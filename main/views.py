@@ -81,7 +81,6 @@ def  event_page(request, id):
 
     comments = Comment.objects.filter(event=event).order_by('-date')
 
-
     if(hasattr(event,'event')):
         return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments})
 
