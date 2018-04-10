@@ -18,10 +18,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ASGI_APPLICATION = "tripplanner.routing.application"
 
-# Application definition
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 INSTALLED_APPS = [
+    'channels',
     'main',
     'account',
     'django.contrib.admin',
@@ -32,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
