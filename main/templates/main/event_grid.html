@@ -18,4 +18,42 @@
         {%endifequal %}
     </div>
     {% endfor%}
+    {% for event in events%}
+    <div class='content-grid-cell'>
+        <a href={% url 'event_page' event.id %}>
+        <img class='preview' src="{{ event.preview.url}}" />
+        <span class='date-span'>{{event.date}}</span>
+       
+        <span class='title-span'>{{event.title}}</span>
+        </a> {% ifequal event.creater user %}
+        <div>
+            <form method="get" action={% url 'event_edit' event.id %} >
+                <button type="submit" class='cell-button' id='edit'>редактировать</button>
+            </form>
+            <form method="get" action={% url 'event_delete' event.id %}>
+                <button type="submit" class='cell-button'  id='remove'>удалить</button>
+            </form>
+        </div>
+        {%endifequal %}
+    </div>
+    {% endfor%}
+    {% for event in events%}
+    <div class='content-grid-cell'>
+        <a href={% url 'event_page' event.id %}>
+        <img class='preview' src="{{ event.preview.url}}" />
+        <span class='date-span'>{{event.date}}</span>
+       
+        <span class='title-span'>{{event.title}}</span>
+        </a> {% ifequal event.creater user %}
+        <div>
+            <form method="get" action={% url 'event_edit' event.id %} >
+                <button type="submit" class='cell-button' id='edit'>редактировать</button>
+            </form>
+            <form method="get" action={% url 'event_delete' event.id %}>
+                <button type="submit" class='cell-button'  id='remove'>удалить</button>
+            </form>
+        </div>
+        {%endifequal %}
+    </div>
+    {% endfor%}
 </div>

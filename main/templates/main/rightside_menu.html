@@ -1,0 +1,56 @@
+<div class='menu-grid'>
+    <div class='menu'>
+        <div class='menu-header'>
+            Параметры поиска
+        </div>
+        <div class='menu-body'>
+            <p class='sub-menu-header'><strong>Сортировка</strong></p>
+            <div class="dropdown">
+                <button class="dropbtn" id="dropbtn" onclick="dropdownOnClick()">
+                 По дате
+                 <i id='angle-down' class="fa fa-angle-down"></i>
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a onclick="optionOnClick(this)" href="#">По дате</a>
+                    <a onclick="optionOnClick(this)" href="#">По числу участников</a>
+                </div>
+            </div>
+           <br>
+            <p class='sub-menu-header'><strong>Парметры</strong> </p>
+            <div class='param-div'>
+                <label>
+                    <input type="checkbox" id="only_new_checkbox" name="subscribe" value="newsletter" checked>Только предстоящие</label>
+            </div>
+            <div class='param-div'>
+                <input type="checkbox" id="only_new_checkbox" name="subscribe" value="newsletter" checked>
+                <label for="only_new_checkbox">Учитывать местоположение</label>
+            </div>
+        </div>
+    </div>
+    <div class='menu'>
+        <div class='menu-header'>
+            Популярные теги
+        </div>
+        <div class='menu-body'>
+        </div>
+    </div>
+</div>
+<script>
+function optionOnClick(element) {
+    document.getElementById('dropbtn').childNodes[0].nodeValue = element.innerText;
+}
+
+function dropdownOnClick() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+        var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+            myDropdown.classList.remove('show');
+        }
+    }
+}
+</script>

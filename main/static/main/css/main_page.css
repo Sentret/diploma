@@ -4,9 +4,9 @@
 body
 {
 	margin: 0;
-	height: 100%;
-	width: 100%;
+	
 	font-family: 'IBM Plex Sans', sans-serif;
+	background-color: #f5f5f5;
 }
 
 a
@@ -14,6 +14,7 @@ a
 	text-decoration: none;
 	color:black;
 }
+a:hover { text-decoration: none; color:black;}
 
 html 
 {
@@ -26,16 +27,18 @@ html
 {
 	margin-left: 2%;
 	margin-right: 2%;
-	margin-top: 2%;
+	width: 1440px;
+	margin:0 auto;
 
 }
 
 /*Стили для грида с контентом*/
 .content-grid
 {	
+	
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-	width: 85%;
+	grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
+	width: 1174px;
 	float: left;
 }
 
@@ -48,6 +51,7 @@ html
   height:300px;
   margin-right: 5%;
   margin-bottom: 5%;
+  background-color: white
 }
 
 .content-grid-cell:hover
@@ -88,17 +92,6 @@ html
 	margin-bottom: 10px;
 }	
 
-/*стили для правого сайд бара*/
-.right-side-bar
-{	
-	right: 2%;
-	float: right;
-	position: fixed;
-	height: 300px;
-	width: 14%;
-	box-shadow: 0 0 3px rgba(0,0,0,0.5);		
-}
-
 
 .cell-button {
 
@@ -134,14 +127,7 @@ html
 
 /*поиск*/
 
-#search-bar-div
-{
-	
-	background-color: white;
-	margin-bottom: 10px;
-	width: 100%;
-	height: 50px;
-}
+
 #search-input
 {
 	width: 10%;
@@ -150,4 +136,137 @@ html
 	overflow:hidden;	
 	font-size: 14pt;
 	border:none;
+}
+
+
+/*правое меню*/
+
+
+.menu-grid
+{	
+	
+	width: 256px;
+	float:right;
+}
+
+.menu
+{
+	
+	width: 100%;
+	box-shadow: 0 0 3px rgba(0,0,0,0.5);	
+	margin-bottom: 5%;
+	background-color: white;
+
+}
+
+.menu-header
+{
+
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: middle;
+	text-align: left;
+	text-indent: 10px;
+	border-bottom: 1px solid #EFF2F5;
+}
+
+.menu-body
+{
+	width: 100%;
+	height: 200px;
+	border-bottom: 1px solid #EFF2F5;
+
+}
+
+
+.sub-menu-header
+{
+	height: 32px;
+	line-height: 32px;
+	margin: 0;
+	text-align: left;
+	margin-left: 10px;
+	color: grey;
+
+}
+
+
+.param-div
+{
+	
+	height: 32px;
+	line-height: 32px;
+	text-align: left;
+	text-indent: 10px;
+
+}
+
+
+.dropdown {
+   
+    overflow: hidden;
+    background-color: #f4f7fc;
+    width: 200px;
+    
+    vertical-align: middle;
+    margin-left: 32px;
+    
+    padding: 0;
+}
+
+.dropdown .dropbtn {
+	text-align: left;
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    width: 100%;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    height: 32px;
+    line-height:32px;
+
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+     background-color: #f4f7fc;
+    width: 200px;
+    height: 32px;
+    line-height: 32px;
+    
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+     background-color: #f4f7fc;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+   
+    padding-left: 10px;
+}
+
+.show {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+#angle-down
+{
+	
+	height: 32px;
+    line-height: 32px;
+	float: right;
+	vertical-align: middle;
+	
 }
