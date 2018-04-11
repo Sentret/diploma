@@ -5,7 +5,7 @@
         </div>
         <div class='menu-body'>
             <p class='sub-menu-header'><strong>Сортировка</strong></p>
-            <div class="dropdown">
+            <!-- <div class="dropdown">
                 <button class="dropbtn" id="dropbtn" onclick="dropdownOnClick()">
                  По дате
                  <i id='angle-down' class="fa fa-angle-down"></i>
@@ -14,8 +14,12 @@
                     <a onclick="optionOnClick(this)" href="#">По дате</a>
                     <a onclick="optionOnClick(this)" href="#">По числу участников</a>
                 </div>
-            </div>
-           <br>
+            </div> -->
+            <select id='select' class="form-control form-control-sm">
+                <option>По дате</option>
+                <option>По числу участников</option>
+            </select>
+            <br>
             <p class='sub-menu-header'><strong>Парметры</strong> </p>
             <div class='param-div'>
                 <label>
@@ -36,21 +40,21 @@
     </div>
 </div>
 <script>
-function optionOnClick(element) {
-    document.getElementById('dropbtn').childNodes[0].nodeValue = element.innerText;
-}
+// function optionOnClick(element) {
+//     document.getElementById('dropbtn').childNodes[0].nodeValue = element.innerText;
+// }
 
-function dropdownOnClick() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
+// function dropdownOnClick() {
+//     document.getElementById("myDropdown").classList.toggle("show");
+// }
 
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(e) {
-    if (!e.target.matches('.dropbtn')) {
-        var myDropdown = document.getElementById("myDropdown");
-        if (myDropdown.classList.contains('show')) {
-            myDropdown.classList.remove('show');
-        }
-    }
-}
+// // Close the dropdown if the user clicks outside of it
+// window.onclick = function(e) {
+//     if (!e.target.matches('.dropbtn')) {
+//         var myDropdown = document.getElementById("myDropdown");
+//         if (myDropdown.classList.contains('show')) {
+//             myDropdown.classList.remove('show');
+//         }
+//     }
+// }
 </script>

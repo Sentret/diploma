@@ -32,21 +32,3 @@
 	overflow:hidden;
 }
 
-#subscribe-button
-{
-	margin-top: 1%;
-	display:block;
-	width: 120px;
-	height: 40px;
-	font-size: 12pt;
-	vertical-align: bottom;
-	padding: 0;
-	color: black;
-	text-align: center;
-	border: 0;
-	border-radius: 4px;
-	cursor: pointer;
-	background-color: #4CAF50;
-	color: white;
-}
-

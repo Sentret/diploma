@@ -9,17 +9,14 @@
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
     <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
 
-    <button id='route-button' type='button' >
-        Проложить маршрут   
-    </button>
+    
+    <button id='route-button' type="button" class="btn btn-primary">Проложить маршрут </button>
 
     <div id='grid'>
         <div id='trip-div'></div>
         <div id='locations-div'></div>
     </div>
-    <button id='publish-button' type='submit'>
-        Опубликовать
-    </button>
+    <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
 </form>
 {% endblock content %} {%block scripts %}
