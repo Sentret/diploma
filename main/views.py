@@ -1,7 +1,10 @@
 import json
 import datetime
+from django.http import Http404
+from django.http import JsonResponse
 
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,6 +26,9 @@ from .forms  import RegistrationForm
 
 
 
+
+
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,13 +44,11 @@ def login(request):
     else:       
         return render(request,'main/auth/login_form.html')
 
+
 @login_required
 def logout(request):
     auth.logout(request)
     return redirect('login')
-
-
-
 
 
 class RegistrationView(View):
@@ -62,11 +66,9 @@ class RegistrationView(View):
             print(form.errors)
         return render(request,'main/auth/register_form.html',{'form':form})
 
-
-
 def main_page_view(request):
-    events = BaseEvent.objects.all()
-    return render(request,"main/main_page.html",{'events':events})
+    
+    return render(request,"main/main_page.html")
 
 
 def  event_page(request, id):
@@ -89,8 +91,13 @@ def  event_page(request, id):
         return render(request, 'main/trip/trip_page.html', {'trip':event, 'subscribed':subscribed,'locations':locations, 'comments':comments})
 
 
+@login_required
 def event_delete(request,id):
     event = get_object_or_404(BaseEvent,pk=id)
+
+    if(request.user != event.creater):
+        return HttpResponse(status=403)
+
     event.delete()    
     return redirect('main-page')
 
@@ -105,6 +112,9 @@ class EventEdit(LoginRequiredMixin, View):
     def post(self, request, id):
         data = request.POST
         event = get_object_or_404(Event, pk=id)
+
+        if(request.user != event.creater):
+            return HttpResponse(status=403)
 
         try:
             lat = float(data['lat'])
@@ -153,9 +163,7 @@ class EventPublish(LoginRequiredMixin, View):
         except:
             lat = 0
             lng = 0
-
-
-  
+ 
         date = data['date']
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
@@ -222,3 +230,13 @@ class TripPublish(LoginRequiredMixin, View):
         return render(request,"main/main_page.html",{'events':events})
 
 
+
+
+
+
+class SnippetList(View):
+    
+    def get(self, request):
+        events = BaseEvent.objects.all()
+        data = render_to_string("main/event_grid.html",{'events':events, 'user':request.user})
+        return JsonResponse({'html': data})

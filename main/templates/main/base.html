@@ -6,38 +6,26 @@
     <title>
     </title>
     {% block styles %}
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/login.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static './account/css/account_menu.css' %}" />
-     <link rel="stylesheet" type="text/css" href="{% static 'main/css/trip_form.css' %}" />
-
-
-
-    {% endblock styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/trip_form.css' %}" /> {% endblock styles %}
 </head>
 
 <body>
-     {% block header %}
-     <div id='header'>
+    {% block header %}
+    <div id='header'>
         <div class='header'>
             <a class='header-ref' href="/">
                 <div class='header-div-left'>TripPlanner</div>
             </a>
-            <div class='header-div-left'>
-                <div class="md-form active-cyan active-cyan-2 mb-3">
-    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-</div>
 
-            </div>
+        
 
             {%if not user.is_authenticated%}
             <a class='header-ref' href="/login">
@@ -47,7 +35,7 @@
                 <div class='header-div-right'>Регистрация</div>
             </a>
             {% else%}
-             <a class='header-ref' href="/logout">
+            <a class='header-ref' href="/logout">
                 <div class='header-div-right'>Выйти</div>
             </a>
             <a class='header-ref' href="{% url 'account' %}">
@@ -59,15 +47,14 @@
             <a class='header-ref' href="{% url 'trip_publish' %}">
                 <div class='header-div-right'>Создать поездку</div>
             </a>
-            
             {%endif%}
+                <div class='search-container'>
+                <input class="form-control form-control-lg" type="text" placeholder="Поиск">
+            </div>
         </div>
-   </div>
+    </div>
     {% endblock header %}
     <div class='main-container'>
-   
-
-
         {%block content%} {%endblock content%}
     </div>
     {%block scripts %} {%endblock scripts %}

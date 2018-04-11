@@ -22,6 +22,7 @@ urlpatterns = [
  	path('trippublish', main.views.TripPublish.as_view(), name='trip_publish'),
     path('logout',main.views.logout, name='logout'),
     path('register',main.views.RegistrationView.as_view(), name='register'),
+    path('eventsjson', main.views.SnippetList.as_view(), name='event_api'),
        
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

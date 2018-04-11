@@ -29,6 +29,7 @@ CHANNEL_LAYERS = {
     },
 }
 INSTALLED_APPS = [
+'rest_framework',
     'channels',
     'main',
     'account',

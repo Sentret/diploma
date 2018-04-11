@@ -93,9 +93,20 @@ html
 }	
 
 
-
-
-
+.search-container
+{
+	padding-top: 12px;
+	height: 60px;
+	display: block;
+	width: 256px;
+	float: right;
+	margin-bottom: 2%;
+	
+}
+#search-input
+{
+	width: 256px;
+}
 /*правое меню*/
 
 
@@ -172,3 +183,4 @@ html
 	display: block;
 	float: left;
 }
+

@@ -6,7 +6,8 @@
         <span class='date-span'>{{event.date}}</span>
        
         <span class='title-span'>{{event.title}}</span>
-        </a> {% ifequal event.creater user %}
+        </a> 
+        {% ifequal event.creater user %}
        
         <div>
             <form class='button-form' method="get" action={% url 'event_edit' event.id %} >           

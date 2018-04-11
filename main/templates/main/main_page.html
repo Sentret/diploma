@@ -1,6 +1,18 @@
-{% extends "main/base.html" %} {% load staticfiles %} 
-{% block content %}
-
-{% include "main/event_grid.html" %}
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<div id='grid-container'>
+</div>
 {% include "main/rightside_menu.html" %}
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $.ajax({
+        url: '/eventsjson',
+        method: 'GET',
+
+    }).done(function(data) {
+        document.getElementById('grid-container').innerHTML = data['html']
+    });
+
+});
+</script>
 {% endblock content %}

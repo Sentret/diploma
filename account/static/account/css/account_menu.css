@@ -1,9 +1,9 @@
 .left-side-menu
 {	
 	float: left;
-	width: 14%;
+	width: 240px;
 	box-shadow: 0 0 3px rgba(0,0,0,0.5);
-	margin-right: 1%;	
+	margin-right: 2%;	
 	background-color: white;	
 }
 
