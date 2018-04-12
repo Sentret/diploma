@@ -1,7 +1,7 @@
 
 #header
 {
-	background-color: white;
+	background-color: #222;
 	width: 100%;
 
 
@@ -9,9 +9,9 @@
 .header
 {
 
-	background-color: white;	
+	background-color: #222;	
 	height: 60px;
-	width: 1440px;
+	width: 1024px;
 	margin: 0 auto;
 	margin-bottom: 2%;
 
@@ -21,8 +21,11 @@
 .header-ref
 {
 	text-decoration: none;
-	color:#45494E;
+	color:white;
+
 }
+
+.header-ref:hover { text-decoration: none; color:white;}
 
 /*стиль дива с названием работы*/
 .header-div-left
@@ -35,6 +38,8 @@
 	float: left;
 	font-size: 20pt;
 	color: #052c6b;
+	font-weight: bold;
+	color:white;
 }
 
 /*стиль дивов с элементам меню*/
@@ -53,7 +58,10 @@
 }
 
 
-.header-div-right:hover { 
-    background-color: #f4f7fc;
+.create-button
+{
+	margin-left: 20px;
+	float: right;
+	display: inline;
+	margin-top: 12px;
 }
-

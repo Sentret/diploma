@@ -1,27 +1,44 @@
-<div class='left-side-menu'>
-    <a href="subscriptions">
-        <div class='left-side-menu-element'>
-            Подписки
-        </div>
-    </a>
-    <a href="events">
-        <div class='left-side-menu-element'>
-            Мои события
-        </div>
-    </a>
-    <a href="">
-        <div class='left-side-menu-element'>
-            Мои поездки
-        </div>
-    </a>
-    <a href="">
-        <div class='left-side-menu-element'>
-            Сообщения
-        </div>
-    </a>
-    <a href="">
-        <div class='left-side-menu-element'>
-            Настройки
-        </div>
-    </a>
-</div>
+<table class='right-side-menu'>
+    <tr>
+        <th class="row">
+            <a href="subscriptions">
+                <div class='right-side-menu-element' id="subscriptions">
+                    Подписки
+                </div>
+            </a>
+        </th>
+    </tr>
+    <tr>
+        <th class="row">
+            <a href="events">
+                <div class='right-side-menu-element' id="events">
+                    Мои события
+                </div>
+            </a>
+        </th>
+    </tr>
+    <tr>
+        <th class="row">
+            <a href="trips">
+                <div class='right-side-menu-element' id="trips">
+                    Мои поездки
+                </div>
+            </a>
+        </th>
+    </tr>
+    <tr>
+        <th class="row">
+            <a href="edit-profile">
+                <div class='right-side-menu-element' id="edit-profile">
+                    Настройки
+                </div>
+            </a>
+        </th>
+    </tr>
+</table>
+<script type="text/javascript ">
+tokens = window.location.href.split('/')
+active_href = tokens[tokens.length - 1]
+active_element = document.getElementById(active_href)
+active_element.classList.add('active')
+</script>

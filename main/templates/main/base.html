@@ -24,9 +24,6 @@
             <a class='header-ref' href="/">
                 <div class='header-div-left'>TripPlanner</div>
             </a>
-
-        
-
             {%if not user.is_authenticated%}
             <a class='header-ref' href="/login">
                 <div class='header-div-right'>Войти</div>
@@ -35,21 +32,30 @@
                 <div class='header-div-right'>Регистрация</div>
             </a>
             {% else%}
-            <a class='header-ref' href="/logout">
-                <div class='header-div-right'>Выйти</div>
-            </a>
-            <a class='header-ref' href="{% url 'account' %}">
-                <div class='header-div-right'>Личный кабинет</div>
-            </a>
-            <a class='header-ref' href="{% url 'event_publish' %}">
-                <div class='header-div-right'>Создать событие</div>
-            </a>
-            <a class='header-ref' href="{% url 'trip_publish' %}">
-                <div class='header-div-right'>Создать поездку</div>
-            </a>
+           
+           
+            <div class="dropdown create-button">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">{{user.username}}
+                    <span class="caret"></span></button>
+                
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'account' %}">Профиль</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+        
+                </ul>
+            </div>
+             <div class="dropdown create-button">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">Создать
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'event_publish' %}">Создать событие</a></li>
+                    <li><a href="{% url 'trip_publish' %}">Создать поездку</a></li>
+        
+                </ul>
+            </div>
             {%endif%}
-                <div class='search-container'>
-                <input class="form-control form-control-lg" type="text" placeholder="Поиск">
+            <div class='search-container'>
+                <input id='search' oninput='makeRequest()' class="form-control form-control-lg" type="text" placeholder="Поиск">
             </div>
         </div>
     </div>

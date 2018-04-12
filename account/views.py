@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from main.models import BaseEvent
 from main.models import EventSubscription
@@ -9,8 +11,19 @@ def subscriptions(request):
     return render(request, "account/account.html", {'events':events})
 
 
-def created_by_user_events(request):
+def events(request):
+	events = BaseEvent.objects.filter(creater=request.user)
+	return render(request, "account/account.html", {"events":events})
+
+def trips(request):
 	events = BaseEvent.objects.filter(creater=request.user)
 	return render(request, "account/account.html", {"events":events})
 
 
+
+class EditProfileView(LoginRequiredMixin, View):
+	def get(self, request):
+		return render(request, "account/account.html", {"events":events})
+
+	def post(self, request):
+		pass

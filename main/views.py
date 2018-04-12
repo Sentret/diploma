@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib import auth
 from django.views import View
-from django.db import IntegrityError
+from django.db.models import Q
 
 from .models import Location
 from .models import EventSubscription
@@ -23,10 +23,6 @@ from .models import Comment
 from .models import Profile
 from .forms  import CommentForm
 from .forms  import RegistrationForm
-
-
-
-
 
 
 def login(request):
@@ -178,7 +174,7 @@ class EventPublish(LoginRequiredMixin, View):
 
    
 class EventSubscriptionView(LoginRequiredMixin, View):
-    # подписка и отписка от события
+    
     def post(self,request):
         data = json.loads(request.body)
         event = get_object_or_404(BaseEvent, pk=data['event'])
@@ -186,7 +182,6 @@ class EventSubscriptionView(LoginRequiredMixin, View):
         # подписка
         if (not data['subscribed']):
             event.subscribe(request.user)
-
         #отписка    
         else:
             event.unsubscribe(request.user)
@@ -234,9 +229,18 @@ class TripPublish(LoginRequiredMixin, View):
 
 
 
-class SnippetList(View):
+class BaseEventList(View):
     
     def get(self, request):
-        events = BaseEvent.objects.all()
+        keyword = request.GET.get('keyword','')
+        sort_option = request.GET.get('sort_option','')
+
+        events = BaseEvent.objects.filter( Q(title__contains=keyword) | Q(description__contains=keyword))
+
+        if(sort_option == 'date'):
+            events.order_by('date')
+        if(sort_option == 'size'):
+            events.order_by('num_of_participants')       
+                 
         data = render_to_string("main/event_grid.html",{'events':events, 'user':request.user})
         return JsonResponse({'html': data})

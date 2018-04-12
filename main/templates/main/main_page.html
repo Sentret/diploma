@@ -3,16 +3,33 @@
 </div>
 {% include "main/rightside_menu.html" %}
 <script type="text/javascript">
-$(document).ready(function() {
 
-    $.ajax({
-        url: '/eventsjson',
+function makeRequest()
+{
+
+	var keyword = document.getElementById('search').value
+	var sort_option = document.getElementById('select')
+	sort_option = sort_option.options[sort_option.selectedIndex].value;
+
+
+
+	 $.ajax({
+        url: 'eventsjson',
         method: 'GET',
-
+        data: 
+        {
+        	keyword: keyword,
+        	sort_option:sort_option
+        }    
     }).done(function(data) {
         document.getElementById('grid-container').innerHTML = data['html']
     });
+}
 
+$(document).ready(function() {
+   makeRequest()
 });
+
+
 </script>
 {% endblock content %}

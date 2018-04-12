@@ -3,10 +3,14 @@
     <div class='content-grid-cell'>
         <a href={% url 'event_page' event.id %}>
         <img class='preview' src="{{ event.preview.url}}" />
-        <span class='date-span'>{{event.date}}</span>
+        <span class='date-span'>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}}</span>
        
         <span class='title-span'>{{event.title}}</span>
         </a> 
+        <div class='grid-footer'>
+
+            <span class="glyphicon glyphicon-user">{{event.num_of_participants}}</span>
+        </div>
         {% ifequal event.creater user %}
        
         <div>
@@ -18,6 +22,7 @@
             </form>
       </div>
         {%endifequal %}
+        
     </div>
     {% endfor%}
 </div>

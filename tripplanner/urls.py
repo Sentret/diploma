@@ -14,15 +14,18 @@ urlpatterns = [
     path('eventpublish', main.views.EventPublish.as_view(), name='event_publish'),
     path('login', main.views.login, name='login'),
     path('eventinfo/<id>', main.views.event_page, name='event_page'),
-    path('account/subscriptions', account.views.subscriptions, name='account'),
-    path('account/events', account.views.created_by_user_events, name='events'),
     path('eventsuscribe', main.views.EventSubscriptionView.as_view(), name='event_subscribe'),
     path('eventedit/<id>', main.views.EventEdit.as_view(), name='event_edit'),
     path('eventdelete/<id>', main.views.event_delete, name='event_delete'),
  	path('trippublish', main.views.TripPublish.as_view(), name='trip_publish'),
     path('logout',main.views.logout, name='logout'),
     path('register',main.views.RegistrationView.as_view(), name='register'),
-    path('eventsjson', main.views.SnippetList.as_view(), name='event_api'),
+    path('eventsjson', main.views.BaseEventList.as_view(), name='event_api'),
+
+    path('account/subscriptions', account.views.subscriptions, name='account'),
+    path('account/edit-profile', account.views.EditProfileView.as_view(), name='edit-profile'),
+    path('account/events', account.views.events, name='events'),
+    path('account/trips', account.views.trips, name='trips'),
        
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

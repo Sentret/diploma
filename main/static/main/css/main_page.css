@@ -27,7 +27,7 @@ html
 {
 	margin-left: 2%;
 	margin-right: 2%;
-	width: 1440px;
+	width: 1024px;
 	margin:0 auto;
 
 }
@@ -37,8 +37,8 @@ html
 {	
 	
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
-	width: 1174px;
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+	width: 700px;
 	float: left;
 }
 
@@ -48,7 +48,8 @@ html
   box-shadow: 0 0 3px rgba(0,0,0,0.5);	
   font-size: 30px;
   text-align: center;
-  height:300px;
+  min-height: 200px;
+  height:auto;
   margin-right: 5%;
   margin-bottom: 5%;
   background-color: white
@@ -59,7 +60,6 @@ html
 	box-shadow: 0 0 3px rgba(0,0,0,3);	
 }
 
-
 .date-span
 {
 	display: block;
@@ -69,8 +69,11 @@ html
 
 .title-span
 {
-	display: block;
-	font-size: 12pt;
+	display: inline-block;
+	overflow: hidden;
+	width: 90%;
+	font-size: 16px;
+	font-weight: 700;
 }
 
 .preview
@@ -81,16 +84,23 @@ html
 	object-fit: cover;
 }
 
-.edit-a
+.grid-footer 
 {
-	float:left;
-	margin-left: 10px;
+	height: 32px;
+	width: 100%;
+	display: block;
+	border-bottom: 1px solid grey;
+	bottom:0;
 }
 
-.edit-img
+.glyphicon-user
 {
-	margin-bottom: 10px;
-}	
+	font-size: 10pt;
+	color: grey;
+	float: left;
+	margin: 10px;
+
+}
 
 
 .search-container
@@ -115,6 +125,7 @@ html
 	
 	width: 256px;
 	float:right;
+	
 }
 
 .menu
@@ -123,8 +134,7 @@ html
 	width: 100%;
 	box-shadow: 0 0 3px rgba(0,0,0,0.5);	
 	margin-bottom: 5%;
-	background-color: white;
-
+background-color: white;
 }
 
 .menu-header

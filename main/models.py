@@ -15,6 +15,7 @@ class BaseEvent(models.Model):
     creater = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     title = models.CharField(max_length=200, default='')
     description = models.TextField()
+    num_of_participants = models.IntegerField(default=0)
     preview = models.ImageField(default='',upload_to='previews')
     date = models.DateTimeField(default=datetime.date.today)
     event_manager = EventManager()
@@ -23,10 +24,14 @@ class BaseEvent(models.Model):
 
     def subscribe(self, user):
         subscription = EventSubscription.objects.create(subscriber=user, event=self)
+        self.num_of_participants +=1
+        self.save()
 
 
     def unsubscribe(self, user):
         subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
+        self.num_of_participants -=1
+        self.save()
         subscription.delete()
 
 
