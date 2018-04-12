@@ -71,7 +71,8 @@ def  event_page(request, id):
     event = get_object_or_404(BaseEvent,pk=id)
     subscribed = event.is_user_subscribed(request.user)
     location = Location.objects.filter(event=event)[0]
-    print(request.user.profile)
+
+    subscriptions = event.get_subscribers()
 
     if request.method=='POST':
         Comment.objects.create(user=request.user, event=event, content=request.POST['content'])
@@ -80,7 +81,7 @@ def  event_page(request, id):
     comments = Comment.objects.filter(event=event).order_by('-date')
 
     if(hasattr(event,'event')):
-        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments})
+        return render(request, 'main/event_page.html', {'event':event, 'subscribed':subscribed,'location':location, 'comments':comments, 'subscriptions':subscriptions})
 
     else:
         locations = Location.objects.filter(event=event)
@@ -223,10 +224,6 @@ class TripPublish(LoginRequiredMixin, View):
        
         events = BaseEvent.objects.all()
         return render(request,"main/main_page.html",{'events':events})
-
-
-
-
 
 
 class BaseEventList(View):

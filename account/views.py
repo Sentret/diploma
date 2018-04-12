@@ -23,7 +23,7 @@ def trips(request):
 
 class EditProfileView(LoginRequiredMixin, View):
 	def get(self, request):
-		return render(request, "account/account.html", {"events":events})
+		return render(request, "account/profile_edit.html", {"events":events})
 
 	def post(self, request):
 		pass

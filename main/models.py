@@ -36,12 +36,12 @@ class BaseEvent(models.Model):
 
 
     def is_user_subscribed(self, user):
-        subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
-        # статус 
-        subscribed = False
-        if(subscription.count()==1):
-            subscribed = True
-        return subscribed
+        num_of_subscribers = EventSubscription.objects.all().filter(subscriber=user, event=self).count()
+        return num_of_subscribers ==1
+
+
+    def get_subscribers(self):
+        return EventSubscription.objects.filter(event=self)
 
     def __str__(self):
         return self.title
@@ -82,3 +82,4 @@ class Comment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(default='/avatars/default-avatar.png',upload_to='avatars')
+    about = models.TextField(default='')

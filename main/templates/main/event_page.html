@@ -11,31 +11,49 @@
     </div>
     {% csrf_token %}
     <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться</button>
-    
-{% include "main/comment_block.html" %}
-    
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="float: right">
+        Показать подписчиков
+    </button>
 
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Подписчики</strong></h4>
+                   
+                </div>
+                <div class="modal-body subscribers-grid">
+                 {% for subscription in subscriptions %} 
+                    <div class="subscribers-grid-cell">
+
+                        <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;"><a style="width: 75px; font-weight: 500;">{{subscription.subscriber.username}}</a></center>
+                        
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "main/comment_block.html" %}
 </div>
-
-
 {% endblock content %} 
 {%block scripts %}
 <script>
-
-var sub = false;
-{%if subscribed %}
-sub =true;
-{% endif%}
+var sub = false; 
+{% if subscribed %}
+sub = true; 
+{% endif %}
 
 var button = document.getElementById('subscribe-button');
 
-if (sub)
-{
-	button.innerText = 'Отписаться'
-}
-else
-{
-	button.innerText = 'Подписаться'
+if (sub) {
+    button.innerText = 'Отписаться'
+} else {
+    button.innerText = 'Подписаться'
 }
 
 function subscribeOnClick(event) {
@@ -47,15 +65,14 @@ function subscribeOnClick(event) {
     data.event = {{ event.id }}
     data.subscribed = sub
     xhr.send(JSON.stringify(data))
-    
+
     sub = sub ^ 1;
-    
-  if (sub) { 
-  	button.innerText = 'Отписаться' 
-  } 
-  	else {
-  	 button.innerText = 'Подписаться' 
-  	}
+
+    if (sub) {
+        button.innerText = 'Отписаться'
+    } else {
+        button.innerText = 'Подписаться'
+    }
 }
 </script>
 {% endblock scripts %}

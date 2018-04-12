@@ -42,4 +42,11 @@
 }
 
 
-
+.form-profile
+{
+	margin-left: 2%;
+	background-color: white;
+	width: 700px;	
+	float: right;
+	border: 0.5px solid #D8D8D8;
+}
