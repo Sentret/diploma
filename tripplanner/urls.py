@@ -22,10 +22,11 @@ urlpatterns = [
     path('register',main.views.RegistrationView.as_view(), name='register'),
     path('eventsjson', main.views.BaseEventList.as_view(), name='event_api'),
 
-    path('account/subscriptions', account.views.subscriptions, name='account'),
-    path('account/edit-profile', account.views.EditProfileView.as_view(), name='edit-profile'),
-    path('account/events', account.views.events, name='events'),
-    path('account/trips', account.views.trips, name='trips'),
+    path('profile/subscriptions', account.views.subscriptions, name='account'),
+    path('profile/edit-profile', account.views.EditProfileView.as_view(), name='edit-profile'),
+    path('profile/events', account.views.events, name='events'),
+    path('profile/trips', account.views.trips, name='trips'),
+    path('profile/<username>', account.views.ProfileView.as_view(), name='profile'),
        
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

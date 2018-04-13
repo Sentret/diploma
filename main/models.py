@@ -51,7 +51,6 @@ class Event(BaseEvent):
     pass
     
 
-
 class Trip(BaseEvent):
     pass
 
@@ -83,3 +82,4 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(default='/avatars/default-avatar.png',upload_to='avatars')
     about = models.TextField(default='')
+    age = models.IntegerField(default=0)

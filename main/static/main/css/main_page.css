@@ -45,7 +45,7 @@ html
 .content-grid-cell
 {
 
-  box-shadow: 0 0 3px rgba(0,0,0,0.5);	
+  border: 0.5px solid #D8D8D8;
   font-size: 30px;
   text-align: center;
   min-height: 200px;
@@ -89,7 +89,7 @@ html
 	height: 32px;
 	width: 100%;
 	display: block;
-	border-bottom: 1px solid grey;
+	border-bottom: 0.5px solid #D8D8D8;
 	bottom:0;
 }
 

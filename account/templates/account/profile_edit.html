@@ -2,5 +2,61 @@
 {% load staticfiles %} 
 {% block content %}
 {% include "account/account_menu.html" %}
-{% include "account/profile_form.html" %}
+<div class="form-profile">
+    <form method="POST" enctype='multipart/form-data'>
+        {%csrf_token%}
+        <div class="panel-heading" style="background-color: white">
+            <h3 class="panel-title"> <strong>Редактировать профиль</strong></h3>
+        </div>
+        <div class="panel-body">
+            <form accept-charset="UTF-8" role="form">
+                <fieldset>
+                    <div class="form-group form-inline">
+                        <label for="firstname" class='control-label'>Ваше имя:</label>
+                        <input class="form-control" placeholder="{{user.first_name}}" type='text' value="{{user.first_name}}" name="first_name" style="float: right;width: 80%;">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="lastname" class='control-label'>Фамилия:</label>
+                        <input class="form-control" placeholder="{{user.last_name}}" type='text'  name="last_name" value="{{user.last_name}}" style="float: right;width: 80%;">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="about" class='control-label'>О себе:</label>
+                        <textarea class="form-control" rows="5" name="about" style="float: right;width: 80%; resize: none;">{{user.profile.about}}</textarea>
+                    </div>
+                    <div class="form-group form-inline">
+                        <div class="avatar-control-container">
+                            <label for="about" class='control-label'>Аватарка:</label>
+                            <div class="avatar-control-div">
+                                <img id="avatar" src="{{user.profile.avatar.url}}" style="width: 75px;float: left; ">
+                                <input id="image-input" class="input-avatar" type="file" name="avatar" onchange='imageUploaded(event)'>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="btn btn-md btn-success" type="submit" value="Сохранить изменения" style="margin-top: 10px;">
+                </fieldset>
+            </form>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+function imageUploaded(event) {
+    var img = document.getElementById("avatar")
+    var file = document.getElementById('image-input').files[0]
+
+    var reader = new FileReader();
+
+
+
+    reader.onloadend = function() {
+        img.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        img.src = "";
+    }
+
+}
+</script>
 {% endblock content %}

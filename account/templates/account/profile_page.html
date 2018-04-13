@@ -1,0 +1,18 @@
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+<div class="container profile">
+    <center class="profile-center">
+        <img src="{{profile.avatar.url}}">
+        <h4 class="username">{{profile.user.username}}</h4>
+        <h4 class="realname">{{profile.user.first_name}} {{profile.user.last_name}}, {{profile.age}} лет</h4>
+        <div>
+            {{profile.about}}
+        </div>
+    </center>
+    <center style="margin-top: 20px;">
+        <button type="submit" class="btn btn-success">
+            Написать сообщение <i class="glyphicon glyphicon-envelope"></i>
+        </button>
+    </center>
+</div>
+</script>
+{% endblock content %}
