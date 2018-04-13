@@ -7,46 +7,81 @@
     <div class='date-description-div'> <strong>Дата и время:</strong>
         <br>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}} </div>
     <div class='place-description-div'> <strong> Место проведения:</strong>
-        <br> {{location.address}}
+        <a id="place-name" data-toggle="modal" data-target="#mapModal">
+            <br> {{location.address}}
+            <i class="glyphicon glyphicon-map-marker"></i>
+        </a>
     </div>
     {% csrf_token %}
     <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться</button>
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="float: right">
         Показать подписчиков
     </button>
-
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLongTitle"><strong>Подписчики</strong></h4>
-                   
                 </div>
                 <div class="modal-body subscribers-grid">
-                 {% for subscription in subscriptions %} 
+                    {% for subscription in subscriptions %}
                     <div class="subscribers-grid-cell">
-
-                        <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;"><a style="width: 75px; font-weight: 500;">{{subscription.subscriber.username}}</a></center>
-                        
-                        
+                        <a href="{% url 'profile' subscription.subscriber.profile.user.username %}" style="width: 75px; font-weight: 500;">
+                            <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;"> {{subscription.subscriber.username}}
+                            </center>
+                        </a>
                     </div>
                     {% endfor %}
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Местоположение {{event.title}}</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="event-location">
+                     
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% include "main/comment_block.html" %}
 </div>
-{% endblock content %} 
-{%block scripts %}
+{% endblock content %} {%block scripts %}
 <script>
-var sub = false; 
-{% if subscribed %}
-sub = true; 
-{% endif %}
+
+window.initMap = function() {
+    var position = { lat: {{location.lat}}, lng:{{location.lng}} };
+
+    var map = new google.maps.Map(document.getElementById('event-location'), {
+        zoom: 7,
+        center: position
+    });
+
+    marker = new google.maps.Marker({
+            position: position,
+            map: map,
+        });
+
+    };
+
+
+var sub = false; {% if subscribed %}
+sub = true; {% endif %}
 
 var button = document.getElementById('subscribe-button');
 
@@ -74,5 +109,13 @@ function subscribeOnClick(event) {
         button.innerText = 'Подписаться'
     }
 }
+
+
+
+
+
+
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+    </script>
 {% endblock scripts %}

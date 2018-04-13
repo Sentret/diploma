@@ -38,8 +38,15 @@
 	grid-template-columns: repeat(auto-fill, minmax(80px, 80px));
 }
 
-
-.subscribers-grid-cell
+#place-name:hover
 {
+text-decoration: underline;
+cursor: pointer;
 
+}
+
+#event-location
+{
+	height: 400px;
+	width: 100%;
 }
