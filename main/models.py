@@ -83,3 +83,9 @@ class Profile(models.Model):
     avatar = models.ImageField(default='/avatars/default-avatar.png',upload_to='avatars')
     about = models.TextField(default='')
     age = models.IntegerField(default=0)
+
+
+class Message(models.Model):
+    addresser = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='addresser')
+    recipient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recipient')
+    message = models.TextField()

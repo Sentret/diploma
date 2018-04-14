@@ -8,7 +8,7 @@
 	border-collapse:collapse;
 }
 
-.row
+.myrow
 {
 	border: 0.5px solid #D8D8D8;
 }
@@ -97,4 +97,23 @@ h4.username
 h4.realname
 {
 	color: grey;
+}
+
+.rooms
+{
+	width: 70%;
+	background-color: white;
+	float: right;
+}
+
+.room
+{	height: 70px;
+
+	border: 0.5px solid #D8D8D8;
+}
+
+div.room
+{
+	height: 70px;
+	border: 0;
 }

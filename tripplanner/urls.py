@@ -5,7 +5,7 @@ from django.conf import settings
 
 import main.views
 import account.views
-
+import chat.views
 
 
 urlpatterns = [
@@ -26,7 +26,9 @@ urlpatterns = [
     path('profile/edit-profile', account.views.EditProfileView.as_view(), name='edit-profile'),
     path('profile/events', account.views.events, name='events'),
     path('profile/trips', account.views.trips, name='trips'),
+    path('profile/messages', account.views.messages, name='messages'),
     path('profile/<username>', account.views.ProfileView.as_view(), name='profile'),
+    path('profile/messages/<room_name>', chat.views.room, name='room'),
        
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

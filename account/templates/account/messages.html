@@ -1,0 +1,29 @@
+{% extends "main/base.html" %} 
+{% load staticfiles %} 
+{% block content %}
+{% include "account/account_menu.html" %}
+<table class='rooms'>
+{% for addresser in addressers %}
+    <tr>
+        <th class="room">
+        <a href="messages/{{room_name}}">
+           <div class="room">
+           
+           <img src="{{addresser.profile.avatar.url}}" style="width: 55px; margin: 8px;"> 
+                            
+
+             
+             	
+             		{{addresser.username}}
+             	
+             	
+                   
+                        	
+           </div>
+             
+          </a>
+        </th>
+    </tr>
+{% endfor %}    
+</table>
+{% endblock content %}

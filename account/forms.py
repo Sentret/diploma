@@ -7,7 +7,8 @@ from main.models import Profile
 class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['avatar','about']
+		fields = ['avatar','about','age']
+
 
 class UserForm(ModelForm):
 	class Meta:

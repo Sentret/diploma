@@ -28,11 +28,14 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+
 INSTALLED_APPS = [
-'rest_framework',
+
     'channels',
     'main',
     'account',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
