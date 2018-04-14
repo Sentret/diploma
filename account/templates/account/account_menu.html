@@ -1,7 +1,9 @@
 <table class='right-side-menu'>
+ 
+
     <tr>
         <th class="myrow">
-            <a href="subscriptions">
+            <a href="{% url 'account' %}">
                 <div class='right-side-menu-element' id="subscriptions">
                     Подписки
                 </div>
@@ -10,7 +12,7 @@
     </tr>
     <tr>
         <th class="myrow">
-            <a href="events">
+            <a href="{% url 'events' %}">
                 <div class='right-side-menu-element' id="events">
                     Мои события
                 </div>
@@ -19,7 +21,7 @@
     </tr>
     <tr>
         <th class="myrow">
-            <a href="trips">
+            <a href="{% url 'trips' %}">
                 <div class='right-side-menu-element' id="trips">
                     Мои поездки
                 </div>
@@ -28,7 +30,7 @@
     </tr>
     <tr>
         <th class="myrow">
-            <a href="messages">
+            <a href="{% url 'messages' %}">
                 <div class='right-side-menu-element' id="messages">
                     Сообщения
                 </div>
@@ -37,7 +39,7 @@
     </tr>
     <tr>
         <th class="myrow">
-            <a href="edit-profile">
+            <a href="{% url 'edit-profile' %}">
                 <div class='right-side-menu-element' id="edit-profile">
                     Настройки
                 </div>

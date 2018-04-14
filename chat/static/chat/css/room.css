@@ -1,0 +1,17 @@
+.messages
+{
+	background-color: white;
+	float: right;
+	width: 70%;
+	border: 0.5px solid #D8D8D8;
+}
+
+.message
+{
+	height: 70px;
+}
+
+.messages-table
+{
+	width: 100%;
+}

@@ -71,9 +71,9 @@ def messages(request):
 
 	
 
-	room_name = request.user.username+'.'+addressers[0].username	
+	room_name = request.user.id*addressers[0].id
 	
-	print(room_name.encode())
+	print(room_name)
 
 	context = {
 				'addressers':addressers,
