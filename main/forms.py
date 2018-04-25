@@ -5,6 +5,7 @@ from django import forms
 
 from .models import Comment
 from .models import Profile
+from .models import Trip
 
 
 class CommentForm(ModelForm):
@@ -22,3 +23,5 @@ class RegistrationForm(UserCreationForm):
 	def save(self, commit = True):
 		user = super(RegistrationForm, self).save(commit = True)
 		return user
+
+

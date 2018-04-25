@@ -20,5 +20,6 @@ def room(request, room_name):
     print(messages)
     return render(request, 'chat/room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
-        'messages':messages
+        'messages':messages,
+        'addresser':addresser
     })

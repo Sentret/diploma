@@ -8,7 +8,8 @@
 #locations-div
 
 {
-	height: 100%;
+	height: 400px;
+	overflow-y: scroll;
 
 }
 
@@ -27,10 +28,12 @@
 {
 	padding-left: 5%;
 	width: 100%;
+	overflow: hidden;
 	height: 60px;
 	line-height: 60px;
 	font-size: 10pt;
 	background-color: #f4f7fc;
 	vertical-align: middle;
+	word-wrap: break-word;
 }	
 

@@ -1,17 +1,76 @@
+.chat-container
+{
+	float: right;
+	width: 70%;
+}
+
 .messages
 {
 	background-color: white;
 	float: right;
-	width: 70%;
-	border: 0.5px solid #D8D8D8;
+	width: 100%;
+	border-top:  0.5px solid #D8D8D8;
+	border-left:  0.5px solid #D8D8D8;
+	border-right:  0.5px solid #D8D8D8;
+overflow-y: scroll;
+height: 700px;
+}
+
+.messages-footer{
+	border-bottom:  0.5px solid #D8D8D8;
+	border-left:  0.5px solid #D8D8D8;
+	border-right:  0.5px solid #D8D8D8;
+	padding-top: 10px;
+	height: 60px;
+	width: 100%;
+	background-color: white;
+	float: right;
 }
 
 .message
 {
 	height: 70px;
+	margin-bottom: 5px;
+	margin-top: 5px; 
+
+}
+
+.message-user
+{
+	
+	width: 10%;
+	height: 70px;
+	display: block;
+	float: left;
+}
+
+.message-body
+{
+	height: 70px;
+	width: 90%;
+	float: right;
+	line-height: 70px;
+	text-align: middle;
+	text-indent: 20px;
+	font-weight: 500;
+	margin-bottom: 20px;	
 }
 
 .messages-table
 {
 	width: 100%;
+}
+
+#chat-message-input
+{
+	width: 70%;
+	margin-left:7%;
+	float:left;
+}
+
+#chat-message-submit
+{
+	float:left;
+	margin-left:5px;
+	margin-bottom: 10px; 
 }

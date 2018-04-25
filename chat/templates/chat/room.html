@@ -1,37 +1,60 @@
-{% extends "main/base.html" %} {% load staticfiles %} {% block content %}
-{% include "account/account_menu.html" %}
-
+{% extends "main/base.html" %} {% load staticfiles %} {% block content %} {% include "account/account_menu.html" %}
+<div class="chat-container">
 <div class="messages">
     <table class="messages-table">
-{% for message in messages %}
-    <tr>
-        <th class="message">
-
-           <div class="message">
-           
-           <img src="{{message.addresser.profile.avatar.url}}" style="width: 55px; margin: 8px;"> 
-                            
-              {{message.addresser}}
-                
-                    {{message.message}}
-                     
-                      
-                
-                                            
-           </div>
-
-        </th>
-    </tr>
-{% endfor %}    
-</table>
-    <div class="form-group">
-        <input id="chat-message-input"  class="form-control" placeholder="Напишите сообщение..." name="username" type="text">
-    </div>
-    <button id="chat-message-submit"  type="button" class="btn btn-success">Отправить</button>
+        <tbody id="messages-table">
+            {% for message in messages %}
+            <tr>
+                <th class="message">
+                    <div class="message">
+                        <div class="message-user">
+                            <center>
+                                <img src="{{message.addresser.profile.avatar.url}}" style="width: 55px; "> {{message.addresser}}
+                            </center>
+                        </div>
+                        <div class="message-body">
+                            {{message.message}}
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
+</div>
+<div class="form-group form-inline messages-footer" style="margin-bottom: 20px; float: right">
+        <input id="chat-message-input" class="form-control" placeholder="Напишите сообщение..." name="username" type="text">
+        <button id="chat-message-submit" type="button" class="btn btn-success">Отправить</button>
+</div>
 </div>
 <script>
 var roomName = {{ room_name_json }};
+scrollToBottom()
+
+function scrollToBottom()
+{
+    document.querySelector(".messages").scrollTo(0,document.querySelector(".messages").scrollHeight);
+
+}
+
+function printMessage(message, username, avatar_url) {
+    table = document.getElementById("messages-table")
+    table.innerHTML +=
+        "<tr>" +
+        "<th class='message'>" +
+
+        "<div class='message'>" +
+
+        "<div class='message-user'> <center><img src='"+avatar_url+"'"+"style='width: 55px;'>" + username+"</center> </div> <div class='message-body'>" +
+            message +
+        '</div>' +
+        '</div>' +
+        '</th>' +
+        '</tr>'
+
+
+}
 
 var chatSocket = new WebSocket(
     'ws://' + window.location.host +
@@ -40,8 +63,8 @@ var chatSocket = new WebSocket(
 chatSocket.onmessage = function(e) {
     var data = JSON.parse(e.data);
     var message = data['message'];
-
-    document.querySelector('#chat-log').value += (message + '\n');
+    printMessage(message, '{{addresser.username}}','{{addresser.profile.avatar.url}}');
+    scrollToBottom()
 };
 
 chatSocket.onclose = function(e) {
@@ -51,7 +74,8 @@ chatSocket.onclose = function(e) {
 
 document.querySelector('#chat-message-input').focus();
 document.querySelector('#chat-message-input').onkeyup = function(e) {
-    if (e.keyCode === 13) { // enter, return
+    if (e.keyCode === 13) {
+        // enter, return
         document.querySelector('#chat-message-submit').click();
     }
 };
@@ -63,6 +87,8 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
         'message': message
     }));
 
+     printMessage(message, '{{user.username}}','{{user.profile.avatar.url}}');
+     scrollToBottom()
     messageInputDom.value = '';
 };
 </script>

@@ -155,8 +155,8 @@ class EventPublish(LoginRequiredMixin, View):
         data = request.POST
 
         try:
-            lat = float(event['lat'])
-            lng = float(event['lng'])
+            lat = float(data['lat'])
+            lng = float(data['lng'])
         except:
             lat = 0
             lng = 0

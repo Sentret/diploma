@@ -64,20 +64,13 @@ def messages(request):
 	
 	addressers = []
 
-
 	for message in messages:
 		addressers.append(User.objects.get(id=message['addresser']))
 
-
-	
-
 	room_name = request.user.id*addressers[0].id
-	
-	print(room_name)
 
 	context = {
 				'addressers':addressers,
 				'room_name':room_name
 			  }
-
 	return render(request, "account/messages.html", context)
