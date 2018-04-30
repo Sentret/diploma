@@ -13,9 +13,8 @@
 	font-family: 'IBM Plex Serif', serif;
 	font-size:11pt;
 	margin-top: 1%;
-	width: 60%;
-	height: 350px;
-	margin-left: 20%; 
+	width: 100%;
+	height: 300px;
 	overflow:hidden;
 	resize: none;
 	border:none;
