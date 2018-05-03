@@ -16,10 +16,29 @@
         <div id='trip-div'>
             
         </div>
-        <button id='route-button' type="button" class="btn btn-primary">Проложить маршрут </button>
+
+        <div class='map-control'>
+                <span class="glyphicon glyphicon-map-marker mymarker">
+                
+                </span>
+                <span id='num-of-places'>
+                0
+                </span>
+        <button id='route-button' type="button" class="btn btn-primary">
+        
+        Проложить маршрут 
+        </button>
+
 
     </div>
-        <div id='locations-div'></div>
+        
+        
+    </div>
+        <div id='locations-div'>
+            <label class="place-label"> + address + </label> 
+            <label class="place-label"> + address + </label> 
+
+        </div>
 
     <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
@@ -34,6 +53,11 @@ document.getElementById("route-button").addEventListener("click", routeOnClick);
 var data = []
 
 
+function updateNumOfPlaces(newValue)
+{
+    numOfPlaces = document.getElementById('num-of-places')
+    numOfPlaces.innerText = newValue
+}
 
 function routeOnClick(event)
 {
@@ -74,6 +98,7 @@ function buildRoute()
                     }
                 });
 }
+
  
 
 function imageUploaded(event) {
@@ -94,7 +119,7 @@ function imageUploaded(event) {
 
 
 
-var directionsDisplay ;
+var directionsDisplay;
 var directionsService;
 
 function updateLocations(){
@@ -103,7 +128,8 @@ function updateLocations(){
     locations.innerHTML = ''
 
     for( address of markers.values()){
-        locations.innerHTML += '<div class="location-element">' + address + '</div>' 
+        locations.innerHTML += '<label class="place-label">' + address + '</label>' 
+        
     }
 
 
@@ -141,25 +167,28 @@ window.initMap = function() {
              map: map,
         });
 
+        
 
         var geocoder = new google.maps.Geocoder;
         geocoder.geocode({ 'latLng': event.latLng }, function (results, status) {
+
             if (status !== google.maps.GeocoderStatus.OK) {
                 alert(status);
             }
 
             if (status == google.maps.GeocoderStatus.OK) {
-
             
             markers.set(marker, results[0].formatted_address)
+            updateNumOfPlaces(markers.size)
             updateLocations()
             }
         });
         
-
+        
         marker.addListener('click', function(event) {
                 marker.setMap(null);
                 markers.delete(marker)
+                updateNumOfPlaces(markers.size)
                 updateLocations()
                 
             });

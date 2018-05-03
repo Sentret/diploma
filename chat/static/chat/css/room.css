@@ -2,6 +2,7 @@
 {
 	float: right;
 	width: 70%;
+
 }
 
 .messages
@@ -13,7 +14,7 @@
 	border-left:  0.5px solid #D8D8D8;
 	border-right:  0.5px solid #D8D8D8;
 overflow-y: scroll;
-height: 700px;
+height: 500px;
 }
 
 .messages-footer{

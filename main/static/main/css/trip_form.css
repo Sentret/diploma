@@ -6,30 +6,50 @@
 
 #locations-div
 {
-	height: 400px;
+	margin-top: 10px;
+	height: auto;
+	margin-bottom: 20px;
 }
 
 
 
-.location-element
+.place-label
 {
-	padding-left: 5%;
-	width: 100%;
-	overflow: hidden;
-	height: 60px;
-	line-height: 60px;
-	font-size: 10pt;
-	background-color: #f4f7fc;
-	vertical-align: middle;
-	word-wrap: break-word;
-}	
-
-.trip-map
-{
-	background-color: #d7dbe2;
+	border: 2px solid #337ab7;
+	font-size: 14px;
+	border-radius: 25px;
+	padding: 2px;
+	background-color: white;
+	margin: 2px;
 }
 
+.map-control
+{
+	border-top: 3px solid #337ab7;
+	background-color: #e6eaf2;
+	height: 48px;
+}
+.mymarker
+{
+	float: left;
+	font-size: 20pt;
+	margin: 8px;
+	color:#337ab7;
+}
+
+
+#num-of-places
+{
+	float: left;
+	font-size: 25px;
+	margin: 5px;
+	margin-left: 0;
+	color:#337ab7;
+
+}
 #route-button
 {
 	margin:5px;
+	float: right;
+	margin-right:280px; 
 }
