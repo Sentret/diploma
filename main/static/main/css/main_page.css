@@ -25,17 +25,23 @@ html
 
 .main-container
 {
-	margin-left: 2%;
-	margin-right: 2%;
-	width: 1024px;
-	margin:0 auto;
+
+margin: 0 auto;
+width: 1024px;
 
 }
+
+
+.auth-form
+{
+	margin-top: 200px;
+}
+
+
 
 /*Стили для грида с контентом*/
 .content-grid
 {	
-	
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 	width: 700px;
