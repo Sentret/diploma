@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 from main.models import BaseEvent
+from main.models import Event
+from main.models import Trip
 from main.models import Profile
 from main.models import EventSubscription
 from main.models import Message
@@ -23,13 +25,13 @@ def subscriptions(request):
 
 @login_required
 def events(request):
-	events = BaseEvent.objects.filter(creater=request.user)
+	events = Event.objects.filter(creater=request.user)
 	return render(request, "account/account.html", {"events":events})
 
 
 @login_required
 def trips(request):
-	events = BaseEvent.objects.filter(creater=request.user)
+	events = Trip.objects.filter(creater=request.user)
 	return render(request, "account/account.html", {"events":events})
 
 
@@ -41,7 +43,6 @@ class EditProfileView(LoginRequiredMixin, View):
 		form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
 		user_form = UserForm(request.POST, instance=request.user)
 
-		print(request.POST['last_name'])
 
 		if form.is_valid() and user_form.is_valid():
 			form.save()
@@ -55,8 +56,6 @@ class ProfileView(View):
 		profile = Profile.objects.get(user__username=username)
 		return render(request, 'account/profile_page.html',{'profile':profile})
 
-
-import base64
 
 @login_required
 def messages(request):

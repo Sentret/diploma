@@ -177,7 +177,7 @@ class EventPublish(LoginRequiredMixin, View):
 class EventSubscriptionView(LoginRequiredMixin, View):
     
     def post(self,request):
-        data = json.loads(request.body)
+        data = json.loads(request.body.decode('utf-8'))
         event = get_object_or_404(BaseEvent, pk=data['event'])
 
         # подписка

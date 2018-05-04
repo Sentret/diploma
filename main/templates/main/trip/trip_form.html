@@ -35,10 +35,8 @@
         
     </div>
         <div id='locations-div'>
-            <label class="place-label"> + address + </label> 
-            <label class="place-label"> + address + </label> 
-
-        </div>
+         
+    </div>
 
     <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
@@ -49,8 +47,9 @@
 
 document.getElementById("route-button").addEventListener("click", routeOnClick);
 
-
 var data = []
+markerIndex = 1
+
 
 
 function updateNumOfPlaces(newValue)
@@ -83,7 +82,8 @@ function buildRoute()
         origin: start,
         destination: end,
         travelMode: google.maps.TravelMode.WALKING,
-        waypoints:wayps
+        waypoints:wayps,
+        optimizeWaypoints: true
 
     };
 
@@ -127,8 +127,9 @@ function updateLocations(){
     var locations = document.getElementById('locations-div')
     locations.innerHTML = ''
 
+    index = 1
     for( address of markers.values()){
-        locations.innerHTML += '<label class="place-label">' + address + '</label>' 
+        locations.innerHTML += '<label class="place-label">'+ (index++)+'. '+ address + '</label>' 
         
     }
 
@@ -165,6 +166,8 @@ window.initMap = function() {
         var marker = new google.maps.Marker({
             position: event.latLng,
              map: map,
+             label: (markerIndex++).toString(),
+             
         });
 
         
@@ -187,6 +190,7 @@ window.initMap = function() {
         
         marker.addListener('click', function(event) {
                 marker.setMap(null);
+                markerIndex--;
                 markers.delete(marker)
                 updateNumOfPlaces(markers.size)
                 updateLocations()

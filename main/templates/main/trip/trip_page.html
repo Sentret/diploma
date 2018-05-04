@@ -5,30 +5,69 @@
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{trip.description}}</div>
     <div class='date-description-div'> <strong>Дата и время:</strong>
-        <br>{{trip.date}} </div>
-    <br>
-    <div id='grid'>
-        <div id='trip-div'></div>
-        <div id='locations-div'>
-            {% for location in locations %}
-            <div class='location-element'>
-                {{ location.address}}
-            </div>
-            {% endfor %}
-        </div>
+        <br>{{trip.date.month}}.{{trip.date.day}}.{{trip.date.year}} @ {{trip.date.hour}}:{{trip.date.minute}} </div>
+    <div class='place-description-div'> <strong> Место проведения:</strong>
+        <a id="place-name" data-toggle="modal" data-target="#mapModal">
+            <br> 
+            <i class="glyphicon glyphicon-map-marker"></i>
+        </a>
     </div>
     {% csrf_token %}
-    <button id='subscribe-button' type='submit' onclick="subscribeOnClick(event)">
-        Подписаться
+    <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="float: right">
+        Показать подписчиков
     </button>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Подписчики</strong></h4>
+                </div>
+                <div class="modal-body subscribers-grid">
+                    {% for subscription in subscriptions %}
+                    <div class="subscribers-grid-cell">
+                        <a href="{% url 'profile' subscription.subscriber.profile.user.username %}" style="width: 75px; font-weight: 500;">
+                            <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;"> {{subscription.subscriber.username}}
+                            </center>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Местоположение {{event.title}}</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="event-location">
+                     
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% include "main/comment_block.html" %}
 </div>
 {% endblock content %} {%block scripts %}
 <script>
-var sub = false; 
-{% if subscribed %}
-sub = true; 
-{% endif %}
+
+
+
+var sub = false; {% if subscribed %}
+sub = true; {% endif %}
 
 var button = document.getElementById('subscribe-button');
 
@@ -56,5 +95,13 @@ function subscribeOnClick(event) {
         button.innerText = 'Подписаться'
     }
 }
+
+
+
+
+
+
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+    </script>
 {% endblock scripts %}
