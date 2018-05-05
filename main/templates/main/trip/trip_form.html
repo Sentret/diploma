@@ -5,7 +5,9 @@
     <input type="datetime-local"" name="date" id="date" required>
     <label id='date-label'>Выберите дату: </label>
     <img id="preview" src="media/placeholder2.png" />
-    <label for='imgInput' class='btn btn-success'>Загрузить изображение</label>
+    <label for='imgInput' class='btn btn-success'>
+    <span class="glyphicon glyphicon glyphicon-download-alt"></span>
+Загрузить изображение</label>
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
     <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
 
@@ -24,10 +26,15 @@
                 <span id='num-of-places'>
                 0
                 </span>
+                  <button id='clear-button' type="button" class="btn btn-danger">
+        <span class="glyphicon glyphicon-trash"></span>
+        Очистить 
+        </button>
         <button id='route-button' type="button" class="btn btn-primary">
-        
+                <span class="glyphicon glyphicon-road"></span>
         Проложить маршрут 
         </button>
+      
 
 
     </div>
@@ -37,8 +44,9 @@
         <div id='locations-div'>
          
     </div>
+    <button id='publish-button' type="submit" class="btn btn-success"> 
 
-    <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
+    Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
 </form>
 {% endblock content %} {%block scripts %}
@@ -46,16 +54,62 @@
 <script>
 
 document.getElementById("route-button").addEventListener("click", routeOnClick);
+document.getElementById("clear-button").addEventListener("click", clearOnClick);
+
+
 
 var data = []
+var map;
 markerIndex = 1
 
-
-
-function updateNumOfPlaces(newValue)
+function clearOnClick(event)
 {
+    for( var[coordinates, address] of markers )
+    {
+       coordinates.setMap(null)
+       
+    }
+
+    directionsDisplay.setMap(null)
+    markers.clear()
+    data = []
+   
+     numOfPlaces = document.getElementById('num-of-places')
+    numOfPlaces.innerText = 0
+    updateLocations()
+    markerIndex = 1
+}
+
+
+function updateDistanceAndDuration(legs)
+{
+    totalDistance = 0
+    totalDuration = 0
+    for(leg of legs)
+    {
+        totalDistance += leg.distance.value
+        totalDuration +=leg.duration.value
+    }
+
+    killometres = Math.floor(totalDistance / 1000)
+    metres = totalDistance % 1000
+    
+    minutes = Math.floor(totalDuration / 60)
+    hours = Math.floor(minutes / 60)
+    days = Math.floor(hours / 24)
+
+    
+    hours = minutes % 24
+    minutes = totalDuration % 60
+
     numOfPlaces = document.getElementById('num-of-places')
-    numOfPlaces.innerText = newValue
+    numOfPlaces.innerText = killometres==0 ? metres.toString() + 'м':killometres.toString() +'км'+' '+ metres.toString() + 'м'
+
+    console.log(killometres)
+    console.log(metres)
+    console.log(minutes)
+    console.log(hours)
+    console.log(days)
 }
 
 function routeOnClick(event)
@@ -65,9 +119,13 @@ function routeOnClick(event)
 
 function buildRoute()
 {
+
+   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
+   directionsService = new google.maps.DirectionsService();
+   directionsDisplay.setMap(map)
+ 
    var start = new google.maps.LatLng(data[0]['position'][0],data[0]['position'][1]);
    var end = new google.maps.LatLng(data[data.length-1]['position'][0],data[data.length-1]['position'][1]);
-
    var wayps = []
 
    for (var i = 0; i < data.length; i++) {
@@ -83,13 +141,16 @@ function buildRoute()
         destination: end,
         travelMode: google.maps.TravelMode.WALKING,
         waypoints:wayps,
-        optimizeWaypoints: true
+        optimizeWaypoints: true,
+        unitSystem: google.maps.UnitSystem.METRIC
 
     };
 
      directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
                         directionsDisplay.setDirections(response);
+                        console.log(response.routes[0].legs)
+                        updateDistanceAndDuration(response.routes[0].legs)
                        
                     }
                     else
@@ -151,17 +212,14 @@ var markers = new Map();
 window.initMap = function() {
     var uluru = { lat: 37.334818, lng: -121.884886};
 
-    var map = new google.maps.Map(document.getElementById('trip-div'), {
+    map = new google.maps.Map(document.getElementById('trip-div'), {
         zoom: 4,
         center: uluru
     });
 
     var index_of_location = 0;
 
-    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
-    directionsService = new google.maps.DirectionsService();
-    directionsDisplay.setMap(map)
-
+    
     map.addListener('click', function(event) {
 
         var marker = new google.maps.Marker({
@@ -183,7 +241,6 @@ window.initMap = function() {
             if (status == google.maps.GeocoderStatus.OK) {
             
             markers.set(marker, results[0].formatted_address)
-            updateNumOfPlaces(markers.size)
             updateLocations()
             }
         });
@@ -194,7 +251,6 @@ window.initMap = function() {
                 markerIndex--;
                 markers.delete(marker)
 
-                updateNumOfPlaces(markers.size)
                 updateLocations()
                 
             });

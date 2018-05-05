@@ -1,5 +1,6 @@
 #trip-div
 {	
+	margin-top:5px;
 	height: 400px;
 	background-color: grey;	
 }
@@ -21,6 +22,7 @@
 	padding: 5px;
 	background-color: white;
 	margin: 2px;
+	font-weight: 400;
 }
 
 .map-control
@@ -51,5 +53,11 @@
 {
 	margin:5px;
 	float: right;
-	margin-right:280px; 
+	margin-right:150px; 
+}
+
+#clear-button
+{
+	margin:5px;
+	float: right;
 }
