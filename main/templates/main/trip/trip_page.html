@@ -7,11 +7,14 @@
     <div class='date-description-div'> <strong>Дата и время:</strong>
         <br>{{trip.date.month}}.{{trip.date.day}}.{{trip.date.year}} @ {{trip.date.hour}}:{{trip.date.minute}} </div>
     <div class='place-description-div'> 
-
+        <strong> Информация о маршруте</strong>
+        <p id="trip-distance" style="margin:0">Длина: asd</p> 
+        Мест: {{trip.trip.num_of_places}} <br>
         <a id="place-name" data-toggle="modal" data-target="#mapModal">
              
-          <strong> Маршрут</strong>
-            <i class="glyphicon glyphicon-map-marker"></i> 
+          
+            Показать на карте  <i class="glyphicon glyphicon-map-marker"></i>
+           
 
         </a>
     </div>
@@ -47,7 +50,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Маршрут {{trip.title}}</strong></h4>
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Маршрут: {{trip.title}}</strong></h4>
                 </div>
                 <div class="modal-body">
                     <div id="event-location">
@@ -82,6 +85,17 @@
 
 var directionsDisplay;
 var directionsService;
+
+dist = {{trip.trip.distance}}
+distance = document.getElementById('trip-distance')
+
+killometres = Math.floor(dist / 1000)
+metres = dist % 1000
+
+dist = killometres==0 ? metres.toString() + 'м':killometres.toString() +'км'+' '+ metres.toString() + 'м'
+
+distance.innerText = 'Длина: ' + dist
+
 
 var sub = false; {% if subscribed %}
 sub = true; {% endif %}

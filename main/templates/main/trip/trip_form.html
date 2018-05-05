@@ -48,6 +48,8 @@
 
     Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
+    <input id='distance' type="hidden" name='distance'>
+    <input id='duration' type="hidden" name='duration'>
 </form>
 {% endblock content %} {%block scripts %}
 
@@ -74,7 +76,7 @@ function clearOnClick(event)
     markers.clear()
     data = []
    
-     numOfPlaces = document.getElementById('num-of-places')
+    numOfPlaces = document.getElementById('num-of-places')
     numOfPlaces.innerText = 0
     updateLocations()
     markerIndex = 1
@@ -85,11 +87,15 @@ function updateDistanceAndDuration(legs)
 {
     totalDistance = 0
     totalDuration = 0
+
     for(leg of legs)
     {
         totalDistance += leg.distance.value
         totalDuration +=leg.duration.value
     }
+
+    document.getElementById('distance').value = totalDistance
+    document.getElementById('duration').value = totalDuration
 
     killometres = Math.floor(totalDistance / 1000)
     metres = totalDistance % 1000
@@ -104,6 +110,8 @@ function updateDistanceAndDuration(legs)
 
     numOfPlaces = document.getElementById('num-of-places')
     numOfPlaces.innerText = killometres==0 ? metres.toString() + 'м':killometres.toString() +'км'+' '+ metres.toString() + 'м'
+
+
 
     console.log(killometres)
     console.log(metres)

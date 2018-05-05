@@ -212,12 +212,14 @@ class TripPublish(LoginRequiredMixin, View):
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
         preview = request.FILES.get('preview')
+        locations =  json.loads(data['locations'])
         
         event = Trip.objects.create(creater=request.user, description=data['description'],
-                                        title=data['title'],preview=preview,date=date)
+                                        title=data['title'],preview=preview,date=date, distance=data['distance'],
+                                        duration=data['duration'], num_of_places=len(locations))
         
 
-        locations =  json.loads(data['locations'])
+        
 
         print(locations)
         for loc in locations:

@@ -10,6 +10,7 @@ from .models import Message
 
 admin.site.register(Location)
 admin.site.register(BaseEvent)
+admin.site.register(Trip)
 admin.site.register(Profile)
 admin.site.register(Comment)
 admin.site.register(Message)

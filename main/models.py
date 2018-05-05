@@ -52,7 +52,9 @@ class Event(BaseEvent):
     
 
 class Trip(BaseEvent):
-    pass
+    distance = models.IntegerField(default=0)
+    duration = models.IntegerField(default=0)
+    num_of_places = models.IntegerField(default=0)
 
 
 class Location(models.Model):
