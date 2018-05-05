@@ -219,6 +219,7 @@ class TripPublish(LoginRequiredMixin, View):
 
         locations =  json.loads(data['locations'])
 
+        print(locations)
         for loc in locations:
             location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],address=loc['address'], event=event)
        

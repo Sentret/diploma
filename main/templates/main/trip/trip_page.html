@@ -6,10 +6,13 @@
         <br> {{trip.description}}</div>
     <div class='date-description-div'> <strong>Дата и время:</strong>
         <br>{{trip.date.month}}.{{trip.date.day}}.{{trip.date.year}} @ {{trip.date.hour}}:{{trip.date.minute}} </div>
-    <div class='place-description-div'> <strong> Место проведения:</strong>
+    <div class='place-description-div'> 
+
         <a id="place-name" data-toggle="modal" data-target="#mapModal">
-            <br> 
-            <i class="glyphicon glyphicon-map-marker"></i>
+             
+          <strong> Маршрут</strong>
+            <i class="glyphicon glyphicon-map-marker"></i> 
+
         </a>
     </div>
     {% csrf_token %}
@@ -44,13 +47,23 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Местоположение {{event.title}}</strong></h4>
+                    <h4 class="modal-title" id="exampleModalLongTitle"><strong>Маршрут {{trip.title}}</strong></h4>
                 </div>
                 <div class="modal-body">
                     <div id="event-location">
                      
 
                     </div>
+                    <div id='locations-div'>
+                    {%for location in locations %}
+                    <label class="place-label">{{location.address}} 
+                    </label> 
+
+                    {% endfor %}
+         
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -62,9 +75,13 @@
     {% include "main/comment_block.html" %}
 </div>
 {% endblock content %} {%block scripts %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+    </script>
 <script>
 
 
+var directionsDisplay;
+var directionsService;
 
 var sub = false; {% if subscribed %}
 sub = true; {% endif %}
@@ -96,12 +113,91 @@ function subscribeOnClick(event) {
     }
 }
 
+var locations = 
+"{% for location in locations %} {{location.lat}}, {{location.lng}}; {%endfor %}"
+locations = locations.split(';')
 
+var coordinates = []
+
+
+
+window.initMap = function() {
+
+    for (var i =0; i <locations.length -1; i++)
+{   
+    temp = locations[i].split(',').map(parseFloat)
+    coordinates.push({lat:temp[0], lng:temp[1]})
+}
+console.log(coordinates)
+
+
+    var position = coordinates[0]
+
+    var map = new google.maps.Map(document.getElementById('event-location'), 
+    {
+        zoom: 5,
+        center:position     
+    });
+
+    for (var i = 0; i< coordinates.length; i++)
+    {
+        var marker = new google.maps.Marker({
+            position: coordinates[i],
+            map: map,
+            label: (i+1).toString()             
+        });
+
+    }
+    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay.setMap(map)
+
+    buildRoute()
+};
+
+
+function buildRoute()
+{
+   var start = coordinates[0]
+   var end = coordinates[coordinates.length-1]
+
+
+    var wayps = []
+
+   for (var i = 0; i < coordinates.length; i++) {
+       wayps.push({
+              location: coordinates[i],
+              stopover: true
+            })
+   }
+   console.log(wayps)
+
+
+    var request = {
+        origin: start,
+        destination: end,
+        travelMode: google.maps.TravelMode.WALKING,
+        waypoints:wayps,
+        optimizeWaypoints: true
+
+    };
+
+     directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                        console.log(response)
+                       
+                    }
+                    else
+                    {
+                        console.log(response)
+                    }
+                });
+}
 
 
 
 
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
-    </script>
+
 {% endblock scripts %}

@@ -135,11 +135,12 @@ function updateLocations(){
 
 
     data = []   
-    for( var[coordinates, adress] of markers )
+    for( var[coordinates, address] of markers )
     {
         data.push({position:[coordinates.position.lat(),coordinates.position.lng()], address:address})
        
     }
+    console.log(data)
     document.getElementById('data').value = JSON.stringify(data)  
     
 
@@ -156,9 +157,9 @@ window.initMap = function() {
     });
 
     var index_of_location = 0;
-    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
-    directionsService = new google.maps.DirectionsService();
 
+    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
+    directionsService = new google.maps.DirectionsService();
     directionsDisplay.setMap(map)
 
     map.addListener('click', function(event) {
@@ -192,6 +193,7 @@ window.initMap = function() {
                 marker.setMap(null);
                 markerIndex--;
                 markers.delete(marker)
+
                 updateNumOfPlaces(markers.size)
                 updateLocations()
                 
