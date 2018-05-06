@@ -10,6 +10,12 @@ class EventManager(models.Manager):
         return super().get_queryset().filter(eventsubscription__in=event_subscriptions)
 
 
+class BaseEventCategory(models.Model):
+    name = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
+
 
 class BaseEvent(models.Model):
     creater = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
@@ -18,6 +24,7 @@ class BaseEvent(models.Model):
     num_of_participants = models.IntegerField(default=0)
     preview = models.ImageField(default='',upload_to='previews')
     date = models.DateTimeField(default=datetime.date.today)
+    category = models.ForeignKey(BaseEventCategory, on_delete=models.DO_NOTHING, null=True, blank=True)
     event_manager = EventManager()
     objects = models.Manager()
 
@@ -91,3 +98,5 @@ class Message(models.Model):
     addresser = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='addresser')
     recipient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recipient')
     message = models.TextField()
+
+

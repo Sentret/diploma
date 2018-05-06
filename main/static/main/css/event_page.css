@@ -50,3 +50,13 @@ cursor: pointer;
 	height: 400px;
 	width: 100%;
 }
+
+#category-span
+{
+	float: right;
+	height: 30px;
+	text-align: left;
+	overflow:hidden;	
+	font-size: 15pt;
+	border:none;
+}

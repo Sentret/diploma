@@ -21,6 +21,7 @@ from .models import Event
 from .models import Trip
 from .models import Comment
 from .models import Profile
+from .models import BaseEventCategory
 from .forms  import CommentForm
 from .forms  import RegistrationForm
 
@@ -63,8 +64,8 @@ class RegistrationView(View):
         return render(request,'main/auth/register_form.html',{'form':form})
 
 def main_page_view(request):
-    
-    return render(request,"main/main_page.html")
+    categories = BaseEventCategory.objects.all()
+    return render(request,"main/main_page.html",{'categories':categories})
 
 
 def  event_page(request, id):
@@ -148,11 +149,14 @@ class EventEdit(LoginRequiredMixin, View):
 class EventPublish(LoginRequiredMixin, View):
 
     def get(self, request):
-        return render(request,"main/event_form.html")
+        categories = BaseEventCategory.objects.all()
+        return render(request,"main/event_form.html", {'categories':categories})
 
 
     def post(self, request):
         data = request.POST
+        
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
 
         try:
             lat = float(data['lat'])
@@ -167,7 +171,7 @@ class EventPublish(LoginRequiredMixin, View):
         preview = request.FILES.get('preview')
         
         event = Event.objects.create(creater=request.user, description=data['description'],
-                                        title=data['title'],preview=preview,date=date)
+                                        title=data['title'],preview=preview,date=date, category=category)
 
         location = Location.objects.create(lat=lat, lng=lng,address=data['address'], event=event)
         events = Event.objects.all()
@@ -195,7 +199,8 @@ class EventSubscriptionView(LoginRequiredMixin, View):
 
 class TripPublish(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'main/trip/trip_form.html')
+        categories = BaseEventCategory.objects.all()
+        return render(request, 'main/trip/trip_form.html',{'categories':categories})
 
     def post(self, request):
         data = request.POST
@@ -207,7 +212,8 @@ class TripPublish(LoginRequiredMixin, View):
             lat = 0
             lng = 0
 
-          
+        
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
         date = data['date']
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
@@ -216,7 +222,7 @@ class TripPublish(LoginRequiredMixin, View):
         
         event = Trip.objects.create(creater=request.user, description=data['description'],
                                         title=data['title'],preview=preview,date=date, distance=data['distance'],
-                                        duration=data['duration'], num_of_places=len(locations))
+                                        duration=data['duration'], num_of_places=len(locations),category=category)
         
 
         

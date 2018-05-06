@@ -16,7 +16,14 @@
     <input type="hidden" name="lat">
     <input type="hidden" name="lng">
     <input type="hidden" name="address">
-    
+    <div style="margin-bottom: 5px;">
+    <p style="display: inline-block;">Выберите категорию:</p>
+    <select  name='category' id='category' class="form-control form-control-sm" style="width: 150px;display:inline-block;">
+        {%for category in categories %}
+                <option value='{{category.name}}'>{{category.name}}</option>
+        {%endfor %}
+    </select>
+    </div>
     <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
     
 </form>

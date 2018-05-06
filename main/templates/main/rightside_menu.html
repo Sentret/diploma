@@ -1,4 +1,17 @@
+
+
 <div class='menu-grid'>
+<div class='menu'>
+        <div class='menu-header'>
+            Категории
+        </div>
+        <div class='menu-body'>
+            {%for category in categories %}
+                <a class="category-span" onclick='categoryOnClick(this)'>{{category.name}}</a>
+            {%endfor %}
+        </div>
+    </div>
+
     <div class='menu'>
         <div class='menu-header'>
             Параметры поиска
@@ -10,10 +23,11 @@
                 <option value='size'>По числу участников</option>
             </select>
             <br>
+            
             <p class='sub-menu-header'>Параметры </p>
             <div class='param-div'>
    
-                    <input class="form-check-input" type="checkbox" checked>
+            <input class="form-check-input" type="checkbox" checked>
   <label class="form-check-label" for="defaultCheck1">
    Только предстоящие
   </label>
@@ -33,3 +47,28 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+
+    function categoryOnClick(elem){
+        if (elem.clicked)
+        
+        {
+            elem.style.backgroundColor = 'white'
+            elem.clicked = false
+            elem.removeChild(elem.childNodes[1])
+            return;
+        }
+
+        elem.style.backgroundColor = '#bdceef'
+        var cross = document.createElement('i');
+
+        cross.classList.add('glyphicon')
+        cross.classList.add('glyphicon-remove')
+        cross.classList.add('cross')
+        elem.appendChild(cross)
+        elem.clicked = true
+
+        
+    }
+</script>

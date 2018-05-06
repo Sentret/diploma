@@ -1,6 +1,8 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <div id='event-form'>
     <span id='event-title-field'>{{event.title}} </span>
+    <span id='category-span'>{{event.category}} </span>
+
     <img id="preview" src={{ event.preview.url}} />
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{event.description}}</div>
