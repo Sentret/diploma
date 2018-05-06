@@ -54,13 +54,14 @@
         if (elem.clicked)
         
         {
-            elem.style.backgroundColor = 'white'
+            elem.classList.remove('category-span-active')
             elem.clicked = false
             elem.removeChild(elem.childNodes[1])
+            makeRequest()
             return;
         }
 
-        elem.style.backgroundColor = '#bdceef'
+       elem.classList.add('category-span-active')
         var cross = document.createElement('i');
 
         cross.classList.add('glyphicon')
@@ -68,6 +69,10 @@
         cross.classList.add('cross')
         elem.appendChild(cross)
         elem.clicked = true
+
+        makeRequest()
+
+
 
         
     }

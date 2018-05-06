@@ -10,6 +10,11 @@ function makeRequest()
 	var keyword = document.getElementById('search').value
 	var sort_option = document.getElementById('select')
 	sort_option = sort_option.options[sort_option.selectedIndex].value;
+    
+    categories = document.getElementsByClassName('category-span-active')
+    categories = Array.prototype.slice.call( categories)
+    categories = categories.map(function(el){return el.innerText})
+    console.log(categories)
 
 
 
@@ -19,7 +24,9 @@ function makeRequest()
         data: 
         {
         	keyword: keyword,
-        	sort_option:sort_option
+        	sort_option:sort_option,
+            categories:categories
+            
         }    
     }).done(function(data) {
         document.getElementById('grid-container').innerHTML = data['html']

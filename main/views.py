@@ -240,8 +240,19 @@ class BaseEventList(View):
     def get(self, request):
         keyword = request.GET.get('keyword','')
         sort_option = request.GET.get('sort_option','')
+        categories = request.GET.getlist('categories[]','')
 
-        events = BaseEvent.objects.filter( Q(title__contains=keyword) | Q(description__contains=keyword))
+        print(categories)
+
+        if(categories != ''):
+            events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
+                                            & Q(category__name__in=categories) )
+        else:
+            events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
+                                            )
+
+
+
 
         if(sort_option == 'date'):
             events.order_by('date')

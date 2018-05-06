@@ -211,7 +211,7 @@ background-color: white;
 	margin-top: 5px;
 	margin-left: 5px;
 	margin-right: 5px;
-	border-radius: 8px;
+	border-radius: 5px;
 	height: 25px;
 	line-height: 25px;
 	vertical-align: middle;
@@ -222,10 +222,23 @@ background-color: white;
 }
 
 
-.category-span:hover
+.category-span:not(.category-span-active):hover
 {
 	cursor: pointer;
- 	background-color: #bdceef  !important;
+ 	background-color: #c0efba	;
+}
+
+.category-span-active:hover
+{
+	background-color: #5cb85c;
+        color:white;
+        cursor:pointer;
+}
+
+.category-span-active
+{
+		background-color: #5cb85c;
+        color:white
 }
 
 .cross
