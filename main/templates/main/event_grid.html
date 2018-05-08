@@ -1,6 +1,4 @@
-
 <div class='content-grid'>
-
     {% for event in events%}
     <div class='content-grid-cell'>
         <a href={% url 'event_page' event.id %}>
@@ -8,23 +6,10 @@
         <span class='date-span'>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}}</span>
        
         <span class='title-span'>{{event.title}}</span>
-        </a> 
+        </a>
         <div class='grid-footer'>
-
             <span class="glyphicon glyphicon-user">{{event.num_of_participants}}</span>
         </div>
-        <!-- {% ifequal event.creater user %}
-       
-        <div>
-            <form class='button-form' method="get" action={% url 'event_edit' event.id %} >           
-                <button type="submit" class="btn btn-primary btn-xs">редактировать</button>
-            </form>
-            <form class='button-form' method="get" action={% url 'event_delete' event.id %}>
-                <button type="submit" class="btn btn-danger btn-xs">удалить</button>
-            </form>
-      </div>
-        {%endifequal %} -->
-        
     </div>
     {% endfor%}
 </div>

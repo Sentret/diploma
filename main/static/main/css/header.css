@@ -1,68 +1,122 @@
 
-#header
-{
-	background-color: #222;
-	width: 100%;
+.search-container {
 
-
-}
-.header
-{
-
-	background-color: #222;	
-	height: 60px;
-	width: 1024px;
-	margin: 0 auto;
-	margin-bottom: 2%;
-
-
+    float: right;
+    display: block;
+    width: 600px;
+    margin-top: 12px;
 }
 
-.header-ref
-{
-	text-decoration: none;
-	color:white;
+#search {
+    border-radius: 0;
 
+
+    height: 35px;
+    width: 256px;
+    vertical-align: middle;
+    border: 0;
+    display: block;
+    float: right;
 }
 
-.header-ref:hover { text-decoration: none; color:white;}
+#search:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#search-button {
+    height: 35px;
+    width: 40px;
+    border-radius: 0;
+    border-top-right-radius: 4px;
+
+    border-bottom-right-radius: 4px;
+
+
+    float: right;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+#cancel-search-button {
+    border: 0;
+    border-radius: 0;
+    height: 35px;
+    float: right;
+}
+
+#search-option {
+    border-radius: 0;
+    border-top-left-radius: 4px;
+
+    border-bottom-left-radius: 4px;
+    float: right;
+    width: 120px;
+    display: inline;
+    height: 35px;
+}
+
+#header {
+    background-color: #222;
+    width: 100%;
+}
+
+.header {
+
+    background-color: #222;
+    height: 60px;
+    width: 1024px;
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+
+.header-ref {
+    text-decoration: none;
+    color: white;
+}
+
+.header-ref:hover {
+    text-decoration: none;
+    color: white;
+}
+
 
 /*стиль дива с названием работы*/
-.header-div-left
-{
-	text-indent: 10px;
-	vertical-align: middle;
-	text-align: center;
-	height: 60px;
-	line-height: 60px;
-	float: left;
-	font-size: 20pt;
-	color: #052c6b;
-	font-weight: bold;
-	color:white;
+
+.header-div-left {
+    text-indent: 10px;
+    vertical-align: middle;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    float: left;
+    font-size: 20pt;
+    color: #052c6b;
+    font-weight: bold;
+    color: white;
 }
+
 
 /*стиль дивов с элементам меню*/
-.header-div-right
-{
 
-	padding-left: 10px;
-	padding-right: 10px;
-	vertical-align: middle;
-	text-align: center;
-	height: 60px;
-	line-height: 60px;
-	float: right;
-	/*border-left: 1px solid #EFF2F5;*/
+.header-div-right {
 
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    float: right;
+    /*border-left: 1px solid #EFF2F5;*/
 }
 
 
-.create-button
-{
-	margin-left: 20px;
-	float: right;
-	display: inline;
-	margin-top: 12px;
+.create-button {
+    margin-left: 20px;
+    float: right;
+    display: inline;
+    margin-top: 12px;
 }
 

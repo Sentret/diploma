@@ -13,6 +13,7 @@ class EventManager(models.Manager):
 class BaseEventCategory(models.Model):
     name = models.CharField(max_length=200, default='')
 
+
     def __str__(self):
         return self.name
 
@@ -22,7 +23,7 @@ class BaseEvent(models.Model):
     title = models.CharField(max_length=200, default='')
     description = models.TextField()
     num_of_participants = models.IntegerField(default=0)
-    preview = models.ImageField(default='',upload_to='previews')
+    preview = models.ImageField(default='', upload_to='previews')
     date = models.DateTimeField(default=datetime.date.today)
     category = models.ForeignKey(BaseEventCategory, on_delete=models.DO_NOTHING, null=True, blank=True)
     event_manager = EventManager()
@@ -49,6 +50,7 @@ class BaseEvent(models.Model):
 
     def get_subscribers(self):
         return EventSubscription.objects.filter(event=self)
+
 
     def __str__(self):
         return self.title
@@ -89,7 +91,7 @@ class Comment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    avatar = models.ImageField(default='/avatars/default-avatar.png',upload_to='avatars')
+    avatar = models.ImageField(default='/avatars/default-avatar.png', upload_to='avatars')
     about = models.TextField(default='')
     age = models.IntegerField(default=0)
 

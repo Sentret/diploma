@@ -9,13 +9,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
-
     <link rel="stylesheet" type="text/css" href="{% static 'chat/css/room.css' %}" />
-    
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static './account/css/account_menu.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/trip_form.css' %}" /> {% endblock styles %}
@@ -36,12 +33,9 @@
                 <div class='header-div-right'>Регистрация</div>
             </a>
             {% else%}
-           
-           
             <div class="dropdown create-button">
                 <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">{{user.username}}
                     <span class="caret"></span></button>
-                
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'account' %}">Профиль</a></li>
                     <li><a href="{% url 'account' %}">Подписки</a></li>
@@ -50,45 +44,81 @@
                     <li><a href="{% url 'messages' %}">Сообщения</a></li>
                     <li><a href="{% url 'edit-profile' %}">Настройки</a></li>
                     <li><a href="/logout">Выйти</a></li>
-        
                 </ul>
             </div>
-             <div class="dropdown create-button">
+            <div class="dropdown create-button">
                 <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">Создать
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'event_publish' %}">Создать событие</a></li>
                     <li><a href="{% url 'trip_publish' %}">Создать поездку</a></li>
-        
                 </ul>
             </div>
             {%endif%}
-             <div class='search-container'>
-              <button id='search-button' type="button" class="btn btn-success" onclick="makeRequest()"><span class="glyphicon glyphicon-search"></span></button>
-               
-                <input id='search'  class="form-control form-control-lg" type="text" placeholder="Поиск">
-                
-                <select id='search-option' class="form-control form-control-sm" onchange="makeRequest()">
-                <option>Все</option>
-                <option>Экскурсия</option>
-                <option>Конференция</option>
-                 <option>Кино</option>
-                  <option>Городское мероприятие</option>
-                   <option>Другое</option>
-            </select>
+            <div class='search-container'>
+                <button id='search-button' type="button" class="btn btn-success" onclick="makeRequest()"><span class="glyphicon glyphicon-search"></span></button>
+                <button id='cancel-search-button' class="btn btn-default" onclick="cancelSearch()"><span class='glyphicon glyphicon-remove'></span></button>
+                <input id='search' class="form-control form-control-lg" type="text" placeholder="Поиск">
+                <select id='search-option' class="form-control form-control-sm">
+                    <option>Все</option>
+                    <option>Экскурсия</option>
+                    <option>Конференция</option>
+                    <option>Кино</option>
+                    <option>Городское мероприятие</option>
+                    <option>Другое</option>
+                </select>
             </div>
         </div>
-
     </div>
     {% endblock header %}
     <div class='main-container'>
-    <div class='main-page-container'>
-        {%block content%} 
-
-        {%endblock content%}
-    </div>
+        <div class='main-page-container'>
+            {%block content%} {%endblock content%}
+        </div>
     </div>
     {%block scripts %} {%endblock scripts %}
+    <script type="text/javascript">
+    $('#search-option').change(function() {
+        length = $("#search-option option:selected").text().length
+        $(this).width(17 + length * 9);
+    })
+
+
+
+    function cancelSearch() {
+        document.getElementById('search').value = ''
+        makeRequest()
+
+    }
+
+    function makeRequest() {
+
+        var keyword = document.getElementById('search').value
+        var sort_option = document.getElementById('select')
+        sort_option = sort_option.options[sort_option.selectedIndex].value;
+        var category = document.getElementById('search-option')
+        category = category.options[category.selectedIndex].text
+
+        $.ajax({
+            url: 'eventsjson',
+            method: 'GET',
+            data: {
+                keyword: keyword,
+                sort_option: sort_option,
+                category: category
+
+            }
+        }).done(function(data) {
+            document.getElementById('grid-container').innerHTML = data['html']
+        });
+    }
+
+    $(document).ready(function() {
+        length = $("#search-option option:selected").text().length
+        $('#search-option').width(17 + length * 9);
+        makeRequest();
+    });
+    </script>
 </body>
 
 </html>

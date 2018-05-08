@@ -63,6 +63,7 @@ class RegistrationView(View):
             print(form.errors)
         return render(request,'main/auth/register_form.html',{'form':form})
 
+
 def main_page_view(request):
     categories = BaseEventCategory.objects.all()
     return render(request,"main/main_page.html",{'categories':categories})
@@ -72,7 +73,6 @@ def  event_page(request, id):
     event = get_object_or_404(BaseEvent,pk=id)
     subscribed = event.is_user_subscribed(request.user)
     location = Location.objects.filter(event=event)[0]
-
     subscriptions = event.get_subscribers()
 
     if request.method=='POST':
@@ -253,9 +253,6 @@ class BaseEventList(View):
         else:
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
                                             )
-
-
-
 
         if(sort_option == 'date'):
             events.order_by('date')

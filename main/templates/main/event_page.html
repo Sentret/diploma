@@ -2,7 +2,6 @@
 <div id='event-form'>
     <span id='event-title-field'>{{event.title}} </span>
     <span id='category-span'>{{event.category}} </span>
-
     <img id="preview" src={{ event.preview.url}} />
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{event.description}}</div>
@@ -41,7 +40,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -50,8 +48,6 @@
                 </div>
                 <div class="modal-body">
                     <div id="event-location">
-                     
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -60,14 +56,12 @@
             </div>
         </div>
     </div>
-
     {% include "main/comment_block.html" %}
 </div>
 {% endblock content %} {%block scripts %}
 <script>
-
 window.initMap = function() {
-    var position = { lat: {{location.lat}}, lng:{{location.lng}} };
+    var position = { lat: {{ location.lat }}, lng: {{ location.lng }} };
 
     var map = new google.maps.Map(document.getElementById('event-location'), {
         zoom: 7,
@@ -75,11 +69,11 @@ window.initMap = function() {
     });
 
     marker = new google.maps.Marker({
-            position: position,
-            map: map,
-        });
+        position: position,
+        map: map,
+    });
 
-    };
+};
 
 
 var sub = false; {% if subscribed %}
@@ -95,7 +89,7 @@ if (sub) {
 
 function subscribeOnClick(event) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{% url "event_subscribe"  %}', true);
+    xhr.open('POST', '{% url "event_subscribe" %}', true);
     xhr.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
 
     data = {}
@@ -111,13 +105,7 @@ function subscribeOnClick(event) {
         button.innerText = 'Подписаться'
     }
 }
-
-
-
-
-
-
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
-    </script>
+</script>
 {% endblock scripts %}
