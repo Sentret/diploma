@@ -116,18 +116,58 @@ width: 1024px;
 
 .search-container
 {
-	padding-top: 12px;
-	height: 60px;
-	display: block;
-	width: 256px;
+
 	float: right;
-	margin-bottom: 2%;
+	display: block;
+	width: 600px;
+	margin-top: 12px;
 	
 }
-#search-input
+#search
 {
+	border-radius: 0;
+
+
+	height:35px;
 	width: 256px;
+	vertical-align: middle;
+	border: 0;
+	display: block;
+	float: right;
 }
+
+#search:focus
+{
+	 border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#search-button
+{height: 35px;
+	width: 40px;
+	border-radius: 0;
+	border-top-right-radius: 4px;
+	
+	border-bottom-right-radius: 4px;
+
+	
+	float: right;
+	border-top:0;
+	border-bottom: 0;
+}
+#search-option
+{
+	border-radius: 0;
+		border-top-left-radius: 4px;
+	
+	border-bottom-left-radius: 4px;
+	float: right;
+	width: 120px;
+	display: inline;
+	height: 35px;
+}
+
 /*правое меню*/
 
 
@@ -135,6 +175,7 @@ width: 1024px;
 {	
 	
 	width: 256px;
+
 	float:right;
 	
 }
@@ -143,9 +184,9 @@ width: 1024px;
 {
 	
 	width: 100%;
-	border: 0.5px solid #D8D8D8;	
-	margin-bottom: 5%;
-background-color: white;
+		border: 0.5px solid #D8D8D8;	
+		margin-bottom: 5%;
+	background-color: white;
 }
 
 .menu-header

@@ -18,7 +18,7 @@
     <input type="hidden" name="address">
     <div style="margin-bottom: 5px;">
     <p style="display: inline-block;">Выберите категорию:</p>
-    <select  name='category' id='category' class="form-control form-control-sm" style="width: 150px;display:inline-block;">
+    <select  name='category' id='category' class="form-control form-control-sm" style="width: auto;display:inline-block;">
         {%for category in categories %}
                 <option value='{{category.name}}'>{{category.name}}</option>
         {%endfor %}
@@ -27,6 +27,7 @@
     <button id='publish-button' type="submit" class="btn btn-success"> Опубликовать</button>
     
 </form>
+
 
 {% endblock content %} {%block scripts %}
 

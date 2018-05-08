@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
@@ -62,10 +63,22 @@
                 </ul>
             </div>
             {%endif%}
-            <div class='search-container'>
-                <input id='search' oninput='makeRequest()' class="form-control form-control-lg" type="text" placeholder="Поиск">
+             <div class='search-container'>
+              <button id='search-button' type="button" class="btn btn-success" onclick="makeRequest()"><span class="glyphicon glyphicon-search"></span></button>
+               
+                <input id='search'  class="form-control form-control-lg" type="text" placeholder="Поиск">
+                
+                <select id='search-option' class="form-control form-control-sm" onchange="makeRequest()">
+                <option>Все</option>
+                <option>Экскурсия</option>
+                <option>Конференция</option>
+                 <option>Кино</option>
+                  <option>Городское мероприятие</option>
+                   <option>Другое</option>
+            </select>
             </div>
         </div>
+
     </div>
     {% endblock header %}
     <div class='main-container'>

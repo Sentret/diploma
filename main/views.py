@@ -240,13 +240,16 @@ class BaseEventList(View):
     def get(self, request):
         keyword = request.GET.get('keyword','')
         sort_option = request.GET.get('sort_option','')
-        categories = request.GET.getlist('categories[]','')
+        category = request.GET.get('category','')
 
-        print(categories)
+        print(category)
 
-        if(categories != ''):
+        if (category == 'Все'): 
+            category = ''
+
+        if(category != ''):
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
-                                            & Q(category__name__in=categories) )
+                                            & Q(category__name=category) )
         else:
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
                                             )

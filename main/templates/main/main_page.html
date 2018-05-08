@@ -1,8 +1,18 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
+
+           
 <div id='grid-container'>
+
 </div>
 {% include "main/rightside_menu.html" %}
 <script type="text/javascript">
+
+ $('#search-option').change(function(){
+    length = $("#search-option option:selected").text().length
+    $(this).width(17+ length*9); 
+ });
+
+
 
 function makeRequest()
 {
@@ -11,10 +21,14 @@ function makeRequest()
 	var sort_option = document.getElementById('select')
 	sort_option = sort_option.options[sort_option.selectedIndex].value;
     
-    categories = document.getElementsByClassName('category-span-active')
-    categories = Array.prototype.slice.call( categories)
-    categories = categories.map(function(el){return el.innerText})
-    console.log(categories)
+    var category = document.getElementById('search-option')
+    category = category.options[category.selectedIndex].text
+    
+
+    // categories = document.getElementsByClassName('category-span-active')
+    // categories = Array.prototype.slice.call( categories)
+    // categories = categories.map(function(el){return el.innerText})
+    
 
 
 
@@ -25,7 +39,7 @@ function makeRequest()
         {
         	keyword: keyword,
         	sort_option:sort_option,
-            categories:categories
+            category:category
             
         }    
     }).done(function(data) {
@@ -34,6 +48,8 @@ function makeRequest()
 }
 
 $(document).ready(function() {
+     length = $("#search-option option:selected").text().length
+    $('#search-option').width(17+ length*9); 
    makeRequest()
 });
 
