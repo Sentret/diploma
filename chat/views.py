@@ -17,7 +17,6 @@ def room(request, room_name):
                                        Q(addresser=request.user, recipient=addresser))
 
 
-    print(messages)
     return render(request, 'chat/room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
         'messages':messages,

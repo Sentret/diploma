@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.contrib import auth
 from django.views import View
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Location
 from .models import EventSubscription
@@ -65,7 +66,7 @@ class RegistrationView(View):
 
 
 def main_page_view(request):
-    categories = BaseEventCategory.objects.all()
+    categories = BaseEventCategory.objects.all().order_by('name')
     return render(request,"main/main_page.html",{'categories':categories})
 
 
@@ -224,10 +225,6 @@ class TripPublish(LoginRequiredMixin, View):
                                         title=data['title'],preview=preview,date=date, distance=data['distance'],
                                         duration=data['duration'], num_of_places=len(locations),category=category)
         
-
-        
-
-        print(locations)
         for loc in locations:
             location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],address=loc['address'], event=event)
        
@@ -238,18 +235,17 @@ class TripPublish(LoginRequiredMixin, View):
 class BaseEventList(View):
     
     def get(self, request):
+
         keyword = request.GET.get('keyword','')
         sort_option = request.GET.get('sort_option','')
-        category = request.GET.get('category','')
+        categories = request.GET.getlist('categories[]','')
 
-        print(category)
+        
 
-        if (category == 'Все'): 
-            category = ''
-
-        if(category != ''):
+        
+        if(categories != ''):
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
-                                            & Q(category__name=category) )
+                                            &  Q(category__name__in=categories) )
         else:
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
                                             )
@@ -259,5 +255,11 @@ class BaseEventList(View):
         if(sort_option == 'size'):
             events.order_by('num_of_participants')       
                  
+        # paginator = Paginator(events, 9)
+        # page = request.GET.get('page',0)
+
+
+        # events = paginator.get_page(page)
+        # print(paginator.num_pages)
         data = render_to_string("main/event_grid.html",{'events':events, 'user':request.user})
         return JsonResponse({'html': data})

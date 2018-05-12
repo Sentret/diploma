@@ -9,10 +9,15 @@
         </div>
     </center>
     <center style="margin-top: 20px;">
-        <button type="submit" class="btn btn-success">
+        <button type="submit" class="btn btn-success" onclick='writeMessage({{profile.user.id}})'>
             Написать сообщение <i class="glyphicon glyphicon-envelope"></i>
         </button>
     </center>
 </div>
+<script type="text/javascript">
+function writeMessage(id) {
+    room_name = Number.parseInt(id) * Number.parseInt('{{ user.id }}')
+    window.location.href = '/profile/messages/' + room_name
+}
 </script>
 {% endblock content %}

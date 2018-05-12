@@ -58,16 +58,18 @@
             <div class='search-container'>
                 <button id='search-button' type="button" class="btn btn-success" onclick="makeRequest()"><span class="glyphicon glyphicon-search"></span></button>
                 <button id='cancel-search-button' class="btn btn-default" onclick="cancelSearch()"><span class='glyphicon glyphicon-remove'></span></button>
-                <input id='search' class="form-control form-control-lg" type="text" placeholder="Поиск">
-                <select id='search-option' class="form-control form-control-sm">
+    <input id='search' class="form-control form-control-lg" type="text" placeholder="Поиск">
+            
+               <!--  <select id='search-option' class="form-control form-control-sm">
+   
                     <option>Все</option>
                     <option>Экскурсия</option>
                     <option>Конференция</option>
                     <option>Кино</option>
                     <option>Городское мероприятие</option>
                     <option>Другое</option>
-                </select>
-            </div>
+                </select> -->
+                            </div>
         </div>
     </div>
     {% endblock header %}
@@ -75,6 +77,7 @@
         <div class='main-page-container'>
             {%block content%} {%endblock content%}
         </div>
+
     </div>
     {%block scripts %} {%endblock scripts %}
     <script type="text/javascript">
@@ -82,7 +85,7 @@
         length = $("#search-option option:selected").text().length
         $(this).width(17 + length * 9);
     })
-
+ 
 
 
     function cancelSearch() {
@@ -91,13 +94,18 @@
 
     }
 
-    function makeRequest() {
+    function makeRequest(page=1) {
 
         var keyword = document.getElementById('search').value
         var sort_option = document.getElementById('select')
         sort_option = sort_option.options[sort_option.selectedIndex].value;
-        var category = document.getElementById('search-option')
-        category = category.options[category.selectedIndex].text
+        var categories_tags = document.getElementsByClassName('category-span-active')
+
+        categories = []
+        for (cat of categories_tags)
+            categories.push(cat.innerText)
+        
+        console.log(categories)
 
         $.ajax({
             url: 'eventsjson',
@@ -105,7 +113,8 @@
             data: {
                 keyword: keyword,
                 sort_option: sort_option,
-                category: category
+                categories: categories,
+                page: page
 
             }
         }).done(function(data) {

@@ -159,7 +159,7 @@ html {
 
 
 #select {
-    width: 200px;
+    width: 240px;
     margin: 0 auto;
 }
 
@@ -170,4 +170,44 @@ html {
     float: left;
 }
 
+.category-span
+{
+   margin-top: 5px;
+   margin-left: 5px;
+   margin-right: 5px;
+   border-radius: 8px;
+   height: 25px;
+   line-height: 25px;
+   vertical-align: middle;
+   padding-left: 10px;
+   display: block;
+   width: 246px; 
+   font-weight: 500;
+}
 
+
+.category-span:not(.category-span-active):hover
+ {
+    cursor: pointer;
+   background-color: #c0efba   ;
+}
+
+.category-span-active:hover
+{
+   background-color: #5cb85c;
+        color:white;
+        cursor:pointer;
+}
+
+.category-span-active
+{
+       background-color: #5cb85c;
+        color:white
+ }
+.cross
+{
+   float:right;
+   line-height: 20px;
+   vertical-align: middle;
+   margin-right: 5px;
+}

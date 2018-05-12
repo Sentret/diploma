@@ -1,4 +1,16 @@
 <div class='menu-grid'>
+<div class='menu'>
+        <div class='menu-header'>
+            Категории
+        </div>
+        <div class='menu-body'>
+       
+            {%for category in categories %}
+                <a class="category-span" onclick='categoryOnClick(this)'>{{category.name}}</a>
+            {%endfor %}
+        </div>
+   </div>
+
     <div class='menu'>
         <div class='menu-header'>
             Параметры поиска
@@ -22,3 +34,27 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    
+        function categoryOnClick(elem){
+        if (elem.clicked)        
+        {
+            elem.classList.remove('category-span-active')
+            elem.clicked = false
+            elem.removeChild(elem.childNodes[1])
+            return;
+        }
+
+        elem.classList.add('category-span-active');
+        var cross = document.createElement('i');
+
+        cross.classList.add('glyphicon')
+        cross.classList.add('glyphicon-remove')
+        cross.classList.add('cross')
+        elem.appendChild(cross)
+        elem.clicked = true
+
+        
+        }
+
+</script>
