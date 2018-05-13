@@ -1,8 +1,8 @@
 import json
 import datetime
+
 from django.http import Http404
 from django.http import JsonResponse
-
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
@@ -150,7 +150,7 @@ class EventEdit(LoginRequiredMixin, View):
 class EventPublish(LoginRequiredMixin, View):
 
     def get(self, request):
-        categories = BaseEventCategory.objects.all()
+        categories = BaseEventCategory.objects.all().filter(trip_or_event='Event')
         return render(request,"main/event_form.html", {'categories':categories})
 
 
@@ -200,7 +200,7 @@ class EventSubscriptionView(LoginRequiredMixin, View):
 
 class TripPublish(LoginRequiredMixin, View):
     def get(self, request):
-        categories = BaseEventCategory.objects.all()
+        categories = BaseEventCategory.objects.all().filter(trip_or_event='Trip')
         return render(request, 'main/trip/trip_form.html',{'categories':categories})
 
     def post(self, request):
@@ -239,22 +239,28 @@ class BaseEventList(View):
         keyword = request.GET.get('keyword','')
         sort_option = request.GET.get('sort_option','')
         categories = request.GET.getlist('categories[]','')
-
-        
+        only_new = int(request.GET.get('only_new',0))
+        today = datetime.date.today()
 
         
         if(categories != ''):
             events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
                                             &  Q(category__name__in=categories) )
         else:
-            events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
-                                            )
+            events = BaseEvent.objects.filter( Q(title__contains=keyword) | Q(description__contains=keyword) )
 
         if(sort_option == 'date'):
-            events.order_by('date')
+            events = events.order_by('-date')
         if(sort_option == 'size'):
-            events.order_by('num_of_participants')       
-                 
+            events = sorted(events, key=lambda x: len(x.get_subscribers()), reverse=True)    
+       
+
+        
+        print(only_new)
+
+        if(only_new):
+            events=events.filter(date__year__gte=today.year, date__month__gte=today.month, 
+                                    date__day__gte=today.day)
         # paginator = Paginator(events, 9)
         # page = request.GET.get('page',0)
 

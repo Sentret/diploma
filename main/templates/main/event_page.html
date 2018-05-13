@@ -27,8 +27,8 @@
                 <div class="modal-body subscribers-grid">
                     {% for subscription in subscriptions %}
                     <div class="subscribers-grid-cell">
-                        <a href="{% url 'profile' subscription.subscriber.profile.user.username %}" style="width: 75px; font-weight: 500;">
-                            <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;"> {{subscription.subscriber.username}}
+                        <a href="{% url 'profile' subscription.subscriber.profile.user.username %}" style="width: 75px; font-weight: 500; ">
+                            <center><img src="{{subscription.subscriber.profile.avatar.url}}" style="width: 75px;height: 75px; border-radius: 50%;"> {{subscription.subscriber.username}}
                             </center>
                         </a>
                     </div>

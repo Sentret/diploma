@@ -3,22 +3,19 @@
 {% block content %}
 {% include "account/account_menu.html" %}
 <table class='rooms'>
-{% for addresser in addressers %}
+{% for room in rooms %}
     <tr>
         <th class="room">
-        <a href="messages/{{room_name}}">
+        <a href="messages/{{room.room_name}}">
            <div class="room">
            
-           <img src="{{addresser.profile.avatar.url}}" style="width: 55px; margin: 8px;"> 
+           <img src="{{room.addresser.profile.avatar.url}}" style="width: 55px; margin: 8px;"> 
                             
-
              
              	
-             		{{addresser.username}}
-             	
-             	
-                   
-                        	
+             		{{room.addresser.username}}
+             	             	
+                                          	
            </div>
              
           </a>

@@ -2,20 +2,20 @@
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
-    <input type="datetime-local" " name="date " id="date " required>
+    <input type="datetime-local" " name="date" id="date" required>
     <label id='date-label' >Выберите дату: </label>
 
-    <img id="preview "  src="media/placeholder2.png " alt=" " />
+    <img id="preview"  src="media/placeholder2.png " alt=" " />
     <label for='imgInput' class='btn btn-success'>
            <span class="glyphicon glyphicon glyphicon-download-alt "></span>
     Загрузить изображение</label>
-    <input type='file' id="imgInput " name='preview' required onchange='imageUploaded(event)' />
-    <textarea  id='event-description-field' class="form-control "  required placeholder="Введите описание здесь " name="description " rows="5 " id="comment " form='event-form'></textarea>
+    <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
+    <textarea  id='event-description-field' class="form-control "  required placeholder="Введите описание здесь " name="description " rows="5 " id="comment" form='event-form'></textarea>
    <div id='map-div'>
     </div>
-    <input type="hidden " name="lat ">
-    <input type="hidden " name="lng ">
-    <input type="hidden " name="address ">
+    <input type="hidden" name="lat">
+    <input type="hidden" name="lng">
+    <input type="hidden" name="address">
     <div style="margin-bottom: 5px; ">
     <p style="display: inline-block; ">Выберите категорию:</p>
     <select  name='category' id='category' class="form-control form-control-sm " style="width: auto;display:inline-block; ">

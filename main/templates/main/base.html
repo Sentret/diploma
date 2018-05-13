@@ -96,10 +96,13 @@
 
     function makeRequest(page=1) {
 
+        var only_new = document.getElementById('only-new').checked ? 1 : 0
+        
         var keyword = document.getElementById('search').value
         var sort_option = document.getElementById('select')
         sort_option = sort_option.options[sort_option.selectedIndex].value;
         var categories_tags = document.getElementsByClassName('category-span-active')
+
 
         categories = []
         for (cat of categories_tags)
@@ -114,7 +117,8 @@
                 keyword: keyword,
                 sort_option: sort_option,
                 categories: categories,
-                page: page
+                page: page,
+                only_new:only_new
 
             }
         }).done(function(data) {

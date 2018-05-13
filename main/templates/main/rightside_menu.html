@@ -17,14 +17,14 @@
         </div>
         <div class='menu-body'>
             <p class='sub-menu-header'>Сортировка</p>
-            <select id='select' class="form-control form-control-sm" onchange="makeRequest()">
+            <select id='select' class="form-control form-control-sm">
                 <option value='date'>По дате</option>
                 <option value='size'>По числу участников</option>
             </select>
             <br>
             <p class='sub-menu-header'>Параметры </p>
             <div class='param-div'>
-                <input class="form-check-input" type="checkbox" checked>
+                <input id='only-new' class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="defaultCheck1">
                     Только предстоящие
                 </label>

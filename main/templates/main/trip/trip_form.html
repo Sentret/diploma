@@ -1,15 +1,15 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
-<form id='event-form' method="post" action="" enctype="multipart/form-data" >
+<form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
-    <input type="datetime-local"" name="date" id="date" required>
+    <input type="datetime-local" " name="date " id="date" required>
     <label id='date-label'>Выберите дату: </label>
-    <img id="preview" src="media/placeholder2.png" />
+    <img id="preview" src="media/placeholder2.png " />
     <label for='imgInput' class='btn btn-success'>
-    <span class="glyphicon glyphicon glyphicon-download-alt"></span>
+    <span class="glyphicon glyphicon glyphicon-download-alt "></span>
 Загрузить изображение</label>
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
-    <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'></textarea>
+    <textarea id='event-description-field' required placeholder="Введите описание здесь " name="description " form='event-form'></textarea>
 
     
 
@@ -20,18 +20,18 @@
         </div>
 
         <div class='map-control'>
-                <span class="glyphicon glyphicon-map-marker mymarker">
+                <span class="glyphicon glyphicon-map-marker mymarker ">
                 
                 </span>
                 <span id='num-of-places'>
                 0
                 </span>
                   <button id='clear-button' type="button" class="btn btn-danger">
-        <span class="glyphicon glyphicon-trash"></span>
+        <span class="glyphicon glyphicon-trash "></span>
         Очистить 
         </button>
         <button id='route-button' type="button" class="btn btn-primary">
-                <span class="glyphicon glyphicon-road"></span>
+                <span class="glyphicon glyphicon-road "></span>
         Проложить маршрут 
         </button>
       
@@ -45,15 +45,15 @@
          
     </div>
 
-    <div style="margin-bottom: 5px;">
-    <p style="display: inline-block;">Выберите категорию:</p>
-    <select  name='category' id='category' class="form-control form-control-sm" style="width: 150px;display:inline-block;">
+    <div style="margin-bottom: 5px; ">
+    <p style="display: inline-block; ">Выберите категорию:</p>
+    <select  name='category' id='category' class="form-control form-control-sm " style="width: 150px;display:inline-block; ">
         {%for category in categories %}
                 <option value='{{category.name}}'>{{category.name}}</option>
         {%endfor %}
     </select>
     </div>
-    <button id='publish-button' type="submit" class="btn btn-success"> 
+    <button id='publish-button' type="submit " class="btn btn-success "> 
 
     Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
@@ -190,7 +190,7 @@ function imageUploaded(event) {
     if (file) {
         reader.readAsDataURL(file);
     } else {
-        img.src = "";
+        img.src = " ";
     }
 
 }
@@ -207,7 +207,7 @@ function updateLocations(){
 
     index = 1
     for( address of markers.values()){
-        locations.innerHTML += '<label class="place-label">'+ (index++)+'. '+ address + '</label>' 
+        locations.innerHTML += '<label class="place-label ">'+ (index++)+'. '+ address + '</label>' 
         
     }
 

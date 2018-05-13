@@ -5,15 +5,20 @@ from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth.models import User
 
 from main.models import Message
+from account.pairing import inverse_cantor_pairing
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
 
         # self.room_group_name = ''.join(sorted(self.room_name))
+
         self.room_group_name = str (self.scope['user'].id)
         
-        recipient_id = int(int(self.room_name) / self.scope['user'].id)
+
+        inverse_cantor = inverse_cantor_pairing( int(self.room_name) )
+        inverse_cantor.remove(self.scope['user'].id)
+        recipient_id = inverse_cantor[0]
         self.recipient = User.objects.get(pk=recipient_id)
 
 

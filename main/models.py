@@ -12,6 +12,7 @@ class EventManager(models.Manager):
 
 class BaseEventCategory(models.Model):
     name = models.CharField(max_length=200, default='')
+    trip_or_event = models.CharField(max_length=200, default='Event')
 
 
     def __str__(self):
@@ -99,6 +100,7 @@ class Profile(models.Model):
 class Message(models.Model):
     addresser = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='addresser')
     recipient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recipient')
+    date = models.DateTimeField(auto_now=True)
     message = models.TextField()
 
 

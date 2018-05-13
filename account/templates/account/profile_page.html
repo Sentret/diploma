@@ -1,7 +1,7 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <div class="container profile">
     <center class="profile-center">
-        <img src="{{profile.avatar.url}}">
+        <img style=" overflow:hidden;width:250px; height: 250px; border-radius: 50%;" src="{{profile.avatar.url}}">
         <h4 class="username">{{profile.user.username}}</h4>
         <h4 class="realname">{{profile.user.first_name}} {{profile.user.last_name}}, {{profile.age}} лет</h4>
         <div>

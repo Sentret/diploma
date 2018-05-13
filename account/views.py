@@ -15,7 +15,8 @@ from main.models import EventSubscription
 from main.models import Message
 from .forms import ProfileForm
 from .forms import UserForm
-
+from .pairing import cantor_pairing
+from .pairing import inverse_cantor_pairing
 
 @login_required
 def subscriptions(request):
@@ -59,17 +60,25 @@ class ProfileView(View):
 
 @login_required
 def messages(request):
-	messages = Message.objects.filter(recipient=request.user).values('addresser').distinct()
-	
-	addressers = []
+	messages = Message.objects.filter(recipient=request.user).order_by('date').values('addresser').distinct()
+	rooms = []
+
+	room_name = 0
 
 	for message in messages:
-		addressers.append(User.objects.get(id=message['addresser']))
+		addresser = User.objects.get(id=message['addresser'])
+		args = [request.user.id, addresser.id]
+		# сортируем пару, чтобы и получатель и аддресант были в одной комнате
+		args = sorted(args)
+		print(args)
+		room_name = int( cantor_pairing(args[0], args[1]) )
+		rooms.append({'addresser':addresser, 'room_name': room_name})
+		
 
-	room_name = request.user.id*addressers[0].id
+
+
 
 	context = {
-				'addressers':addressers,
-				'room_name':room_name
+				'rooms':rooms,
 			  }
 	return render(request, "account/messages.html", context)
