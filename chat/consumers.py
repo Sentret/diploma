@@ -15,12 +15,13 @@ class ChatConsumer(WebsocketConsumer):
 
         self.room_group_name = str (self.scope['user'].id)
         
-
-        inverse_cantor = inverse_cantor_pairing( int(self.room_name) )
-        inverse_cantor.remove(self.scope['user'].id)
-        recipient_id = inverse_cantor[0]
-        self.recipient = User.objects.get(pk=recipient_id)
-
+        try:
+            inverse_cantor = inverse_cantor_pairing( int(self.room_name) )
+            inverse_cantor.remove(self.scope['user'].id)
+            recipient_id = inverse_cantor[0]
+            self.recipient = User.objects.get(pk=recipient_id)
+        except:
+            self.close()
 
 
 

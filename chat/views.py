@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
 from main.models import Message
 from account.pairing import inverse_cantor_pairing
@@ -12,8 +13,11 @@ from account.pairing import inverse_cantor_pairing
 
 def room(request, room_name):
 
-    inverse_cantor = inverse_cantor_pairing(int(room_name))
-    inverse_cantor.remove(request.user.id)
+    try:
+        inverse_cantor = inverse_cantor_pairing(int(room_name))
+        inverse_cantor.remove(request.user.id)
+    except:
+        return HttpResponse(status=404)
 
     addresser_id = inverse_cantor[0] 
     addresser = get_object_or_404(User, pk=addresser_id)

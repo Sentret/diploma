@@ -1,109 +1,102 @@
-
-#trip-div
-{	
-	margin-top:5px;
-	height: 400px;
-	background-color: grey;	
+#trip-div {
+    margin-top: 5px;
+    height: 400px;
+    background-color: grey;
 }
 
-#locations-div
-{
-	margin-top: 10px;
-	height: auto;
-	margin-bottom: 20px;
+#locations-div {
+    margin-top: 10px;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 
 
-.place-label
-{
-	border: 2px solid #337ab7;
-	font-size: 14px;
-	border-radius: 25px;
-	padding: 5px;
-	background-color: white;
-	margin: 2px;
-	font-weight: 400;
+.place-label {
+    border: 2px solid #337ab7;
+    font-size: 14px;
+    border-radius: 25px;
+    padding: 5px;
+    background-color: white;
+    margin: 2px;
+    font-weight: 400;
 }
 
-.map-control
-{
-	border-top: 3px solid #337ab7;
-	background-color: #e6eaf2;
-	height: 48px;
+.map-control {
+    border-top: 3px solid #337ab7;
+    background-color: #e6eaf2;
+    height: 48px;
 }
-.mymarker
-{
-	float: left;
-	font-size: 20pt;
-	margin: 8px;
-	color:#337ab7;
+
+.mymarker {
+    float: left;
+    font-size: 20pt;
+    margin: 8px;
+    color: #337ab7;
 }
 
 
-#num-of-places
-{
-	float: left;
-	font-size: 25px;
-	margin: 5px;
-	margin-left: 0;
-	color:#337ab7;
-
-}
-#route-button
-{
-	margin:5px;
-	float: right;
-	margin-right:150px; 
+#num-of-places {
+    float: left;
+    font-size: 25px;
+    margin: 5px;
+    margin-left: 0;
+    color: #337ab7;
 }
 
-#clear-button
-{
-	margin:5px;
-	float: right;
+#route-button {
+    margin: 5px;
+    float: right;
+    margin-right: 150px;
+}
+
+#clear-button {
+    margin: 5px;
+    float: right;
 }
 
 .controls {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 28px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
 
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 300px;
-      }
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+}
 
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
+#pac-input:focus {
+    border-color: #4d90fe;
+}
 
-      .pac-container {
-        font-family: Roboto;
-      }
+.pac-container {
+    font-family: Roboto;
+}
 
-      #type-selector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-      }
+#type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
 
-      #type-selector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-      #target {
-        width: 345px;
-      }
+#type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+#target {
+    width: 345px;
+}
