@@ -5,15 +5,20 @@
         <tbody id="messages-table">
             {% for message in messages %}
             <tr>
+
                 <th class="message">
                     <div class="message">
                         <div class="message-user">
                             <center>
-                                <img src="{{message.addresser.profile.avatar.url}}" style="width: 55px; height:55px;border-radius: 50%;"> {{message.addresser}}
+                                <img src="{{message.addresser.profile.avatar.url}}" style="width: 55px; height:55px;border-radius: 50%;">
                             </center>
                         </div>
                         <div class="message-body">
-                            {{message.message}}
+
+                        <div><strong>{{message.addresser}}</strong> <h5  style="display: inline;color:grey; margin-left: 25px;">{{message.date.hour}}:{{message.date.minute}}:{{message.date.second}}</h6></div>
+                         
+                            
+                        <div>       {{message.message}}</div>
                         </div>
                     </div>
                 </th>
@@ -38,7 +43,7 @@ function scrollToBottom()
 
 }
 
-function printMessage(message, username, avatar_url) {
+function printMessage(message, username, avatar_url,date) {
     table = document.getElementById("messages-table")
     table.innerHTML +=
         "<tr>" +
@@ -46,9 +51,16 @@ function printMessage(message, username, avatar_url) {
 
         "<div class='message'>" +
 
-        "<div class='message-user'> <center><img src='"+avatar_url+"'"+"style='width: 55px;'>" + username+"</center> </div> <div class='message-body'>" +
-            message +
-        '</div>' +
+        "<div class='message-user'> <center><img src='"+avatar_url+"'"+"style='width: 55px;"+ 
+        "height:55px;border-radius: 50%;'></center> </div><div class='message-body'>"+ 
+        "<div><strong>" + username+ "</strong> <h5  style='display: inline;color:grey; margin-left: 25px;'>"
+        + date.getHours()+':'+ date.getMinutes()+':'+date.getSeconds()+"</h5></div>" +
+                         
+                            
+        "<div>" +
+            message
+        "</div>"+
+        "</div>" +
         '</div>' +
         '</th>' +
         '</tr>'
@@ -63,7 +75,7 @@ var chatSocket = new WebSocket(
 chatSocket.onmessage = function(e) {
     var data = JSON.parse(e.data);
     var message = data['message'];
-    printMessage(message, '{{addresser.username}}','{{addresser.profile.avatar.url}}');
+    printMessage(message, '{{addresser.username}}','{{addresser.profile.avatar.url}}', new Date());
     scrollToBottom()
 };
 
@@ -87,7 +99,7 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
         'message': message
     }));
 
-     printMessage(message, '{{user.username}}','{{user.profile.avatar.url}}');
+     printMessage(message, '{{user.username}}','{{user.profile.avatar.url}}', new Date());
      scrollToBottom()
     messageInputDom.value = '';
 };

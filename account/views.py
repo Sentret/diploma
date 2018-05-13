@@ -63,15 +63,9 @@ def messages(request):
 	messages = Message.objects.filter(recipient=request.user).values('addresser').distinct()
 	rooms = []
 
-	room_name = 0
-
 	for message in messages:
 		addresser = User.objects.get(id=message['addresser'])
-		args = [request.user.id, addresser.id]
-
-		# сортируем пару, чтобы и получатель и аддресант были в одной комнате
-		args = sorted(args)
-		room_name = int( cantor_pairing(args[0], args[1]) )
+		room_name =request.user.id * addresser.id
 		rooms.append({'addresser':addresser, 'room_name': room_name})		
 
 

@@ -10,20 +10,16 @@ from account.pairing import inverse_cantor_pairing
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = str(self.scope['user'].id)
 
-        # self.room_group_name = ''.join(sorted(self.room_name))
-
-        self.room_group_name = str (self.scope['user'].id)
         
+        print(self.room_group_name)
+
         try:
-            inverse_cantor = inverse_cantor_pairing( int(self.room_name) )
-            inverse_cantor.remove(self.scope['user'].id)
-            recipient_id = inverse_cantor[0]
+            recipient_id = int( int(self.room_name) / self.scope['user'].id )
             self.recipient = User.objects.get(pk=recipient_id)
         except:
             self.close()
-
-
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -32,7 +28,6 @@ class ChatConsumer(WebsocketConsumer):
         )
 
         if self.scope["user"].is_anonymous:
-            # Reject the connection
             self.close()
 
             

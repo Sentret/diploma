@@ -14,18 +14,16 @@ from account.pairing import inverse_cantor_pairing
 def room(request, room_name):
 
     try:
-        inverse_cantor = inverse_cantor_pairing(int(room_name))
-        inverse_cantor.remove(request.user.id)
+        addresser_id = int(room_name) / request.user.id 
     except:
-        return HttpResponse(status=404)
-
-    addresser_id = inverse_cantor[0] 
+        HttpResponse(status=404)
     addresser = get_object_or_404(User, pk=addresser_id)
 
     messages = Message.objects.filter( Q(addresser=addresser, recipient=request.user) | 
                                        Q(addresser=request.user, recipient=addresser)).order_by('date')
 
 
+    
     return render(request, 'chat/room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
         'messages':messages,
