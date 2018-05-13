@@ -59,6 +59,9 @@
     <input id='data' type="hidden" name='locations'>
     <input id='distance' type="hidden" name='distance'>
     <input id='duration' type="hidden" name='duration'>
+
+    <input id="pac-input" class="controls" type="text" placeholder="Поиск места">
+
 </form>
 {% endblock content %} {%block scripts %}
 
@@ -133,6 +136,9 @@ function routeOnClick(event)
 {
     buildRoute()
 }
+
+
+
 
 function buildRoute()
 {
@@ -236,7 +242,68 @@ window.initMap = function() {
 
     var index_of_location = 0;
 
-    
+    var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+    google.maps.event.addListener(searchBox, 'places_changed', function() {
+     searchBox.set('map', null);
+
+
+     var places = searchBox.getPlaces();
+
+     var bounds = new google.maps.LatLngBounds();
+     var i, place;
+
+     for (i = 0; place = places[i]; i++) {
+       (function(place) {
+         var marker = new google.maps.Marker({
+        label: (markerIndex++).toString(),
+           position: place.geometry.location
+         });
+
+         marker.bindTo('map', searchBox, 'map');
+
+          marker.addListener('click', function(event) {
+                marker.setMap(null);
+                markerIndex--;
+                markers.delete(marker)
+
+                updateLocations()
+                
+            });
+         google.maps.event.addListener(marker, 'map_changed', function() {
+           
+         });
+         bounds.extend(place.geometry.location);
+var geocoder = new google.maps.Geocoder;
+
+        geocoder.geocode({ 'latLng': place.geometry.location }, function (results, status) {
+
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+
+            if (status == google.maps.GeocoderStatus.OK) {
+            
+            markers.set(marker, results[0].formatted_address)
+            updateLocations()
+            }
+        });
+
+       }(place));
+
+     }
+     map.fitBounds(bounds);
+     searchBox.set('map', map);
+     map.setZoom(Math.min(map.getZoom(),12));
+
+   });
+
     map.addListener('click', function(event) {
 
         var marker = new google.maps.Marker({
@@ -277,6 +344,6 @@ window.initMap = function() {
 
 }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru ">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&libraries=places&language=ru ">
 </script>
 {%endblock scripts %}
