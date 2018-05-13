@@ -15,8 +15,6 @@ from main.models import EventSubscription
 from main.models import Message
 from .forms import ProfileForm
 from .forms import UserForm
-from .pairing import cantor_pairing
-from .pairing import inverse_cantor_pairing
 
 @login_required
 def subscriptions(request):

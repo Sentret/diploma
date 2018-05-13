@@ -5,7 +5,7 @@ from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth.models import User
 
 from main.models import Message
-from account.pairing import inverse_cantor_pairing
+
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):

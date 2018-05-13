@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from main.models import Message
-from account.pairing import inverse_cantor_pairing
+
 
 
 def room(request, room_name):
