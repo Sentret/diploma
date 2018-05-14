@@ -1,4 +1,4 @@
-{% extends "main/base.html" %} {% load staticfiles %} {% block content %} {% include "account/account_menu.html" %}
+{% extends "main/base.html" %} {% load staticfiles %} {%load tz %} {% block content %} {% include "account/account_menu.html" %}
 <div class="chat-container">
 <div class="messages">
     <table class="messages-table">
@@ -14,8 +14,10 @@
                             </center>
                         </div>
                         <div class="message-body">
+                        {% get_current_timezone as TIME_ZONE %}
 
-                        <div><strong>{{message.addresser}}</strong> <h5  style="display: inline;color:grey; margin-left: 25px;">{{message.date.hour}}:{{message.date.minute}}:{{message.date.second}}</h6></div>
+
+                        <div><strong>{{message.addresser}}</strong> <!-- <h5  style="display: inline;color:grey; margin-left: 25px;">{{message.date.hour}}:{{message.date.minute}}:{{message.date.second}}</h6> --></div>
                          
                             
                         <div>       {{message.message}}</div>
@@ -53,8 +55,10 @@ function printMessage(message, username, avatar_url,date) {
 
         "<div class='message-user'> <center><img src='"+avatar_url+"'"+"style='width: 55px;"+ 
         "height:55px;border-radius: 50%;'></center> </div><div class='message-body'>"+ 
-        "<div><strong>" + username+ "</strong> <h5  style='display: inline;color:grey; margin-left: 25px;'>"
-        + date.getHours()+':'+ date.getMinutes()+':'+date.getSeconds()+"</h5></div>" +
+        "<div><strong>" + username+ "</strong>"+
+        // "</strong> <h5  style='display: inline;color:grey; margin-left: 25px;'>"
+        // + date.getHours()+':'+ date.getMinutes()+':'+date.getSeconds()+"</h5></div>" 
+
                          
                             
         "<div>" +

@@ -1,4 +1,4 @@
-from django.apps import AppConfig
+xfrom django.apps import AppConfig
 
 
 class AccountConfig(AppConfig):
