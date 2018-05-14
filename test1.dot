@@ -1,16 +1,16 @@
 digraph model_graph {
 	graph [bb="0,0,1062.5,395",
 		fontname=Helvetica,
-		fontsize=18,
+		fontsize=22,
 		splines=true
 	];
 	node [fontname=Helvetica,
-		fontsize=18,
+		fontsize=22,
 		label="\N",
 		shape=plaintext
 	];
 	edge [fontname=Helvetica,
-		fontsize=18
+		fontsize=22
 	];
 	main_models_BaseEventCategory	 [height=0.8889,
 		label=<
