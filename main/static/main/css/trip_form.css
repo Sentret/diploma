@@ -77,6 +77,13 @@
     width: 300px;
 }
 
+#transport-option
+{
+    font-weight: 300;
+    font-family: Roboto;
+    background-color: white;
+    font-size: 14px;
+}
 #pac-input:focus {
     border-color: #4d90fe;
 }

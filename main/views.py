@@ -175,8 +175,7 @@ class EventPublish(LoginRequiredMixin, View):
                                         title=data['title'],preview=preview,date=date, category=category)
 
         location = Location.objects.create(lat=lat, lng=lng,address=data['address'], event=event)
-        events = Event.objects.all()
-        return render(request,"main/main_page.html",{'events':events})
+        return redirect('/')
 
    
 class EventSubscriptionView(LoginRequiredMixin, View):
@@ -220,16 +219,16 @@ class TripPublish(LoginRequiredMixin, View):
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
         preview = request.FILES.get('preview')
         locations =  json.loads(data['locations'])
-        
+        print(len(locations))
         event = Trip.objects.create(creater=request.user, description=data['description'],
                                         title=data['title'],preview=preview,date=date, distance=data['distance'],
-                                        duration=data['duration'], num_of_places=len(locations),category=category)
+                                        num_of_places=len(locations), category=category)
         
         for loc in locations:
             location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],address=loc['address'], event=event)
        
-        events = BaseEvent.objects.all()
-        return render(request,"main/main_page.html",{'events':events})
+        
+        return redirect('/')
 
 
 class BaseEventList(View):
@@ -252,20 +251,15 @@ class BaseEventList(View):
         if(sort_option == 'date'):
             events = events.order_by('-date')
         if(sort_option == 'size'):
-            events = sorted(events, key=lambda x: len(x.get_subscribers()), reverse=True)    
+            events = events.order_by('-num_of_participants')    
        
 
         
         print(only_new)
 
-        if(only_new):
+        if(only_new==1):
             events=events.filter(date__year__gte=today.year, date__month__gte=today.month, 
                                     date__day__gte=today.day)
-        # paginator = Paginator(events, 9)
-        # page = request.GET.get('page',0)
 
-
-        # events = paginator.get_page(page)
-        # print(paginator.num_pages)
         data = render_to_string("main/event_grid.html",{'events':events, 'user':request.user})
         return JsonResponse({'html': data})

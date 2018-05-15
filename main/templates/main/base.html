@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'main/js/jquery-comments.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/main_page.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/header.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_form.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'chat/css/room.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/event_page.css' %}" />
+     <link rel="stylesheet" type="text/css" href="{% static 'main/css/jquery-comments.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static './account/css/account_menu.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/trip_form.css' %}" /> {% endblock styles %}
 </head>
@@ -79,6 +81,7 @@
         </div>
 
     </div>
+
     {%block scripts %} {%endblock scripts %}
     <script type="text/javascript">
     $('#search-option').change(function() {
@@ -132,6 +135,7 @@
         makeRequest();
     });
     </script>
+
 </body>
 
 </html>

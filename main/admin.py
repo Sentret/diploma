@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db import models
 
 from .models import Location
 from .models import Event
@@ -17,3 +18,4 @@ admin.site.register(BaseEventCategory)
 admin.site.register(Profile)
 admin.site.register(Comment)
 admin.site.register(Message)
+admin.site.register(Event)

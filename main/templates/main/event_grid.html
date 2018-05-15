@@ -5,9 +5,8 @@
         <a href={% url 'event_page' event.id %}>
         <img class='preview' src="{{ event.preview.url}}" />
         <span class='date-span'>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}}</span>
-       
         <span class='title-span'>{{event.title}}</span>
-        </a>
+                </a>
         <div class='grid-footer'>
             <span class="glyphicon glyphicon-user">{{event.num_of_participants}}</span>
         </div>
@@ -15,6 +14,3 @@
     {% endfor%}
 
 </div>
-<script type="text/javascript">
-
-</script>

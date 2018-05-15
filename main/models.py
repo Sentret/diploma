@@ -20,7 +20,7 @@ class BaseEventCategory(models.Model):
 
 
 class BaseEvent(models.Model):
-    creater = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    creater = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200, default='')
     description = models.TextField()
     num_of_participants = models.IntegerField(default=0)
@@ -33,20 +33,20 @@ class BaseEvent(models.Model):
 
     def subscribe(self, user):
         subscription = EventSubscription.objects.create(subscriber=user, event=self)
-        self.num_of_participants +=1
+        self.num_of_participants += 1
         self.save()
 
 
     def unsubscribe(self, user):
         subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
-        self.num_of_participants -=1
+        self.num_of_participants -= 1
         self.save()
         subscription.delete()
 
 
     def is_user_subscribed(self, user):
         num_of_subscribers = EventSubscription.objects.all().filter(subscriber=user, event=self).count()
-        return num_of_subscribers ==1
+        return num_of_subscribers == 1
 
 
     def get_subscribers(self):
@@ -58,13 +58,19 @@ class BaseEvent(models.Model):
     
 
 class Event(BaseEvent):
-    pass
+    def delete(self, *args, **kwargs):
+        self.base_event.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
     
 
 class Trip(BaseEvent):
     distance = models.IntegerField(default=0)
-    duration = models.IntegerField(default=0)
     num_of_places = models.IntegerField(default=0)
+
+    def delete(self, *args, **kwargs):
+        self.base_event.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
+
 
 
 class Location(models.Model):
@@ -75,16 +81,16 @@ class Location(models.Model):
 
 
 class EventSubscription(models.Model):
-    subscriber = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
+    subscriber = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    event = models.ForeignKey(BaseEvent, on_delete=models.CASCADE, null=True)
 
     class Meta:
         unique_together = ('subscriber','event')
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    event = models.ForeignKey(BaseEvent, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    event = models.ForeignKey(BaseEvent, on_delete=models.CASCADE, null=True)
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
     parrent = models.ForeignKey("Comment", on_delete=models.DO_NOTHING, null=True) 
@@ -98,8 +104,8 @@ class Profile(models.Model):
 
 
 class Message(models.Model):
-    addresser = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='addresser')
-    recipient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recipient')
+    addresser = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='addresser')
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name='recipient')
     date = models.DateTimeField(auto_now=True)
     message = models.TextField()
 

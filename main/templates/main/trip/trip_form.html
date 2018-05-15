@@ -4,7 +4,7 @@
     <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
     <input type="datetime-local" " name="date " id="date" required>
     <label id='date-label'>Выберите дату: </label>
-    <img id="preview" src="media/placeholder2.png " />
+    <img id="preview" src="media/placeholder2.png" />
     <label for='imgInput' class='btn btn-success'>
     <span class="glyphicon glyphicon glyphicon-download-alt "></span>
 Загрузить изображение</label>
@@ -57,10 +57,9 @@
 
     Опубликовать</button>
     <input id='data' type="hidden" name='locations'>
-    <input id='distance' type="hidden" name='distance'>
-    <input id='duration' type="hidden" name='duration'>
-
+    <input id='distance' type="hidden" name='distance'>    
     <input id="pac-input" class="controls" type="text" placeholder="Поиск места">
+
 
 </form>
 {% endblock content %} {%block scripts %}
@@ -75,6 +74,7 @@ document.getElementById("clear-button").addEventListener("click", clearOnClick);
 var data = []
 var map;
 markerIndex = 1
+
 
 function clearOnClick(event)
 {
@@ -122,15 +122,8 @@ function updateDistanceAndDuration(legs)
 
     numOfPlaces = document.getElementById('num-of-places')
     numOfPlaces.innerText = killometres==0 ? metres.toString() + 'м':killometres.toString() +'км'+' '+ metres.toString() + 'м'
-
-
-
-    console.log(killometres)
-    console.log(metres)
-    console.log(minutes)
-    console.log(hours)
-    console.log(days)
 }
+
 
 function routeOnClick(event)
 {
@@ -172,13 +165,13 @@ function buildRoute()
      directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
                         directionsDisplay.setDirections(response);
-                        console.log(response.routes[0].legs)
+                        
                         updateDistanceAndDuration(response.routes[0].legs)
                        
                     }
                     else
                     {
-                        console.log(response)
+                        
                     }
                 });
 }
@@ -224,7 +217,7 @@ function updateLocations(){
         data.push({position:[coordinates.position.lat(),coordinates.position.lng()], address:address})
        
     }
-    console.log(data)
+    
     document.getElementById('data').value = JSON.stringify(data)  
     
 
@@ -241,10 +234,9 @@ window.initMap = function() {
     });
 
     var index_of_location = 0;
-
     var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
 
     map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
