@@ -45,7 +45,7 @@ function geodecode(latLng)
         geocoder.geocode({ 'latLng': latLng }, (results, status) => {
         
         if (status == google.maps.GeocoderStatus.OK) {
-         resolve(results[0].formatted_address);
+     resolve(results[0].formatted_address);
         }
         });
     })
@@ -57,7 +57,7 @@ function updateLocationData(latLng)
     var lng = document.getElementsByName('lng')[0]
     lat.value = latLng.lat();
     lng.value = latLng.lng();
-    geodecode(latLng).then((response)=>{document.getElementsByName('address')[0].value=response})
+    geodecode(latLng).then((response)=>{document.getElementsByName('address')[0].value=response; console.log(response)})
 }
 
 

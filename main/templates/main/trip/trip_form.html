@@ -210,7 +210,6 @@ function updateLocations(){
         
     }
 
-
     data = []   
     for( var[coordinates, address] of markers )
     {
@@ -326,7 +325,6 @@ var geocoder = new google.maps.Geocoder;
                 marker.setMap(null);
                 markerIndex--;
                 markers.delete(marker)
-
                 updateLocations()
                 
             });

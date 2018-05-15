@@ -172,7 +172,7 @@ class EventPublish(LoginRequiredMixin, View):
         preview = request.FILES.get('preview')
         
         event = Event.objects.create(creater=request.user, description=data['description'],
-                                        title=data['title'],preview=preview,date=date, category=category)
+                                        title=data['title'],preview=preview, date=date, category=category)
 
         location = Location.objects.create(lat=lat, lng=lng,address=data['address'], event=event)
         return redirect('/')
@@ -236,28 +236,41 @@ class BaseEventList(View):
     def get(self, request):
 
         keyword = request.GET.get('keyword','')
+        search_option = request.GET.get('search_option',-1)
         sort_option = request.GET.get('sort_option','')
         categories = request.GET.getlist('categories[]','')
-        only_new = int(request.GET.get('only_new',0))
+        only_new = request.GET.get('only_new',0)
         today = datetime.date.today()
 
         
+        #фильтрация по названию
+        if(search_option == '0'):
+            events = BaseEvent.objects.filter(title__contains=keyword)
+
+        #фильтрация по описанию
+        if(search_option == '1'):
+            events = BaseEvent.objects.filter(description__contains=keyword)
+
+        #фильтрация по адресу
+        if(search_option == '2'):
+            locations = Location.objects.filter(address__contains=keyword).values('event').distinct()
+            events_id = []
+            for loc in locations:
+                events_id.append(loc['event'])
+        
+            events = BaseEvent.objects.filter(id__in=events_id)
+
         if(categories != ''):
-            events = BaseEvent.objects.filter( ( Q(title__contains=keyword) | Q(description__contains=keyword) ) 
-                                            &  Q(category__name__in=categories) )
-        else:
-            events = BaseEvent.objects.filter( Q(title__contains=keyword) | Q(description__contains=keyword) )
+            events = events.filter(category__name__in=categories)
 
         if(sort_option == 'date'):
             events = events.order_by('-date')
+
         if(sort_option == 'size'):
             events = events.order_by('-num_of_participants')    
-       
 
         
-        print(only_new)
-
-        if(only_new==1):
+        if(only_new == 1):
             events=events.filter(date__year__gte=today.year, date__month__gte=today.month, 
                                     date__day__gte=today.day)
 
