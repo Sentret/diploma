@@ -51,7 +51,7 @@ def login(request):
 @login_required
 def logout(request):
     auth.logout(request)
-    return redirect('login')
+    return redirect('/')
 
 
 class RegistrationView(View):
@@ -76,7 +76,12 @@ def main_page_view(request):
 
 def  event_page(request, id):
     event = get_object_or_404(BaseEvent,pk=id)
-    subscribed = event.is_user_subscribed(request.user)
+
+    subscribed = False
+
+    if (not request.user.is_anonymous):
+        subscribed = event.is_user_subscribed(request.user)
+        
     location = Location.objects.filter(event=event)[0]
     subscriptions = event.get_subscribers()
 

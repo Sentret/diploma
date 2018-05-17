@@ -1,7 +1,7 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
+    <input type='text' id='event-title-field' required name='title' placeholder="Введите название" maxlength="200">
     <input type="datetime-local" " name="date" id="date" required>
     <label id='date-label' >Выберите дату: </label>
 
@@ -10,7 +10,12 @@
            <span class="glyphicon glyphicon glyphicon-download-alt "></span>
     Загрузить изображение</label>
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
-    <textarea  id='event-description-field' class="form-control "  required placeholder="Введите описание здесь " name="description " rows="5 " id="comment" form='event-form'></textarea>
+    <textarea  id='event-description-field' class="form-control"  required placeholder="Введите описание здесь " name="description " rows="5 " id="comment" form='event-form'></textarea>
+
+    <div class="alert alert-danger" id="error" style='visibility: hidden;'>
+        <center>saвы</center>
+    </div>
+
    <div id='map-div'>
     </div>
     <input type="hidden" name="lat">
@@ -34,8 +39,8 @@
 
 <script>
 
-data = {}
 var marker = null
+var map
 
 function geodecode(latLng)
 {   
@@ -47,8 +52,25 @@ function geodecode(latLng)
         if (status == google.maps.GeocoderStatus.OK) {
      resolve(results[0].formatted_address);
         }
+        else{
+            reject ('Невозможно определить адрес')
+        }
         });
     })
+}
+
+function showError(message)
+{
+    error_block = document.getElementById('error');
+    error_block.style.visibility = 'visible'
+    error_block.firstElementChild.innerText=message
+    document.getElementsByName('address')[0].value=message;
+}
+
+function hideError()
+{
+    error_block = document.getElementById('error');
+    error_block.style.visibility = 'hidden'
 }
 
 function updateLocationData(latLng)
@@ -57,7 +79,15 @@ function updateLocationData(latLng)
     var lng = document.getElementsByName('lng')[0]
     lat.value = latLng.lat();
     lng.value = latLng.lng();
-    geodecode(latLng).then((response)=>{document.getElementsByName('address')[0].value=response; console.log(response)})
+    geodecode(latLng).then((response)=>{
+        address = document.getElementsByName('address')[0];
+        address.value=response;
+        var infowindow = new google.maps.InfoWindow();
+        address = document.getElementsByName('address')[0].value
+        infowindow.setContent('<div>' +address +'</div>');
+        infowindow.open(map, marker); 
+        
+    }).catch( e=>{ showError(e)})
 }
 
 
@@ -78,10 +108,10 @@ function imageUploaded(event) {
 }
 
 window.initMap = function() {
-    var uluru = { lat: -25.363, lng: 131.044 };
+    var uluru = { lat: 55.7, lng: 37.6 };
 
-    var map = new google.maps.Map(document.getElementById('map-div'), {
-        zoom: 4,
+    map = new google.maps.Map(document.getElementById('map-div'), {
+        zoom: 7,
         center: uluru
     });
 
@@ -134,6 +164,8 @@ window.initMap = function() {
 
     map.addListener('click', function(event) {
 
+        hideError()
+
         if (marker != null) {
             marker.setMap(null);
         }        
@@ -143,11 +175,11 @@ window.initMap = function() {
             map: map,
         });
 
-        marker.addListener('click', function(event) {
-            marker.setMap(null);
-        });
-
+        
         updateLocationData(event.latLng);
+
+
+        
     });
 
 }

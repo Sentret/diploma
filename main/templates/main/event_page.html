@@ -26,8 +26,10 @@
     </div>
     {% csrf_token %}
     
+    {% if not request.user.is_anonymous %}
     <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться
     </button>
+    {% endif %}
 
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="float: right">
         Показать подписчиков

@@ -19,7 +19,8 @@ class RegistrationForm(forms.ModelForm):
     
     error_messages = {
         'password_missmatch': 'Пароли не совпадают',
-        'password_too_short': 'Пароль должен иметь не меньше 8 символов'
+        'password_too_short': 'Пароль должен иметь не меньше 8 символов',
+        'user_exists': 'Пользователь с таким именем уже существует'
     }
 
 
@@ -36,7 +37,7 @@ class RegistrationForm(forms.ModelForm):
         username = self.cleaned_data['username'].lower()
         r = User.objects.filter(username=username)
         if r.count():
-            raise  ValidationError("Пользователь с таким именем уже существует")
+            raise  ValidationError(self.error_messages['user_exists'])
         return username
 
 
@@ -60,19 +61,19 @@ class RegistrationForm(forms.ModelForm):
         return password2
 
 
-
     def save(self, commit = True):
         user = super(RegistrationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+
         if commit:
             user.save()
 
         return user
 
     
-
-
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField()
+
+
 
