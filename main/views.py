@@ -25,22 +25,27 @@ from .models import Profile
 from .models import BaseEventCategory
 from .forms  import CommentForm
 from .forms  import RegistrationForm
-
+from .forms  import LoginForm
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
+    form = LoginForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        
         user = auth.authenticate(username=username, password=password)
         #проверяем что пользователь не NONE
         if user:
             auth.login(request, user)
             return redirect('/')
         else:
-            return HttpResponse("Неверный логин или пароль")                        
-    else:       
-        return render(request,'main/auth/login_form.html')
+            form.add_error(None, 'Неверный логин или пароль')
+            return render(request,'main/auth/login_form.html', {'form':form})
+                                    
+    else:
+        form = LoginForm()
+        return render(request,'main/auth/login_form.html', {'form':form})
 
 
 @login_required
@@ -51,17 +56,16 @@ def logout(request):
 
 class RegistrationView(View):
     def get(self, request):
-        return render(request,'main/auth/register_form.html')
+        form = RegistrationForm()
+        return render(request,'main/auth/register_form.html',{'form':form})
 
     def post(self, request):
-        form = RegistrationForm(request.POST,request.FILES)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)        
             auth.login(request, user)
             return redirect('main-page')
-        else:
-            print(form.errors)
         return render(request,'main/auth/register_form.html',{'form':form})
 
 
@@ -204,30 +208,24 @@ class TripPublish(LoginRequiredMixin, View):
 
     def post(self, request):
         data = request.POST
-
-        try:
-            lat = float(event['lat'])
-            lng = float(event['lng'])
-        except:
-            lat = 0
-            lng = 0
-
-        
+       
         category = BaseEventCategory.objects.filter(name=data['category'])[0]
+
         date = data['date']
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
+
         preview = request.FILES.get('preview')
         locations =  json.loads(data['locations'])
-        print(len(locations))
+
         event = Trip.objects.create(creater=request.user, description=data['description'],
                                         title=data['title'],preview=preview,date=date, distance=data['distance'],
                                         num_of_places=len(locations), category=category)
         
         for loc in locations:
-            location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],address=loc['address'], event=event)
-       
-        
+            location = Location.objects.create(lat=loc['position'][0], lng=loc['position'][1],
+                                                address=loc['address'], event=event)
+            
         return redirect('/')
 
 

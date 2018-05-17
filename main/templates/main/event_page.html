@@ -3,9 +3,20 @@
     <span id='event-title-field'>{{event.title}} </span>
     <span id='category-span'>{{event.category}} </span>
     <img id="preview" src={{ event.preview.url}} />
-    <div class='event-description-div'> <strong>Описание:</strong>
-        <br> {{event.description}}</div>
-    <div class='date-description-div'> <strong>Дата и время:</strong>
+    <div><a href="{% url 'profile' event.creater.username %}" style="width: 100%; font-weight: 500; color:grey">
+     Организатор: {{event.creater.username}}
+    </a></div>
+    <div class='event-description-div'> 
+    
+    
+    <strong>Описание:</strong>
+        <br> {{event.description}}
+        </div>
+
+
+
+
+        <div class='date-description-div'> <strong>Дата и время:</strong>
         <br>{{event.date.month}}.{{event.date.day}}.{{event.date.year}} @ {{event.date.hour}}:{{event.date.minute}} </div>
     <div class='place-description-div'> <strong> Местоположение:</strong>
         <a id="place-name" data-toggle="modal" data-target="#mapModal">
@@ -14,10 +25,14 @@
         </a>
     </div>
     {% csrf_token %}
-    <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться</button>
+    
+    <button id='subscribe-button' type="button" class="btn btn-primary btn-sm" onclick="subscribeOnClick(event)">Подписаться
+    </button>
+
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="float: right">
         Показать подписчиков
     </button>
+   
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -56,15 +71,17 @@
             </div>
         </div>
     </div>
-    {% include "main/comment_block.html" %}
+  
 </div>
+{% include "main/comment_block.html" %}
+
 {% endblock content %} {%block scripts %}
 <script>
 window.initMap = function() {
     var position = { lat: {{ location.lat }}, lng: {{ location.lng }} };
 
     var map = new google.maps.Map(document.getElementById('event-location'), {
-        zoom: 7,
+        zoom:18 ,
         center: position
     });
 

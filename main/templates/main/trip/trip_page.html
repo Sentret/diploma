@@ -2,6 +2,9 @@
 <div id='event-form'>
     <span id='event-title-field'>{{trip.title}} </span>
     <img id="preview" src={{ trip.preview.url}} />
+    <div><a href="{% url 'profile' trip.creater.username %}" style="width:100%; font-weight: 500; color:grey">
+     Организатор: {{trip.creater.username}}
+    </a></div>
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{trip.description}}</div>
     <div class='date-description-div'> <strong>Дата и время:</strong>
@@ -75,8 +78,9 @@
         </div>
     </div>
 
-    {% include "main/comment_block.html" %}
 </div>
+
+    {% include "main/comment_block.html" %}
 {% endblock content %} {%block scripts %}
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
     </script>
