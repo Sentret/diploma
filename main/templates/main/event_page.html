@@ -3,9 +3,21 @@
     <span id='event-title-field'>{{event.title}} </span>
     <span id='category-span'>{{event.category}} </span>
     <img id="preview" src={{ event.preview.url}} />
-    <div><a href="{% url 'profile' event.creater.username %}" style="width: 100%; font-weight: 500; color:grey">
+    <div><a href="{% url 'profile' event.creater.username %}" style=" font-weight: 500; color:grey">
      Организатор: {{event.creater.username}}
-    </a></div>
+    </a>
+
+    {% if request.user == event.creater%}
+    <a href="{% url 'event_delete' event.id %}" style="float:right; font-weight: 500; color:grey">
+     <button type="button" class="btn btn-danger btn-sm" style='padding: 0; margin-left: 5px;'>удалить</button>
+    </a>
+    <a href="{% url 'event_edit' event.id %}" style="float:right; font-weight: 500; color:grey">
+   <button type="button" class="btn btn-warning btn-sm" style='padding: 0;'>редактировать</button>
+    </a>
+    
+    {%endif %}
+
+    </div>
     <div class='event-description-div'> 
     
     

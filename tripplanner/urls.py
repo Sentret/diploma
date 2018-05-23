@@ -16,6 +16,7 @@ urlpatterns = [
     path('eventinfo/<id>', main.views.event_page, name='event_page'),
     path('eventsuscribe', main.views.EventSubscriptionView.as_view(), name='event_subscribe'),
     path('eventedit/<id>', main.views.EventEdit.as_view(), name='event_edit'),
+    path('tripedit/<id>', main.views.TripEdit.as_view(), name='trip_edit'),
     path('eventdelete/<id>', main.views.event_delete, name='event_delete'),
  	path('trippublish', main.views.TripPublish.as_view(), name='trip_publish'),
     path('logout',main.views.logout, name='logout'),

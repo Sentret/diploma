@@ -38,10 +38,11 @@ class BaseEvent(models.Model):
 
 
     def unsubscribe(self, user):
-        subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
-        self.num_of_participants -= 1
-        self.save()
-        subscription.delete()
+        if self.is_user_subscribed(user):
+            subscription = EventSubscription.objects.all().filter(subscriber=user, event=self)
+            self.num_of_participants -= 1
+            self.save()
+            subscription.delete()
 
 
     def is_user_subscribed(self, user):

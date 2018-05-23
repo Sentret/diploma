@@ -112,17 +112,31 @@ def event_delete(request,id):
 
 class EventEdit(LoginRequiredMixin, View):
     def get(self, request, id):
-        event = get_object_or_404(Event, pk=id)
-        location = Location.objects.filter(event=event)[0]
-        return render(request,"main/event_edit_form.html", {'event':event,'location':location})
+        
 
-
-    def post(self, request, id):
-        data = request.POST
         event = get_object_or_404(Event, pk=id)
 
         if(request.user != event.creater):
             return HttpResponse(status=403)
+
+        categories = BaseEventCategory.objects.all().filter(trip_or_event='Event')
+        location = Location.objects.filter(event=event)[0]
+        context ={
+            'event':event,
+            'location':location,
+            'categories':categories
+        }
+        return render(request,"main/event_edit_form.html", context)
+
+
+    def post(self, request, id):
+        
+        data = request.POST
+        event = get_object_or_404(Event,pk=id)  
+        if(request.user != event.creater):
+            return HttpResponse(status=403)
+      
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
 
         try:
             lat = float(data['lat'])
@@ -130,29 +144,29 @@ class EventEdit(LoginRequiredMixin, View):
         except:
             lat = 0
             lng = 0
-
-  
+ 
         date = data['date']
         date = date.replace('T',' ')
         date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
-        
-        
         preview = request.FILES.get('preview')
-       
+        
         if(preview is not None):
             event.preview = preview
 
-        location = Location.objects.filter(event=event)
-        location.delete()
-        location = Location.objects.create(lat=lat, lng=lng, address=data['address'], event=event)
+        location = Location.objects.filter(event=event)[0]
+        location.lat = lat
+        location.lng = lng
+        location.address = data['address']
+        location.save()
 
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
         event.description = data['description']
         event.title=data['title']
         event.date = date
-
+        event.category = category
         event.save()
-        events = Event.objects.all()
-        return render(request,"main/main_page.html",{'events':events})    
+
+        return redirect('/')   
 
 
 
@@ -232,6 +246,65 @@ class TripPublish(LoginRequiredMixin, View):
                                                 address=loc['address'], event=event)
             
         return redirect('/')
+
+
+class TripEdit(LoginRequiredMixin, View):
+    def get(self, request, id):
+        
+
+        trip = get_object_or_404(Trip, pk=id)
+        
+        if(request.user != trip.creater):
+            return HttpResponse(status=403)
+
+        categories = BaseEventCategory.objects.all().filter(trip_or_event='Trip')
+        locations = Location.objects.filter(event=trip)
+        context ={
+            'trip':trip,
+            'locations':locations,
+            'categories':categories
+        }
+        return render(request,"main/trip/trip_edit_form.html", context)
+
+
+    def post(self, request, id):
+        
+        data = request.POST
+        event = get_object_or_404(Event,pk=id)  
+        if(request.user != event.creater):
+            return HttpResponse(status=403)
+      
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
+
+        try:
+            lat = float(data['lat'])
+            lng = float(data['lng'])
+        except:
+            lat = 0
+            lng = 0
+ 
+        date = data['date']
+        date = date.replace('T',' ')
+        date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M').date()
+        preview = request.FILES.get('preview')
+        
+        if(preview is not None):
+            event.preview = preview
+
+        location = Location.objects.filter(event=event)[0]
+        location.lat = lat
+        location.lng = lng
+        location.address = data['address']
+        location.save()
+
+        category = BaseEventCategory.objects.filter(name=data['category'])[0]
+        event.description = data['description']
+        event.title=data['title']
+        event.date = date
+        event.category = category
+        event.save()
+
+        return redirect('/')   
 
 
 class BaseEventList(View):

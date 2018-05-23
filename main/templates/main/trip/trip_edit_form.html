@@ -1,15 +1,18 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type='text' id='event-title-field' required name='title' placeholder="Введите название">
-    <input type="datetime-local" " name="date " id="date" required>
+    <input type='text' id='event-title-field' required name='title' placeholder="Введите название" value={{trip.title}}>
+    <input type="datetime-local" " name="date " id="date">
     <label id='date-label'>Выберите дату: </label>
-    <img id="preview" src="media/placeholder2.png" />
+    <img id="preview" src="{{trip.preview.url}}" />
     <label for='imgInput' class='btn btn-success'>
     <span class="glyphicon glyphicon glyphicon-download-alt "></span>
 Загрузить изображение</label>
     <input type='file' id="imgInput" name='preview' required onchange='imageUploaded(event)' />
-    <textarea id='event-description-field' required placeholder="Введите описание здесь " name="description " form='event-form'></textarea>
+    <textarea id='event-description-field' required placeholder="Введите описание здесь " name="description " form='event-form'>
+        
+        {{trip.description}}
+    </textarea>
 
     
 
@@ -69,7 +72,10 @@
 document.getElementById("route-button").addEventListener("click", routeOnClick);
 document.getElementById("clear-button").addEventListener("click", clearOnClick);
 
+var default_datetime = '{{ trip.date.year }}'+'-'+ '0'+'{{ trip.date.month }}' + '-'+'0'
+'{{ trip.date.day }}'+'T'+'0'+'{{ trip.date.hour }}'+':'+'0'+'{{ trip.date.minute }}';
 
+document.getElementById('date').value = default_datetime;
 
 var data = []
 var map;
@@ -107,6 +113,7 @@ function updateDistanceAndDuration(legs)
     }
 
     document.getElementById('distance').value = totalDistance
+    document.getElementById('duration').value = totalDuration
 
     killometres = Math.floor(totalDistance / 1000)
     metres = totalDistance % 1000
@@ -134,11 +141,8 @@ function routeOnClick(event)
 
 function buildRoute()
 {
-     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
-   directionsService = new google.maps.DirectionsService();
-   directionsDisplay.setMap(map)
 
-   
+  
  
    var start = new google.maps.LatLng(data[0]['position'][0],data[0]['position'][1]);
    var end = new google.maps.LatLng(data[data.length-1]['position'][0],data[data.length-1]['position'][1]);
@@ -224,18 +228,20 @@ function updateLocations(){
 
 var markers = new Map();
 
+
+
 window.initMap = function() {
 
-    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
+     directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true,preserveViewport: true});
    directionsService = new google.maps.DirectionsService();
    directionsDisplay.setMap(map)
 
-    var uluru = { lat: 37.334818, lng: -121.884886};
-
-    map = new google.maps.Map(document.getElementById('trip-div'), {
+       var uluru = { lat: 55.7, lng: 37.6 };   
+    var map = new google.maps.Map(document.getElementById('trip-div'), {
         zoom: 4,
         center: uluru
     });
+   
 
     var index_of_location = 0;
     var input = document.getElementById('pac-input');

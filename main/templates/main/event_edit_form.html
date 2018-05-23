@@ -1,91 +1,103 @@
 {% extends "main/base.html" %} {% load staticfiles %} {% block content %}
 <form id='event-form' method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type='text' id='event-title-field' required name='title' placeholder="Введите название" value={{event.title}}>
-    <input type="datetime-local"" name="date" id="date" >
-    <label id='date-label'>Выберите дату: </label>
-    <img id="preview" alt="" src={{event.preview.url}} />
-    <label for='imgInput' id='label-for-file-input'>Загрузить изображение</label>
-    <input type='file' id="imgInput" name='preview' onchange='imageUploaded(event)' />
-    <textarea id='event-description-field' required placeholder="Введите описание здесь" name="description" form='event-form'>{{event.description}}</textarea>
-    <div id='map-div'>
+    <input type='text' id='event-title-field' required name='title' placeholder="Введите название" maxlength="200" value="{{event.title}}">
+    <input type="datetime-local" " name="date" id="date" required>
+    <label id='date-label' >Выберите дату: </label>
+
+    <img id="preview"  src="{{event.preview.url}}" alt=" " />
+    <label for='imgInput' class='btn btn-success'>
+           <span class="glyphicon glyphicon glyphicon-download-alt "></span>
+    Загрузить изображение</label>
+    <input type='file' id="imgInput" name='preview'  onchange='imageUploaded(event)' />
+    <textarea  id='event-description-field' class="form-control"  required placeholder="Введите описание здесь " name="description " rows="5 " id="comment" form='event-form'>{{event.description}}</textarea>
+
+    <div class="alert alert-danger" id="error" style='visibility: hidden;'>
+        <center>saвы</center>
+    </div>
+
+   <div id='map-div'>
     </div>
     <input type="hidden" name="lat">
     <input type="hidden" name="lng">
     <input type="hidden" name="address">
-    <button id='publish-button' type='submit'>
-        Опубликовать
-    </button>
+    <input id="pac-input" class="controls" type="text" placeholder="Поиск места">
+    <div style="margin-bottom: 5px; ">
+    <p style="display: inline-block; ">Выберите категорию:</p>
+    <select  name='category' id='category' class="form-control form-control-sm " style="width: auto;display:inline-block; ">
+        {%for category in categories %}
+                <option value='{{category.name}}'>{{category.name}}</option>
+        {%endfor %}
+    </select>
+    </div>
+    <button id='publish-button' type="submit " class="btn btn-success "> Опубликовать</button>
+    
 </form>
+
+
 {% endblock content %} {%block scripts %}
 
 <script>
-
-var default_datetime = '{{ event.date.year }}'+'-'+ '0'+'{{ event.date.month }}' + '-'+'0'+'{{ event.date.day }}'+'T'+'0'+'{{ event.date.hour }}'+':'+'0'+'{{ event.date.minute }}';
+var default_datetime = '{{ event.date.year }}'+'-'+ '0'+'{{ event.date.month }}' + '-'+'{{ event.date.day }}'+'T'+'0'+'{{ event.date.hour }}'+':'+'0'+'{{ event.date.minute }}';
 var default_position = { lat: {{location.lat}}, lng: {{location.lng}} };
 
 document.getElementById('date').value = default_datetime;
 
-document.getElementsByName('address')[0].value = '{{ event.location.address }}'
+document.getElementsByName('address')[0].value = {{location.address}}
 document.getElementsByName('lat')[0].value = {{location.lat}}
 document.getElementsByName('lng')[0].value= {{location.lng}}
-
-data = {}
 var marker = null
+var map
 
-    window.initMap = function() {
- 
-    var map = new google.maps.Map(document.getElementById('map-div'), {
-        zoom: 12,
-        center: default_position
-    });
-
-    marker = new google.maps.Marker({
-            position: default_position ,
-            map: map,
-        });
-
-
-    map.addListener('click', function(event) {
-
-        if (marker != null) {
-            marker.setMap(null);
-        }
-
-
-        var geocoder = new google.maps.Geocoder;
-        geocoder.geocode({ 'latLng': event.latLng }, function (results, status) {
-        if (status !== google.maps.GeocoderStatus.OK) {
-            alert(status);
-        }
-
-        if (status == google.maps.GeocoderStatus.OK) {
-            
-         document.getElementsByName('address')[0].value = (results[0].formatted_address);
-
-        }
-    });
-
-
+function geodecode(latLng)
+{   
+    return new Promise( (resolve,reject) => {
+    var geocoder = new google.maps.Geocoder;
+     
+        geocoder.geocode({ 'latLng': latLng }, (results, status) => {
         
-        marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map,
+        if (status == google.maps.GeocoderStatus.OK) {
+     resolve(results[0].formatted_address);
+        }
+        else{
+            reject ('Невозможно определить адрес')
+        }
         });
-
-
-        marker.addListener('click', function(event) {
-            marker.setMap(null);
-        });
-
-
-        var lat = document.getElementsByName('lat')[0]
-        var lng = document.getElementsByName('lng')[0]
-        lat.value = event.latLng.lat();
-        lng.value = event.latLng.lng();
-    });
-
+    })
 }
+
+function showError(message)
+{
+    error_block = document.getElementById('error');
+    error_block.style.visibility = 'visible'
+    error_block.firstElementChild.innerText=message
+    document.getElementsByName('address')[0].value=message;
+}
+
+function hideError()
+{
+    error_block = document.getElementById('error');
+    error_block.style.visibility = 'hidden'
+}
+
+function updateLocationData(latLng)
+{
+    var lat = document.getElementsByName('lat')[0]
+    var lng = document.getElementsByName('lng')[0]
+    lat.value = latLng.lat();
+    lng.value = latLng.lng();
+    geodecode(latLng).then((response)=>{
+        address = document.getElementsByName('address')[0];
+        address.value=response;
+        var infowindow = new google.maps.InfoWindow();
+        address = document.getElementsByName('address')[0].value
+        infowindow.setContent('<div>' +address +'</div>');
+        infowindow.open(map, marker); 
+        
+    }).catch( e=>{ showError(e)})
+}
+
+
 function imageUploaded(event) {
     var img = document.getElementById("preview")
     var file = document.getElementById('imgInput').files[0]
@@ -97,12 +109,93 @@ function imageUploaded(event) {
     if (file) {
         reader.readAsDataURL(file);
     } else {
-        img.src = "";
+        img.src = " ";
     }
 
 }
 
+window.initMap = function() {
+    var uluru = default_position;
+
+    map = new google.maps.Map(document.getElementById('map-div'), {
+        zoom: 7,
+        center: uluru
+    });
+    marker = new google.maps.Marker({
+            position: default_position ,
+            map: map,
+        });
+
+
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+    google.maps.event.addListener(searchBox, 'places_changed', function() {
+    searchBox.set('map', null);
+
+    var places = searchBox.getPlaces();
+    var bounds = new google.maps.LatLngBounds();
+    var i, place;
+
+     for (i = 0; place = places[i]; i++) {
+        (function(place) {
+
+         marker = new google.maps.Marker({        
+           position: place.geometry.location
+         });
+
+         marker.bindTo('map', searchBox, 'map');
+
+         marker.addListener('click', function(event) {
+                marker.setMap(null);});
+
+         google.maps.event.addListener(marker, 'map_changed', function() {
+           if (!this.getMap()) {
+             this.unbindAll();
+           }
+         });
+
+         bounds.extend(place.geometry.location);
+
+         updateLocationData(place.geometry.location);
+       }(place));
+
+     }
+     map.fitBounds(bounds);
+     searchBox.set('map', map);
+     map.setZoom(Math.min(map.getZoom(),12));
+
+
+
+   });
+
+    map.addListener('click', function(event) {
+
+        hideError()
+
+        if (marker != null) {
+            marker.setMap(null);
+        }        
+        
+        marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+        });
+
+        
+        updateLocationData(event.latLng);
+
+
+        
+    });
+
+}
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&language=ru">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBehhemw69_xytwSyjeWyhwgxoG_X9cTAw&callback=initMap&libraries=places&language=ru ">
     </script>
 {%endblock scripts %}

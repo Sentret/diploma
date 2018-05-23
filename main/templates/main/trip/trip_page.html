@@ -4,7 +4,20 @@
     <img id="preview" src={{ trip.preview.url}} />
     <div><a href="{% url 'profile' trip.creater.username %}" style="width:100%; font-weight: 500; color:grey">
      Организатор: {{trip.creater.username}}
-    </a></div>
+    </a>
+     {% if request.user == trip.creater %}
+    <a href="{% url 'event_edit' trip.id %}" style="float:right; font-weight: 500; color:grey">
+     <button type="button" class="btn btn-danger btn-sm" style='padding: 0; margin-left: 5px;'>удалить</button>
+    </a>
+    <a href="{% url 'trip_edit' trip.id %}" style="float:right; font-weight: 500; color:grey">
+   <button type="button" class="btn btn-warning btn-sm" style='padding: 0;'>редактировать</button>
+    </a>
+    
+    {%endif %}
+
+
+
+    </div>
     <div class='event-description-div'> <strong>Описание:</strong>
         <br> {{trip.description}}</div>
     <div class='date-description-div'> <strong>Дата и время:</strong>
